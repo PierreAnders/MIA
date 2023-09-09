@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-image bg-neutral-900 px-8 pt-12 min-h-screen">
-    <h1 class="text-3xl font-semibold text-neutral-100">Liste des fichiers téléchargés</h1>
+  <div class="bg-image min-h-screen p-12">
     <ul>
-      <li v-for="file in fileList" :key="file"
-        :class="'bg-slate-500 text-neutral-100 bg-opacity-70 p-2 rounded-md mb-2 w-2/3 mx-auto'">
-        {{ file }}
-        <button @click="deleteFile(file)" class="bg-amber-800 text-white px-2 py-1 ml-2 rounded-md hover:bg-amber-900 transition duration-300">Supprimer</button>
-        <button @click="downloadFile(file)" class="bg-slate-500 text-white px-2 py-1 ml-2 rounded-md hover:bg-slate-600 transition duration-300">Télécharger</button>
+      <li v-for="file in fileList" :key="file" class="text-white flex items-center justify-between border border-gray-300 rounded-md p-4 mb-2 mx-8">
+        <span>{{ file }}</span>
+        <div class="space-x-2">
+          <button @click="deleteFile(file)" class="bg-slate-500 text-white px-2 py-1 rounded hover:bg-slate-600 transition duration-300">Supprimer</button>
+          <button @click="downloadFile(file)" class="bg-slate-500 text-white px-2 py-1 rounded hover:bg-slate-600 transition duration-300">Télécharger</button>
+        </div>
       </li>
     </ul>
   </div>
@@ -36,7 +36,7 @@ export default {
     },
     deleteFile(filename) {
       axios
-        .delete(`http://localhost:5000/delete_file/${filename}`)
+        .delete(`http://localhost:5000/delete_user_file/${filename}`)
         .then(() => {
           this.loadFileList();
         })
@@ -56,3 +56,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.bg-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+</style>

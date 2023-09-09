@@ -1,6 +1,5 @@
-
 <template>
-  <div class="bg-image bg-neutral-900 px-8 pt-12 min-h-screen">
+  <div class="bg-image px-8 pt-12 min-h-screen">
     <div class="flex justify-center">
       <form @submit.prevent="uploadFile" class="mb-4">
         <label for="fileInput" class="text-neutral-800">
