@@ -1,22 +1,30 @@
 <template>
   <div class="bg-image bg-neutral-900 px-8 pt-12 min-h-screen">
+    <BurgerMenu />
     <div v-for="message in messages" :key="message.id"
       :class="[message.role === 'user' ? 'bg-slate-500 text-neutral-100 bg-opacity-70' : 'bg-neutral-300 text-neutral-800 bg-opacity-70', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
       {{ message.content }}
     </div>
     <div class="input-container flex justify-between items-center mt-4">
-      <input v-model="userMessage" placeholder="Posez une question..." class="p-2 border rounded-md flex-1 mr-2 focus:outline-none focus:border-amber-800 opacity-50" />
-      <button @click="sendMessage" class="bg-slate-500 text-white px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Envoyer</button>
+      <input v-model="userMessage" placeholder="Posez une question..." class="p-2 border rounded-md flex-1 focus:outline-none focus:border-amber-800 opacity-50" />
     </div>
-    <button @click="startSpeechRecognition" class="bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Parler</button>
+    <div class="flex justify-between">
+      <button @click="sendMessage" class="bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Envoyer</button>
+      <button @click="startSpeechRecognition" class="bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Parler</button>
+    </div>
     <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
+  components: {
+    BurgerMenu,
+  },
+
   data() {
     return {
       messages: [],
@@ -42,7 +50,6 @@ export default {
       // Utilisez la synthèse vocale pour lire la réponse
       const speechOutput = document.getElementById('speechOutput');
       const utterance = new SpeechSynthesisUtterance(assistantReply);
-      speechOutput.innerHTML = assistantReply; // Affichez également la réponse sur la page
       speechSynthesis.speak(utterance);
 
       this.userMessage = '';

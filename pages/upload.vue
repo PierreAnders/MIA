@@ -1,5 +1,7 @@
 <template>
   <div class="bg-image px-8 pt-12 min-h-screen">
+    <BurgerMenu />
+
     <div class="flex justify-center">
       <form @submit.prevent="uploadFile" class="mb-4">
         <label for="fileInput" class="text-neutral-800">
@@ -28,8 +30,13 @@
 
 <script>
 import axios from 'axios';
+import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
+  components: {
+    BurgerMenu,
+  },
+
   data() {
     return {
       fileName: 'Cliquer ici pour sélectionner un fichier',

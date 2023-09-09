@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-image min-h-screen p-12">
+  <div class="bg-image px-8 pt-12 min-h-screen">
+    <BurgerMenu />
     <ul>
       <li v-for="file in fileList" :key="file" class="text-white flex items-center justify-between border border-gray-300 rounded-md p-4 mb-2 mx-8">
         <span>{{ file }}</span>
@@ -14,8 +15,13 @@
 
 <script>
 import axios from 'axios';
+import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
+  components: {
+    BurgerMenu,
+  },
+
   data() {
     return {
       fileList: [],
