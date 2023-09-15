@@ -11,14 +11,17 @@
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/" class="block py-2">Accueil</nuxt-link>
                 </li>
-                <li  class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
                 </li>
-                <li  class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/upload" class="block py-2">Téléchargement</nuxt-link>
                 </li>
-                <li  class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/files" class="block py-2">Fichiers</nuxt-link>
+                </li>
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                    <a @click="logout" class="block py-2 cursor-pointer">Déconnexion</a>
                 </li>
             </ul>
         </div>
@@ -43,6 +46,10 @@ export default {
             if (menuElement && buttonElement && !menuElement.contains(event.target) && !buttonElement.contains(event.target)) {
                 this.isOpen = false;
             }
+        },
+        logout() {
+            localStorage.removeItem("access_token");
+            this.$router.push("/"); 
         },
     },
     mounted() {
