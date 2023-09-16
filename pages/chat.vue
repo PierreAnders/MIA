@@ -21,6 +21,7 @@ import axios from 'axios';
 import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
+  middleware: 'auth',
   components: {
     BurgerMenu,
   },
@@ -37,10 +38,18 @@ export default {
     async sendMessage() {
       if (this.userMessage.trim() === '') return;
 
-      const response = await axios.post('http://localhost:5000/AIchatWithData', {
-        session_id: 'unique_session_id',
-        query: this.userMessage,
-      });
+      const jwtToken = localStorage.getItem('access_token');
+    
+      try {
+        const response = await axios.post('http://localhost:5000/AIchatWithData', {
+          session_id: 'unique_session_id',
+          query: this.userMessage,
+        }, {
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`, // Inclure le token JWT dans l'en-tête !!
+            'Content-Type': 'application/json',
+          },
+        });
 
       const assistantReply = response.data.answer;
 
@@ -53,6 +62,9 @@ export default {
       speechSynthesis.speak(utterance);
 
       this.userMessage = '';
+    } catch (error) {
+        console.error('Erreur d\'envoi de la requête :', error);
+      }
     },
     async startSpeechRecognition() {
       if ('webkitSpeechRecognition' in window) {
