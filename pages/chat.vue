@@ -21,7 +21,6 @@ import axios from 'axios';
 import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
-  middleware: 'auth',
   components: {
     BurgerMenu,
   },
@@ -31,14 +30,31 @@ export default {
       messages: [],
       userMessage: '',
       isListening: false,
+      jwtToken: null,
     }
   },
 
-  methods: {
-    async sendMessage() {
-      if (this.userMessage.trim() === '') return;
+  created() {
+    this.redirectIfNotConnected();
+  },
 
-      const jwtToken = localStorage.getItem('access_token');
+  methods: {
+    async redirectIfNotConnected() {
+      if (process.client) {
+        this.jwtToken = localStorage.getItem('access_token');
+        if (!this.jwtToken) {
+          console.error('Le jeton JWT n\'est pas disponible.');
+          this.$router.push('/');
+          return;
+        }
+      } else {
+        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
+      }
+    },
+    async sendMessage() {
+      this.redirectIfNotConnected();
+
+      if (this.userMessage.trim() === '') return;
     
       try {
         const response = await axios.post('http://localhost:5000/AIchatWithData', {
@@ -46,7 +62,7 @@ export default {
           query: this.userMessage,
         }, {
           headers: {
-            'Authorization': `Bearer ${jwtToken}`, // Inclure le token JWT dans l'en-tête !!
+            'Authorization': `Bearer ${this.jwtToken}`,
             'Content-Type': 'application/json',
           },
         });

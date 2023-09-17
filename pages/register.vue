@@ -1,28 +1,34 @@
 <template>
-    <div>
+    <div class="bg-image px-8 pt-12 min-h-screen">
+      <BurgerMenu />
       <h1>Inscription</h1>
       <form @submit.prevent="register">
         <div>
-          <label for="nom">Nom:</label>
-          <input type="text" id="nom" v-model="nom" required>
+          <label class="text-white" for="nom">Nom:</label>
+          <input class="text-black" type="text" id="nom" v-model="nom" required>
         </div>
         <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" required>
+          <label class="text-white" for="email">Email:</label>
+          <input class="text-black" type="email" id="email" v-model="email" required>
         </div>
         <div>
-          <label for="mot_de_passe">Mot de passe:</label>
-          <input type="password" id="mot_de_passe" v-model="mot_de_passe" required>
+          <label class="text-white" for="mot_de_passe">Mot de passe:</label>
+          <input class="text-black" type="password" id="mot_de_passe" v-model="mot_de_passe" required>
         </div>
-        <button type="submit">S'inscrire</button>
+        <button class="text-white" type="submit">S'inscrire</button>
       </form>
     </div>
   </template>
 
 <script>
 import axios from 'axios';
+import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
+  components: {
+    BurgerMenu,
+  },
+
   data() {
     return {
       nom: '',

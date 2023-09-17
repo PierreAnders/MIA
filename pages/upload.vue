@@ -40,14 +40,34 @@ export default {
   data() {
     return {
       fileName: 'Cliquer ici pour sélectionner un fichier',
+      jwtToken: null,
     };
   },
+
+  created() {
+    this.redirectIfNotConnected();
+  },
+  
   methods: {
+    async redirectIfNotConnected() {
+      if (process.client) {
+        this.jwtToken = localStorage.getItem('access_token'); // Affectez la valeur à jwtToken
+        if (!this.jwtToken) {
+          console.error('Le jeton JWT n\'est pas disponible.');
+          this.$router.push('/');
+          return;
+        }
+      } else {
+        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
+      }
+    },
     updateFileName(event) {
       const fileName = event.target.files[0]?.name || 'Cliquer ici pour sélectionner un fichier';
       this.fileName = fileName;
     },
     async uploadFile() {
+      this.redirectIfNotConnected();
+
       const fileInput = this.$refs.fileInput;
       const file = fileInput.files[0];
 
@@ -62,6 +82,7 @@ export default {
       try {
         const response = await axios.post('http://localhost:5000/upload', formData, {
           headers: {
+            'Authorization': `Bearer ${this.jwtToken}`,
             'Content-Type': 'multipart/form-data',
           },
         });

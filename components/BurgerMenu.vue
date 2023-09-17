@@ -21,7 +21,9 @@
                     <nuxt-link to="/files" class="block py-2">Fichiers</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <a @click="logout" class="block py-2 cursor-pointer">Déconnexion</a>
+                    <nuxt-link to="/register" class="block py-2">Inscription</nuxt-link>                </li>
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                    <button @click="redirection" class="block py-2">{{ isConnected ? 'Déconnexion' : 'Connexion' }}</button>
                 </li>
             </ul>
         </div>
@@ -33,9 +35,28 @@ export default {
     data() {
         return {
             isOpen: false,
+            isConnected: false,
+            jwtToken: null,
         };
     },
     methods: {
+        connectionState() {
+            if (process.client) {
+                this.jwtToken = localStorage.getItem('access_token');
+                if (this.jwtToken) {
+                    this.isConnected = true;
+                } else {
+                    this.isConnected = false;
+                }
+            }
+        },
+        redirection() {
+            if (this.isConnected) {
+                this.logout()
+            } else {
+                this.$router.push('/');
+            }
+        },
         toggleMenu() {
             this.isOpen = !this.isOpen;
         },
@@ -55,6 +76,7 @@ export default {
     mounted() {
         // Écoute les clics au niveau de la page pour détecter les clics en dehors du menu
         window.addEventListener("click", this.closeMenuOnClickOutside);
+        this.connectionState();
     },
     beforeDestroy() {
         // Supprimez l'écouteur de clics lorsque le composant est détruit

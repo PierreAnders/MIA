@@ -1,24 +1,31 @@
 <template>
-  <div>
+  <div class="bg-image px-8 pt-12 min-h-screen">
+    <BurgerMenu />
     <h1>Connexion</h1>
     <form @submit.prevent="login">
       <div>
-        <label for="email">Adresse e-mail:</label>
-        <input type="text" id="email" v-model="email" />
+        <label class="text-white" for="email">Adresse e-mail:</label>
+        <input class="text-black" type="text" id="email" v-model="email" />
       </div>
       <div>
-        <label for="mot_de_passe">Mot de passe:</label>
-        <input type="password" id="mot_de_passe" v-model="mot_de_passe" />
+        <label class="text-white" for="mot_de_passe">Mot de passe:</label>
+        <input class="text-black" type="password" id="mot_de_passe" v-model="mot_de_passe" />
       </div>
-      <button type="submit">Se connecter</button>
+      <button class="text-white" type="submit">Se connecter</button>
     </form>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import BurgerMenu from '~/components/BurgerMenu.vue';
+
 
 export default {
+  components: {
+    BurgerMenu,
+  },
+
   data() {
     return {
       email: '',
@@ -49,3 +56,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.bg-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+</style>
