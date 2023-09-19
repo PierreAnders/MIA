@@ -1,18 +1,19 @@
 <template>
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
-    <h1>Connexion</h1>
     <form @submit.prevent="login">
-      <div>
-        <label class="text-white" for="email">Adresse e-mail:</label>
-        <input class="text-black" type="text" id="email" v-model="email" />
+      <div class="flex flex-col items-center justify-center mt-72">
+        <div class="py-3">
+          <label class="sr-only" for="email">Adresse e-mail:</label>
+          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
+        </div>
+        <div class="py-3">
+          <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
+          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="password" id="mot_de_passe" v-model="mot_de_passe" placeholder="Mot de passe"/>
+        </div>
+        <button class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300" type="submit">Se connecter</button>
       </div>
-      <div>
-        <label class="text-white" for="mot_de_passe">Mot de passe:</label>
-        <input class="text-black" type="password" id="mot_de_passe" v-model="mot_de_passe" />
-      </div>
-      <button class="text-white" type="submit">Se connecter</button>
-    </form>
+      </form>
   </div>
 </template>
 
