@@ -63,23 +63,55 @@ export default {
     },
 
     deleteFile(filename) {
+      const jwtToken = localStorage.getItem('access_token'); // Récupérez le jeton JWT
+      if (!jwtToken) {
+        // Traitez le cas où le jeton JWT n'est pas disponible
+        console.error('Le jeton JWT n\'est pas disponible.');
+        this.$router.push('/');
+        return;
+      }
+
       axios
-        .delete(`http://localhost:5000/delete_user_file/${filename}`)
+        .delete(`http://localhost:5000/delete_user_file/${filename}`, {
+          headers: {
+            'Authorization': `Bearer ${jwtToken}`,
+            'Content-Type': 'application/json',
+          },
+        })
         .then(() => {
           this.loadFileList();
         })
         .catch((error) => console.error(error));
     },
     downloadFile(filename) {
-      const downloadLink = document.createElement('a');
-      downloadLink.href = `http://localhost:5000/download_user_file/${filename}`;
-      downloadLink.target = '_blank';
-      downloadLink.download = filename;
-      document.body.appendChild(downloadLink);
+      const jwtToken = localStorage.getItem('access_token'); // Récupérez le jeton JWT
+      if (!jwtToken) {
+        // Traitez le cas où le jeton JWT n'est pas disponible
+        console.error('Le jeton JWT n\'est pas disponible.');
+        this.$router.push('/');
+        return;
+      }
 
-      downloadLink.click();
+      // Créez une configuration Axios avec le jeton JWT dans les en-têtes
+      const axiosConfig = {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+        responseType: 'blob', // Spécifiez le type de réponse comme un blob (fichier binaire)
+      };
 
-      document.body.removeChild(downloadLink);
+      axios
+        .get(`http://localhost:5000/download_user_file/${filename}`, axiosConfig)
+        .then((response) => {
+          const blob = new Blob([response.data]);
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.error(error));
     },
   },
 };
