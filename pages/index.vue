@@ -9,7 +9,7 @@
         </div>
         <div class="py-3">
           <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="password" id="mot_de_passe" v-model="mot_de_passe" placeholder="Mot de passe"/>
+          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe"/>
         </div>
         <button class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300" type="submit">Se connecter</button>
       </div>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       email: '',
-      mot_de_passe: ''
+      password: ''
     };
   },
   methods: {
@@ -38,7 +38,7 @@ export default {
       try {
         const response = await axios.post('http://localhost:5000/login', {
           email: this.email,
-          mot_de_passe: this.mot_de_passe
+          password: this.password
         });
 
         if (response.data && response.data.access_token) {
