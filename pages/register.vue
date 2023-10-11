@@ -2,11 +2,11 @@
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
     <form @submit.prevent="register">
-      <div class="flex flex-col items-center justify-center mt-28">
+      <div class="flex flex-col items-center justify-center mt-20">
         <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
         <p class="text-neutral-500">{{ formattedDate }}</p>
       </div>
-      <div class="flex flex-col items-center justify-center mt-24">
+      <div class="flex flex-col items-center justify-center mt-14">
         <div class="py-3">
           <label class="sr-only" for="nom">Nom:</label>
           <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
