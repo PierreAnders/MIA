@@ -1,39 +1,38 @@
 <template>
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
-    <h1>Informations de santé</h1>
     <form @submit.prevent="submitHealthInfo">
-      <div class="flex flex-col items-center justify-center mt-24">
-        <div class="py-3">
-          <label class="sr-only" for="gender">Genre</label>
-          <select class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" id="gender" v-model="healthInfo.gender">
+      <div class="flex flex-col items-center justify-center mt-6">
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="gender">Genre</label>
+          <select class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" id="gender" v-model="healthInfo.gender">
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
           </select>
         </div>
-        <div class="py-3">
-          <label class="sr-only" for="weight">Poids</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="number" id="weight" v-model="healthInfo.weight" placeholder="Poids (kg)">
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="weight">Poids (kg)</label>
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            type="text" id="weight" v-model="healthInfo.weight" placeholder="Poids (kg)">
         </div>
-        <div class="py-3">
-          <label class="sr-only" for="size">Taille</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="number" id="size" v-model="healthInfo.size" placeholder="Taille (m)">
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="size">Taille (m)</label>
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            type="text" id="size" v-model="healthInfo.size" placeholder="Taille (m)">
         </div>
-        <div class="py-3">
-          <label class="sr-only" for="social_security_number">Numéro de sécurité sociale</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="social_security_number">Numéro de sécurité sociale</label>
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
             id="social_security_number" v-model="healthInfo.social_security_number" placeholder="n° de sécurité sociale">
         </div>
-        <div class="py-3">
-          <label class="sr-only" for="blood_group">Groupe sanguin</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="blood_group">Groupe sanguin</label>
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
             id="weblood_groupight" v-model="healthInfo.blood_group" placeholder="Groupe sanguin">
         </div>
-        <div class="py-3">
-          <label class="sr-only" for="doctor">Docteur</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
+        <div class="py-3 flex flex-col">
+          <label class="text-gray-300" for="doctor">Docteur</label>
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
             id="doctor" v-model="healthInfo.doctor" placeholder="Médecin">
         </div>
         <button
@@ -89,8 +88,36 @@ export default {
       } catch (error) {
         console.error("Erreur lors de la soumission des informations de santé:", error);
       }
-    }
-  }
+    },
+
+    async loadHealthInfo() {
+      try {
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+          console.error("Jeton JWT non trouvé.");
+          return;
+        }
+
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+
+        const response = await axios.get("http://localhost:5000/user_health", { headers });
+
+        if (response.status === 200) {
+          this.healthInfo = response.data;
+        } else {
+          console.error("Échec du chargement des informations de santé.");
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des informations de santé :", error);
+      }
+    },
+  },
+  created() {
+    this.loadHealthInfo();
+},
 };
 </script>
   
@@ -102,11 +129,3 @@ export default {
   min-height: 100vh;
 }
 </style>
-  
-<!-- <div class="py-3">
-  <label>Genre:</label>
-  <div>
-    <button :class="{ 'active': healthInfo.gender === 'homme' }" @click="healthInfo.gender = 'homme'">Homme</button>
-    <button :class="{ 'active': healthInfo.gender === 'femme' }" @click="healthInfo.gender = 'femme'">Femme</button>
-  </div>
-</div> -->
