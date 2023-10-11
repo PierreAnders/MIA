@@ -12,7 +12,7 @@
                     <nuxt-link to="/" class="block py-2">Accueil</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/profile" class="block py-2">Profile</nuxt-link>
+                    <nuxt-link to="/health" class="block py-2">Santé</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
