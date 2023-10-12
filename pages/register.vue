@@ -87,7 +87,7 @@ export default {
           password: this.password,
         });
         console.log('inscription ok');
-        // Redirigez l'utilisateur vers la page de connexion ou effectuez d'autres actions après l'inscription réussie
+        this.$router.push('/');
       } catch (error) {
         // Gérez les erreurs d'inscription ici
         console.error('Erreur d\'inscription :', error);

@@ -5,7 +5,8 @@
       <div class="flex flex-col items-center justify-center mt-6">
         <div class="py-3 flex flex-col">
           <label class="text-gray-300" for="gender">Genre</label>
-          <select class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" id="gender" v-model="healthInfo.gender">
+          <select class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            id="gender" v-model="healthInfo.gender">
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
           </select>
@@ -22,18 +23,19 @@
         </div>
         <div class="py-3 flex flex-col">
           <label class="text-gray-300" for="social_security_number">Numéro de sécurité sociale</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
-            id="social_security_number" v-model="healthInfo.social_security_number" placeholder="n° de sécurité sociale">
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            type="text" id="social_security_number" v-model="healthInfo.social_security_number"
+            placeholder="n° de sécurité sociale">
         </div>
         <div class="py-3 flex flex-col">
           <label class="text-gray-300" for="blood_group">Groupe sanguin</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
-            id="weblood_groupight" v-model="healthInfo.blood_group" placeholder="Groupe sanguin">
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder="Groupe sanguin">
         </div>
         <div class="py-3 flex flex-col">
           <label class="text-gray-300" for="doctor">Docteur</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
-            id="doctor" v-model="healthInfo.doctor" placeholder="Médecin">
+          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+            type="text" id="doctor" v-model="healthInfo.doctor" placeholder="Médecin">
         </div>
         <button
           class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
@@ -65,6 +67,18 @@ export default {
     };
   },
   methods: {
+    async redirectIfNotConnected() {
+      if (process.client) {
+        this.jwtToken = localStorage.getItem('access_token');
+        if (!this.jwtToken) {
+          console.error('Le jeton JWT n\'est pas disponible.');
+          this.$router.push('/');
+          return;
+        }
+      } else {
+        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
+      }
+    },
     async submitHealthInfo() {
       try {
         const token = localStorage.getItem("access_token");
@@ -81,7 +95,7 @@ export default {
         const response = await axios.post("http://localhost:5000/user_health", this.healthInfo, { headers });
 
         if (response.status === 201) {
-          this.$router.push("/chat");
+          console.log("Enregistrement des informations de santé.")
         } else {
           console.error("Échec de l'enregistrement des informations de santé.");
         }
@@ -116,8 +130,9 @@ export default {
     },
   },
   created() {
+    this.redirectIfNotConnected();
     this.loadHealthInfo();
-},
+  },
 };
 </script>
   

@@ -2,7 +2,11 @@
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
     <form @submit.prevent="login">
-      <div class="flex flex-col items-center justify-center mt-72">
+      <div class="flex flex-col items-center justify-center mt-20">
+        <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
+        <p class="text-neutral-500">{{ formattedDate }}</p>
+      </div>
+      <div class="flex flex-col items-center justify-center mt-24">
         <div class="py-3">
           <label class="sr-only" for="email">Adresse e-mail:</label>
           <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
@@ -26,14 +30,31 @@ export default {
   components: {
     BurgerMenu,
   },
-
+  computed: {
+    formattedDate() {
+      const options = { weekday: 'long', day: 'numeric', month: 'long' };
+      return this.currentDate.toLocaleDateString('fr-FR', options);
+    },
+  },
+  created() {
+    this.updateTime();
+    this.intervalId = setInterval(this.updateTime, 1000);
+  },
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      currentDate: new Date(),
+      currentTime: new Date().toLocaleTimeString(),
     };
   },
   methods: {
+    updateTime() {
+      this.currentTime = new Date().toLocaleTimeString();
+    },
+    beforeDestroy() {
+      clearInterval(this.intervalId);
+    },
     async login() {
       try {
         const response = await axios.post('http://localhost:5000/login', {
@@ -42,10 +63,8 @@ export default {
         });
 
         if (response.data && response.data.access_token) {
-          // Stockez le jeton d'accès dans le stockage local
           localStorage.setItem('access_token', response.data.access_token);
           console.log('le token', response.data.access_token);
-          // Redirigez l'utilisateur vers une page protégée
           this.$router.push('/chat');
         } else {
           console.error('Échec de l\'authentification');

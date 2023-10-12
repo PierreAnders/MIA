@@ -9,19 +9,19 @@
             class="absolute z-10 top-0 left-0 w-1/3 bg-neutral-950 h-full p-4 transition-transform duration-300 ease-in-out">
             <ul class="text-slate-400 mt-14">
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/" class="block py-2">Accueil</nuxt-link>
-                </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/health" class="block py-2">Santé</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
+                    <nuxt-link to="/expenses" class="block py-2">Dépenses</nuxt-link>
+                </li>
+                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
+                    <nuxt-link to="/files" class="block py-2">Fichiers</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/upload" class="block py-2">Téléchargement</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/files" class="block py-2">Fichiers</nuxt-link>
+                    <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/register" class="block py-2">Inscription</nuxt-link>                </li>
