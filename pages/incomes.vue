@@ -1,25 +1,25 @@
 <template>
     <div class="bg-image px-8 pt-12 min-h-screen">
         <BurgerMenu />
-        <form @submit.prevent="submitExpenseInfo">
+        <form @submit.prevent="submitIncomeInfo">
             <div class="flex flex-col items-center justify-center mt-6">
                 <div class="py-3 flex flex-col">
                     <label class="text-gray-300" for="title">Titre</label>
                     <input
                         class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="title" v-model="expenseInfo.title" placeholder="titre">
+                        type="text" id="title" v-model="incomeInfo.title" placeholder="titre">
                 </div>
                 <div class="py-3 flex flex-col">
                     <label class="text-gray-300" for="blood_group">Description</label>
                     <input
                         class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="description" v-model="expenseInfo.description" placeholder="Description">
+                        type="text" id="description" v-model="incomeInfo.description" placeholder="Description">
                 </div>
                 <div class="py-3 flex flex-col">
                     <label class="text-gray-300" for="doctor">Prix</label>
                     <input
                         class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="doctor" v-model="expenseInfo.price" placeholder="Prix">
+                        type="text" id="doctor" v-model="incomeInfo.price" placeholder="Prix">
                 </div>
                 <button
                     class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
@@ -37,12 +37,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="expense in expenses" :key="expense.id">
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ expense.title }}</td>
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ expense.description }}</td>
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ expense.price }}</td>
+                            <tr v-for="income in incomes" :key="income.id">
+                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.title }}</td>
+                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.description }}</td>
+                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.price }}</td>
                                 <td class="border border-gray-500 px-4 py-2">
-                                    <button @click="deleteExpense(expense.id)" class="text-amber-800 hover:text-amber-600 transition duration-300 ease-in-out">Supprimer</button>
+                                    <button @click="deleteIncome(income.id)" class="text-amber-800 hover:text-amber-600 transition duration-300 ease-in-out">Supprimer</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -64,12 +64,12 @@ export default {
 
     data() {
         return {
-            expenseInfo: {
+            incomeInfo: {
                 title: "",
                 description: "",
                 price: "",
             },
-            expenses: {},
+            incomes: {},
             total: 0,
         };
     },
@@ -86,7 +86,7 @@ export default {
                 console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
-        async submitExpenseInfo() {
+        async submitIncomeInfo() {
             try {
                 const token = localStorage.getItem("access_token");
 
@@ -99,25 +99,25 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("http://localhost:5000/expenses", this.expenseInfo, { headers });
+                const response = await axios.post("http://localhost:5000/incomes", this.incomeInfo, { headers });
 
                 if (response.status === 201) {
-                    console.log("Enregistrement d'une nouvelle dépense'.")
-                    this.getAllExpenses();
-                    this.resetExpenseInfo();
+                    console.log("Enregistrement d'une nouvelle recette'.")
+                    this.getAllIncomes();
+                    this.resetIncomeInfo();
                 } else {
-                    console.error("Échec de l'enregistrement d'une nouvelle dépense.");
+                    console.error("Échec de l'enregistrement d'une recette'.");
                 }
             } catch (error) {
-                console.error("Erreur lors de la soumission d'une nouvelle dépense:", error);
+                console.error("Erreur lors de la soumission d'une recette':", error);
             }
         },
-        resetExpenseInfo() {
-            this.expenseInfo.title = "";
-            this.expenseInfo.description = "";
-            this.expenseInfo.price = "";
+        resetIncomeInfo() {
+            this.incomeInfo.title = "";
+            this.incomeInfo.description = "";
+            this.incomeInfo.price = "";
         },
-        async getAllExpenses() {
+        async getAllIncomes() {
             try {
                 const token = localStorage.getItem("access_token");
 
@@ -130,21 +130,21 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/expenses", { headers });
+                const response = await axios.get("http://localhost:5000/incomes", { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
-                    this.expenses = response.data;
-                    this.expenses.sort((a, b) => b.price - a.price);
+                    this.incomes = response.data;
+                    this.incomes.sort((a, b) => b.price - a.price);
                     this.total = this.calculateTotal();
                 } else {
-                    console.error("Échec de la récupération des dépenses.");
+                    console.error("Échec de la récupération des recettes.");
                 }
             } catch (error) {
-                console.error("Erreur lors de la récupération des dépenses :", error);
+                console.error("Erreur lors de la récupération des recettes :", error);
             }
         },
 
-        async deleteExpense(expenseId) {
+        async deleteIncome(incomeId) {
             try {
                 const token = localStorage.getItem("access_token");
 
@@ -157,24 +157,24 @@ export default {
                     Authorization: `Bearer ${token}`,
                 };
 
-                const response = await axios.delete(`http://localhost:5000/expenses/${expenseId}`, { headers });
+                const response = await axios.delete(`http://localhost:5000/incomes/${incomeId}`, { headers });
 
                 if (response.status === 200) {
-                    console.log("Dépense supprimée avec succès.");
-                    this.getAllExpenses();
+                    console.log("Recette supprimée avec succès.");
+                    this.getAllIncomes();
                 } else {
-                    console.error("Échec de la suppression de la dépense.");
+                    console.error("Échec de la suppression de la recette.");
                 }
             } catch (error) {
-                console.error("Erreur lors de la suppression de la dépense :", error);
+                console.error("Erreur lors de la suppression de la recette :", error);
             }
         },
         calculateTotal() {
-            return this.expenses.reduce((total, expense) => total + parseFloat(expense.price), 0);
+            return this.incomes.reduce((total, income) => total + parseFloat(income.price), 0);
         },
     },
     mounted() {
-        this.getAllExpenses();
+        this.getAllIncomes();
     },
     created() {
         this.redirectIfNotConnected();
