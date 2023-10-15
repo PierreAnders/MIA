@@ -1,6 +1,9 @@
 <template>
     <div class="bg-image px-8 pt-12 min-h-screen">
         <BurgerMenu />
+        <div class="flex flex-col items-center justify-center mt-6">
+            <div class="text-xl font-semibold text-white mb-6">Profile</div>
+        </div>
         <form @submit.prevent="register">
             <div class="flex flex-col items-center justify-center mt-14">
                 <div class="py-3">

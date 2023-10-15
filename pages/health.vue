@@ -1,6 +1,9 @@
 <template>
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
+    <div class="flex flex-col items-center justify-center mt-6">
+        <div class="text-xl font-semibold text-white mb-6">Santé</div>
+    </div>
     <form @submit.prevent="submitHealthInfo">
       <div class="flex flex-col items-center justify-center mt-6">
         <div class="py-3 flex flex-col">
@@ -38,7 +41,7 @@
             type="text" id="doctor" v-model="healthInfo.doctor" placeholder="Médecin">
         </div>
         <button
-          class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
+          class="flex items-center h-8 bg-slate-500 text-white mt-4 mb-24 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
           type="submit">Enregistrer</button>
       </div>
     </form>

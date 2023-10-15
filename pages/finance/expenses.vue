@@ -1,6 +1,9 @@
 <template>
     <div class="bg-image px-8 pt-12 min-h-screen">
         <BurgerMenu />
+        <div class="flex flex-col items-center justify-center mt-6">
+            <div class="text-xl font-semibold text-white mb-6">Dépenses</div>
+        </div>
         <form @submit.prevent="submitExpenseInfo">
             <div class="flex flex-col items-center justify-center mt-6">
                 <div class="py-3 flex flex-col">
@@ -26,7 +29,8 @@
                     type="submit">Ajouter
                 </button>
                 <div class="mb-24">
-                    <div class="text-gray-300 font-semibold flex justify-center mt-12 mb-6">TOTAL : {{ total.toFixed(2) }}</div>
+                    <div class="text-gray-300 font-semibold flex justify-center mt-12 mb-6">TOTAL : {{ total.toFixed(2) }}
+                    </div>
                     <table class="w-full border-collapse">
                         <thead>
                             <tr>
@@ -42,7 +46,8 @@
                                 <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ expense.description }}</td>
                                 <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ expense.price }}</td>
                                 <td class="border border-gray-500 px-4 py-2">
-                                    <button @click="deleteExpense(expense.id)" class="text-amber-800 hover:text-amber-600 transition duration-300 ease-in-out">Supprimer</button>
+                                    <button @click="deleteExpense(expense.id)"
+                                        class="text-amber-800 hover:text-amber-600 transition duration-300 ease-in-out">Supprimer</button>
                                 </td>
                             </tr>
                         </tbody>

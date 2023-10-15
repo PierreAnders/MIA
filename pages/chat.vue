@@ -1,6 +1,9 @@
 <template>
   <div class="bg-image bg-neutral-900 px-8 pt-12 min-h-screen">
     <BurgerMenu />
+    <div class="flex flex-col items-center justify-center mt-6">
+      <div class="text-xl font-semibold text-white mb-6">Chat</div>
+    </div>
     <div v-for="message in messages" :key="message.id"
       :class="[message.role === 'user' ? 'bg-slate-500 text-neutral-100 bg-opacity-70' : 'bg-neutral-300 text-neutral-800 bg-opacity-70', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
       {{ message.content }}

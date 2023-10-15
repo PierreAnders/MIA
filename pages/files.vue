@@ -1,6 +1,9 @@
 <template>
   <div class="bg-image px-8 pt-12 min-h-screen">
     <BurgerMenu />
+    <div class="flex flex-col items-center justify-center mt-6">
+            <div class="text-xl font-semibold text-white mb-6">Documents</div>
+        </div>
     <ul>
       <li v-for="file in fileList" :key="file"
         class="text-white flex items-center justify-between border border-gray-300 rounded-md p-4 mb-2 mx-8">
