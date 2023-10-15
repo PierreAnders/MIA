@@ -13,14 +13,14 @@
             id="nom" v-model="firstname" required placeholder="Nom">
         </div>
         <div class="py-3">
-          <label class="sr-only" for="nom">Prénom:</label>
+          <label class="sr-only" for="prenom">Prénom:</label>
           <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text"
-            id="nom" v-model="lastname" required placeholder="Prénom">
+            id="prenom" v-model="lastname" required placeholder="Prénom">
         </div>
         <div class="py-3">
-          <label class="sr-only" for="nom">Date de naissance:</label>
+          <label class="sr-only" for="date">Date de naissance:</label>
           <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="date"
-            id="nom" v-model="birthDate" required placeholder="Date de naissance">
+            id="date" v-model="birthDate" required placeholder="Date de naissance">
         </div>
         <div class="py-3">
           <label class="sr-only" for="email">Email:</label>
