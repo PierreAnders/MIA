@@ -15,7 +15,7 @@
                     <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/files" class="block py-2">Documents</nuxt-link>
+                    <nuxt-link to="/documents" class="block py-2">Documents</nuxt-link>
                 </li>
                 <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
                     <nuxt-link to="/finance-menu" class="block py-2">Finance</nuxt-link>
