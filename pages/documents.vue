@@ -59,6 +59,10 @@ export default {
             }
         },
         async addFolder() {
+            if (!this.folderInfo.name) {
+                console.error("Le nom du dossier ne peut pas être vide.");
+                return;
+            }
             try {
                 const token = localStorage.getItem("access_token");
 
@@ -141,7 +145,7 @@ export default {
 
                 if (response.status === 200) {
                     console.log("Categorie supprimée avec succès.");
-                    this.getAllExpenses();
+                    this.getAllFolders();
                 } else {
                     console.error("Échec de la suppression de la catégorie.");
                 }
@@ -152,7 +156,7 @@ export default {
 
         navigateToFolder(folderId) {
             this.$router.push(`/folders/${folderId}`);
-    },
+        },
     },
     mounted() {
         this.getAllFolders();
