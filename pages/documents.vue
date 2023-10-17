@@ -1,27 +1,33 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
         <div class="flex flex-col items-center justify-center mt-6">
             <div class="text-xl font-semibold text-white mb-6">Documents</div>
         </div>
-        <form @submit.prevent="addFolder">
-            <div class="flex flex-col items-center justify-center mt-6">
-                <div class="py-3 flex flex-col">
-                    <label class="text-gray-300" for="folder">Dossier</label>
-                    <input
-                        class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="folder" v-model="folderInfo.name" placeholder="nom">
-                </div>
-                <button
-                    class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
-                    type="submit">Ajouter
-                </button>
-                <div class="text-white text-xl mb-24 mt-8">
-                    <div v-for="folder in folders" :key="folder.id">
-                        <button @click="navigateToFolder(folder.name)">{{ folder.name }}</button>
-                        <button @click="deleteFolder(folder.id)">Supprimer</button>
+        <div class="flex flex-col items-center justify-center">
+            <div class="text-white mb-6 mt-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+                    <div v-for="folder in folders" :key="folder.id" class="text-center" @contextmenu.prevent="showContextMenu($event, folder.id)">
+                        <button @click="navigateToFolder(folder.name)"
+                            class=" flex flex-col items-center transition-transform transform hover:scale-105">
+                            <img class="w-22 h-22 mx-auto mb-1" src="~assets/images/folder-icon.svg" alt="folder icon">
+                            <span class="text-xs">{{ folder.name }}</span>
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
+        <form @submit.prevent="addFolder">
+            <div class="flex items-center justify-center mb-16">
+                <div class="py-3 flex justify-content flex-col">
+                    <input
+                        class="text-xs w-48 h-6 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+                        type="text" id="folder" v-model="folderInfo.name" placeholder="Nouveau dossier">
+                </div>
+                <button
+                    class="text-xs flex items-center h-6 bg-slate-500 text-white ml-2 p-2 rounded-md transition-transform transform hover:scale-105"
+                    type="submit">✓
+                </button>
             </div>
         </form>
     </div>
@@ -168,10 +174,7 @@ export default {
 </script>
     
 <style>
-.bg-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
+body {
+    background-color: #111114;
 }
 </style>
