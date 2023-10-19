@@ -1,21 +1,23 @@
 <template>
-  <div class="px-8 pt-12 min-h-screen">
+  <div class="min-h-screen px-8 pt-8">
     <BurgerMenu />
     <div class="flex justify-center items-center pt-8">
-      <h1 class="text-[#838383] pr-3">CONNEXION</h1>
+      <h1 class="text-light-gray tracking-wider pr-3">CONNEXION</h1>
       <img src="~/assets/images/connection-icon.svg" alt="connexion-icon">
     </div>
     <form @submit.prevent="login">
-      <div class="flex flex-col items-center justify-center mt-24">
-        <div class="py-3">
+      <div class="flex flex-col justify-center items-center mt-12">
+        <div class="w-64 py-3">
           <label class="sr-only" for="email">Adresse e-mail:</label>
-          <input class="text-[#F1F5F9] bg-[#3A3A3A] w-64 h-8 px-4 border border-[#3A3A3A] rounded-md focus:outline-none focus:border-[#553348]" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
+          <input class="text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
         </div>
-        <div class="py-3">
+        <div class="flex justify-between w-64 py-2">
           <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
-          <input class="text-[#F1F5F9] bg-[#3A3A3A] w-64 h-8 px-4 border border-[#3A3A3A] rounded-md focus:outline-none focus:border-amber-800" type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe"/>
+          <input class="flex text-white text-sm placeholder-light-gray bg-dark-gray w-64 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue" type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe"/>
+          <button type="submit">
+            <IconEnter />
+          </button>
         </div>
-        <button class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300" type="submit">Se connecter</button>
       </div>
     </form>
     <!-- <div class="flex flex-col items-center justify-center mt-48">
@@ -82,10 +84,7 @@ export default {
 </script>
 
 <style>
-.bg-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh;
+.aria {
+  color: white;
 }
 </style>

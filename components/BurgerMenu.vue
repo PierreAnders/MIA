@@ -1,7 +1,7 @@
 <template>
     <div>
         <button  @click="toggleMenu" class="block">
-            <img src="~assets/images/burger-icon.svg" alt="burger menu icon">
+        <IconMenu />
         </button>
         <div v-if="isOpen"
             class="absolute z-10 top-0 left-0 w-1/2 sm:w-1/2 md:w-1/4 lg:w-1/6 bg-neutral-950 h-full p-4 transition-transform duration-300 ease-in-out">
@@ -39,7 +39,12 @@
 </template>
   
 <script>
+import IconMenu from '@/components/IconMenu.vue'
+
 export default {
+    components: {
+        IconMenu,
+    },
     data() {
         return {
             isOpen: false,
