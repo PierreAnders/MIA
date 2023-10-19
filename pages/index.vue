@@ -1,23 +1,27 @@
 <template>
-  <div class="bg-image px-8 pt-12 min-h-screen">
+  <div class="px-8 pt-12 min-h-screen">
     <BurgerMenu />
+    <div class="flex justify-center items-center pt-8">
+      <h1 class="text-[#838383] pr-3">CONNEXION</h1>
+      <img src="~/assets/images/connection-icon.svg" alt="connexion-icon">
+    </div>
     <form @submit.prevent="login">
-      <div class="flex flex-col items-center justify-center mt-20">
-        <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
-        <p class="text-neutral-500">{{ formattedDate }}</p>
-      </div>
       <div class="flex flex-col items-center justify-center mt-24">
         <div class="py-3">
           <label class="sr-only" for="email">Adresse e-mail:</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
+          <input class="text-[#F1F5F9] bg-[#3A3A3A] w-64 h-8 px-4 border border-[#3A3A3A] rounded-md focus:outline-none focus:border-[#553348]" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
         </div>
         <div class="py-3">
           <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
-          <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50" type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe"/>
+          <input class="text-[#F1F5F9] bg-[#3A3A3A] w-64 h-8 px-4 border border-[#3A3A3A] rounded-md focus:outline-none focus:border-amber-800" type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe"/>
         </div>
         <button class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300" type="submit">Se connecter</button>
       </div>
-      </form>
+    </form>
+    <!-- <div class="flex flex-col items-center justify-center mt-48">
+      <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
+      <p class="text-neutral-500">{{ formattedDate }}</p>
+    </div> -->
   </div>
 </template>
 
