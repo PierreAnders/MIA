@@ -41,7 +41,7 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-25"
                                     @click="deleteFolder(contextMenu.folderId)">
                                     <div class="px-2">
-                                        <IconSubmenuDeleteFolder />
+                                        <IconSubmenuDeleteFolder :color="'#838383'"/>
                                     </div>
                                     <div>
                                         Supprimer le dossier
