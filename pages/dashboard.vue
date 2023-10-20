@@ -1,7 +1,7 @@
 <template>
-    <div class="min-h-screen px-8 pt-8">
+    <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
-        <div class="flex justify-center items-center pt-8 pb-12">
+        <div class="flex justify-center items-center py-8">
             <h1 class="text-light-gray tracking-wider pr-3">DASHBOARD</h1>
             <img src="~/assets/images/dashboard-title.svg" alt="connexion icon">
         </div>

@@ -1,9 +1,10 @@
 <template>
-  <div class="bg-image px-8 pt-12 min-h-screen">
-    <BurgerMenu />
-    <div class="flex flex-col items-center justify-center mt-6">
-        <div class="text-xl font-semibold text-white mb-6">Santé</div>
-    </div>
+  <div class="px-8 pt-12 min-h-screen">
+      <BurgerMenu />
+      <div class="flex justify-center items-center py-8">
+          <h1 class="text-light-gray tracking-wider pr-3">SANTE</h1>
+          <IconHealth :color="'#334155'" />
+      </div>
     <form @submit.prevent="submitHealthInfo">
       <div class="flex flex-col items-center justify-center mt-6">
         <div class="py-3 flex flex-col">
@@ -51,10 +52,12 @@
 <script>
 import axios from 'axios';
 import BurgerMenu from '~/components/BurgerMenu.vue';
+import IconHealth from '~/components/IconHealth.vue';
 
 export default {
   components: {
     BurgerMenu,
+    IconHealth,
   },
 
   data() {
@@ -140,10 +143,5 @@ export default {
 </script>
   
 <style>
-.bg-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh;
-}
+
 </style>

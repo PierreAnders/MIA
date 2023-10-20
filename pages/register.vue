@@ -1,11 +1,12 @@
 <template>
-  <div class="bg-image px-8 pt-12 min-h-screen">
-    <BurgerMenu />
-    <form @submit.prevent="register">
-      <div class="flex flex-col items-center justify-center mt-20">
-        <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
-        <p class="text-neutral-500">{{ formattedDate }}</p>
+  <div class="px-8 pt-12 min-h-screen">
+      <BurgerMenu />
+      <div class="flex justify-center items-center py-8">
+          <h1 class="text-light-gray tracking-wider pr-3">PROFILE</h1>
+          <IconRegister :color="'#334155'" />
       </div>
+    <form @submit.prevent="register">
+
       <div class="flex flex-col items-center justify-center mt-14">
         <div class="py-3">
           <label class="sr-only" for="nom">Nom:</label>
@@ -43,10 +44,12 @@
 <script>
 import axios from 'axios';
 import BurgerMenu from '~/components/BurgerMenu.vue';
+import IconRegister from '~/components/IconRegister.vue';
 
 export default {
   components: {
     BurgerMenu,
+    IconRegister,
   },
   computed: {
     formattedDate() {

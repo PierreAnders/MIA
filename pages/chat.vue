@@ -1,19 +1,25 @@
 <template>
-  <div class="bg-image bg-neutral-900 px-8 pt-12 min-h-screen">
+  <div class="px-8 pt-12 min-h-screen">
     <BurgerMenu />
-    <div class="flex flex-col items-center justify-center mt-6">
-      <div class="text-xl font-semibold text-white mb-6">Chat</div>
+    <div class="flex justify-center items-center py-8">
+      <h1 class="text-light-gray tracking-wider pr-3">CHAT</h1>
+      <IconChat :color="'#334155'" />
     </div>
     <div v-for="message in messages" :key="message.id"
       :class="[message.role === 'user' ? 'bg-slate-500 text-neutral-100 bg-opacity-70' : 'bg-neutral-300 text-neutral-800 bg-opacity-70', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
       {{ message.content }}
     </div>
     <div class="input-container flex justify-between items-center mt-4">
-      <input v-model="userMessage" placeholder="Posez une question..." class="p-2 border rounded-md flex-1 focus:outline-none focus:border-amber-800 opacity-50" />
+      <input v-model="userMessage" placeholder="Posez une question..."
+        class="p-2 border rounded-md flex-1 focus:outline-none focus:border-amber-800 opacity-50" />
     </div>
-    <div class="flex justify-between">
-      <button @click="sendMessage" class="bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Envoyer</button>
-      <button @click="startSpeechRecognition" class="bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">Parler</button>
+    <div class="flex justify-between mt-3">
+      <button @click="startSpeechRecognition">
+        <IconMicro />
+      </button>
+      <button @click="sendMessage">
+        <IconEnter />
+      </button>
     </div>
     <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
   </div>
@@ -21,11 +27,17 @@
 
 <script>
 import axios from 'axios';
-import BurgerMenu from '~/components/BurgerMenu.vue';
+import BurgerMenu from '@/components/BurgerMenu.vue';
+import IconChat from '@/components/IconChat.vue';
+import IconEnter from '@/components/IconEnter.vue';
+import IconMicro from '@/components/IconMicro.vue'
 
 export default {
   components: {
     BurgerMenu,
+    IconChat,
+    IconEnter,
+    IconMicro,
   },
 
   data() {
@@ -58,7 +70,7 @@ export default {
       this.redirectIfNotConnected();
 
       if (this.userMessage.trim() === '') return;
-    
+
       try {
         const response = await axios.post('http://localhost:5000/AIchatWithData', {
           session_id: 'unique_session_id',
@@ -70,18 +82,18 @@ export default {
           },
         });
 
-      const assistantReply = response.data.answer;
+        const assistantReply = response.data.answer;
 
-      this.messages.push({ role: 'user', content: this.userMessage });
-      this.messages.push({ role: 'assistant', content: assistantReply });
+        this.messages.push({ role: 'user', content: this.userMessage });
+        this.messages.push({ role: 'assistant', content: assistantReply });
 
-      // Utilisez la synthèse vocale pour lire la réponse
-      const speechOutput = document.getElementById('speechOutput');
-      const utterance = new SpeechSynthesisUtterance(assistantReply);
-      speechSynthesis.speak(utterance);
+        // Utilisez la synthèse vocale pour lire la réponse
+        const speechOutput = document.getElementById('speechOutput');
+        const utterance = new SpeechSynthesisUtterance(assistantReply);
+        speechSynthesis.speak(utterance);
 
-      this.userMessage = '';
-    } catch (error) {
+        this.userMessage = '';
+      } catch (error) {
         console.error('Erreur d\'envoi de la requête :', error);
       }
     },
@@ -118,12 +130,4 @@ export default {
 }
 </script>
 
-<style>
-.bg-image {
-  /* background-image: url("~/assets/space-background.jpg"); */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg"); 
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh; 
-}
-</style>
+<style></style>

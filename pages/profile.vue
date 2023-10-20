@@ -1,8 +1,9 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Profile</div>
+        <div class="flex justify-center items-center py-8">
+            <h1 class="text-light-gray tracking-wider pr-3">PROFILE</h1>
+            <IconProfile :color="'#334155'" />
         </div>
         <form @submit.prevent="register">
             <div class="flex flex-col items-center justify-center mt-14">
@@ -38,10 +39,12 @@
 import axios from 'axios';
 import moment from 'moment';
 import BurgerMenu from '~/components/BurgerMenu.vue';
+import IconProfile from '~/components/IconProfile.vue';
 
 export default {
     components: {
         BurgerMenu,
+        IconProfile,
     },
     data() {
         return {

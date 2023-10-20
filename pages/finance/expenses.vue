@@ -1,8 +1,9 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Dépenses</div>
+        <div class="flex justify-center items-center py-8">
+            <h1 class="text-light-gray tracking-wider pr-3">DEPENSES</h1>
+            <img src="~/assets/images/expenses-title.svg" alt="documents icon">
         </div>
         <form @submit.prevent="submitExpenseInfo">
             <div class="flex flex-col items-center justify-center mt-6">

@@ -1,8 +1,9 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Finance</div>
+        <div class="flex justify-center items-center py-8">
+            <h1 class="text-light-gray tracking-wider pr-3">FINANCE</h1>
+            <IconFinance :color="'#334155'" />
         </div>
         <div class="flex flex-col items-center justify-center mt-6">
             <nuxt-link class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300" 
@@ -17,19 +18,16 @@
     
 <script>
 import BurgerMenu from '~/components/BurgerMenu.vue';
+import IconFinance from '~/components/IconFinance.vue';
 
 export default {
     components: {
         BurgerMenu,
+        IconFinance,
     },
 }
 </script>
     
 <style>
-.bg-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-}
+
 </style>

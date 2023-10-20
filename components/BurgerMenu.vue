@@ -15,19 +15,19 @@
                     <nuxt-link to="/documents" class="block font-semibold tracking-wide text-light-gray py-2">Documents</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconChat class="mr-2"/>
+                    <IconChat :color="'#838383'" class="mr-2"/>
                     <nuxt-link to="/chat" class="block font-semibold tracking-wide text-light-gray py-2">Chat</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconFinance class="mr-2"/>
+                    <IconFinance :color="'#838383'" class="mr-2"/>
                     <nuxt-link to="/finance-menu" class="block font-semibold tracking-wide text-light-gray py-2">Finance</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconHealth class="mr-2"/>
+                    <IconHealth :color="'#838383'" class="mr-2"/>
                     <nuxt-link to="/health" class="block font-semibold tracking-wide text-light-gray py-2">Santé</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300 mb-12">
-                    <IconProfile class="mr-2"/>
+                    <IconProfile :color="'#838383'" class="mr-2"/>
                     <nuxt-link to="/profile" class="block font-semibold tracking-wide text-light-gray py-2">Profile</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
@@ -35,7 +35,7 @@
                     <nuxt-link to="/register" class="block font-semibold tracking-wide text-light-gray py-2">Inscription</nuxt-link>
                 </li>
                 <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconRegister class="mr-2"/>
+                    <IconRegister :color="'#838383'" class="mr-2"/>
                     <button @click="redirection" class="block font-semibold tracking-wide text-light-gray py-2">{{ isConnected ? 'Déconnexion' : 'Connexion' }}</button>
                 </li>
             </ul>
