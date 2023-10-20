@@ -2,37 +2,39 @@
     <div class="px-8 pt-12 min-h-screen">
         <BurgerMenu />
         <div class="flex justify-center items-center py-8">
-            <h1 class="text-light-gray tracking-wider pr-3">{{folderName.toUpperCase()}}</h1>
+            <h1 class="text-light-gray tracking-wider pr-3">{{ folderName.toUpperCase() }}</h1>
             <img src="~/assets/images/folder-title.svg" alt="documents icon">
         </div>
-        <ul class="mb-8">
-            <li v-for="file in fileList" :key="file"
-            class="flex mx-20 flex justify-between text-white">
-            <div class="flex space-x-2">
-                <IconDocument />
-                <span>{{ file }}</span>
+        <ul class="flex flex-col w-3/4 md:w-2/3 lg:w-1/2 mx-auto mb-8">
+            <li v-for="file in fileList" :key="file" class="flex justify-between text-white mt-4">
+                <div class="flex space-x-2">
+                    <IconDocument />
+                    <span>{{ file }}</span>
+                </div>
+                <div class="space-x-2">
+                    <button @click="deleteFile(file)">
+                        <IconSubmenuDeleteFolder :color="'#553348'" />
+                    </button>
+                    <button @click="downloadFile(file)">
+                        <IconDownload />
+                    </button>
+                </div>
+            </li>
+        </ul>
+        <div class="flex justify-center">
+            <div class="flex flex-col justify-center">
+                <label for="fileInput" class="text-light-gray">
+                    <div id="fileNameLabel" class="flex flex-col cursor-pointer justify-center text-light-gray">
+                        <img class="mx-auto w-14 pb-2" src="~assets/images/upload-icon.svg" alt="folder icon">
+                        <div>Téléverser un fichier</div>
+                    </div>
+                    <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
+                        class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"
+                        @change="uploadFile" style="display: none;" />
+                </label>
             </div>
-            <div class="space-x-2">
-                <button @click="deleteFile(file)"> <IconSubmenuDeleteFolder :color="'#553348'" /> </button>
-                <button @click="downloadFile(file)"> <IconDownload /> </button>
-            </div>
-        </li>
-    </ul>
-    <div class="flex justify-center">
-        <form @submit.prevent="uploadFile" enctype="multipart/form-data" class="mb-4">
-            <label for="fileInput" class="text-neutral-800">
-                <i class="fas fa-upload"></i>
-                <span id="fileNameLabel" class="text-white">{{ fileToUpload }}</span>
-                <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
-                    class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"
-                    @change="updateFileToUpload" style="display: none;" />
-            </label>
-            <button type="submit"
-                class="bg-slate-500 text-white mx-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300">
-                Téléverser
-            </button>
-        </form>
-    </div>
+        </div>
+
     </div>
 </template>
   
@@ -54,7 +56,6 @@ export default {
     data() {
         return {
             fileList: [],
-            fileToUpload: 'Cliquer ici pour sélectionner un fichier',
             folderName: "",
         };
     },
@@ -62,12 +63,8 @@ export default {
         this.loadFileList();
     },
     methods: {
-        updateFileToUpload(event) {
-            const fileToUpload = event.target.files[0]?.name || 'Cliquer ici pour sélectionner un fichier';
-            this.fileToUpload = fileToUpload;
-        },
         loadFileList() {
-            const folderName = this.$route.params.folderName; // Récupérez l'ID du dossier depuis l'URL
+            const folderName = this.$route.params.folderName;
             if (process.client) {
                 const jwtToken = localStorage.getItem('access_token');
                 if (!jwtToken) {
@@ -77,7 +74,7 @@ export default {
                 }
 
                 axios
-                    .get(`http://localhost:5000/list_files/${folderName}`, { // Utilisez l'ID du dossier dans la requête
+                    .get(`http://localhost:5000/list_files/${folderName}`, {
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
                             'Content-Type': 'application/json',
@@ -92,13 +89,9 @@ export default {
                 console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
-
-        // Le reste de vos méthodes (deleteFile et downloadFile) reste inchangé
-
         deleteFile(filename) {
-            const jwtToken = localStorage.getItem('access_token'); // Récupérez le jeton JWT
+            const jwtToken = localStorage.getItem('access_token');
             if (!jwtToken) {
-                // Traitez le cas où le jeton JWT n'est pas disponible
                 console.error('Le jeton JWT n\'est pas disponible.');
                 this.$router.push('/');
                 return;
@@ -118,20 +111,18 @@ export default {
         },
         downloadFile(filename) {
             const folderName = this.$route.params.folderName;
-            const jwtToken = localStorage.getItem('access_token'); // Récupérez le jeton JWT
+            const jwtToken = localStorage.getItem('access_token');
             if (!jwtToken) {
-                // Traitez le cas où le jeton JWT n'est pas disponible
                 console.error('Le jeton JWT n\'est pas disponible.');
                 this.$router.push('/');
                 return;
             }
 
-            // Créez une configuration Axios avec le jeton JWT dans les en-têtes
             const axiosConfig = {
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
                 },
-                responseType: 'blob', // Spécifiez le type de réponse comme un blob (fichier binaire)
+                responseType: 'blob',
             };
 
             axios
@@ -169,12 +160,12 @@ export default {
                 .post(`http://localhost:5000/upload/${folderName}`, formData, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
-                        'Content-Type': 'multipart/form-data', // Spécifiez le type de contenu multipart/form-data
+                        'Content-Type': 'multipart/form-data',
                     },
                 })
                 .then((response) => {
                     this.loadFileList();
-                    fileInput.value = ''; // Réinitialisez l'input de fichier
+                    fileInput.value = '';
                     console.log(response.data.message);
                 })
                 .catch((error) => console.error(error));
@@ -186,7 +177,5 @@ export default {
 };
 </script>
   
-<style>
-
-</style>
+<style></style>
   
