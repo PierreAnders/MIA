@@ -71,7 +71,7 @@ export default {
         if (response.data && response.data.access_token) {
           localStorage.setItem('access_token', response.data.access_token);
           console.log('le token', response.data.access_token);
-          this.$router.push('/chat');
+          this.$router.push('/documents');
         } else {
           console.error('Échec de l\'authentification');
         }

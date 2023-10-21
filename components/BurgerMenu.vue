@@ -1,42 +1,67 @@
 <template>
     <div>
-        <button  @click="toggleMenu" class="block">
-        <IconMenu />
+        <button @click="toggleMenu" class="block">
+            <IconMenu />
         </button>
         <div v-if="isOpen"
             class="absolute z-10 top-0 left-0 bg-dark-gray w-1/2 sm:w-1/2 md:w-1/4 lg:w-1/6 h-full p-4 transition-transform duration-300 ease-in-out">
             <ul class="text-slate-400 mt-14">
-                <li class="flex items-center hover:bg-black hover:text-white px-4 rounded transition duration-300">
-                    <IconDashboard class="mr-2"/>
-                    <nuxt-link to="/dashboard" class="block font-semibold tracking-wide text-light-gray py-2">Dashboard</nuxt-link>
+                <li>
+                    <nuxt-link to="/dashboard"
+                        class="flex items-center hover:bg-black hover:text-white px-4 rounded transition duration-300">
+                        <IconDashboard class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Dashboard</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconDocument class="mr-2"/>
-                    <nuxt-link to="/documents" class="block font-semibold tracking-wide text-light-gray py-2">Documents</nuxt-link>
+                <li>
+                    <nuxt-link to="/documents"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconDocument class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Documents</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconChat :color="'#838383'" class="mr-2"/>
-                    <nuxt-link to="/chat" class="block font-semibold tracking-wide text-light-gray py-2">Chat</nuxt-link>
+                <li>
+                    <nuxt-link to="/chat"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconChat :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Chat</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconFinance :color="'#838383'" class="mr-2"/>
-                    <nuxt-link to="/finance-menu" class="block font-semibold tracking-wide text-light-gray py-2">Finance</nuxt-link>
+                <li>
+                    <nuxt-link to="/finance-menu"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconFinance :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Finance</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconHealth :color="'#838383'" class="mr-2"/>
-                    <nuxt-link to="/health" class="block font-semibold tracking-wide text-light-gray py-2">Santé</nuxt-link>
+                <li>
+                    <nuxt-link to="/health"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconHealth :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Santé</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300 mb-12">
-                    <IconProfile :color="'#838383'" class="mr-2"/>
-                    <nuxt-link to="/profile" class="block font-semibold tracking-wide text-light-gray py-2">Profile</nuxt-link>
+                <li>
+                    <nuxt-link to="/profile"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300 mb-12">
+                        <IconProfile :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Profile</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconConnection class="mr-2"/>
-                    <nuxt-link to="/register" class="block font-semibold tracking-wide text-light-gray py-2">Inscription</nuxt-link>
+                <li>
+                    <nuxt-link to="/register"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconConnection class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Inscription</span>
+                    </nuxt-link>
                 </li>
-                <li class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
-                    <IconRegister :color="'#838383'" class="mr-2"/>
-                    <button @click="redirection" class="block font-semibold tracking-wide text-light-gray py-2">{{ isConnected ? 'Déconnexion' : 'Connexion' }}</button>
+                <li>
+                    <button @click="redirection"
+                        class="w-full flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconRegister :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">{{ isConnected ? 'Déconnexion'
+                            : 'Connexion' }}</span>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -102,7 +127,7 @@ export default {
         },
         logout() {
             localStorage.removeItem("access_token");
-            this.$router.push("/"); 
+            this.$router.push("/");
         },
     },
     mounted() {
@@ -117,7 +142,5 @@ export default {
 };
 </script>
   
-<style scoped>
-/* Ajoutez ici les styles spécifiques au menu burger */
-</style>
+<style scoped>/* Ajoutez ici les styles spécifiques au menu burger */</style>
   

@@ -18,6 +18,9 @@
                     <button @click="downloadFile(file)">
                         <IconDownload />
                     </button>
+                    <button @click="openFile(file)">
+                        <IconOpen />
+                    </button>
                 </div>
             </li>
         </ul>
@@ -44,6 +47,7 @@ import BurgerMenu from '@/components/BurgerMenu.vue'
 import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
 import IconDocument from '@/components/IconDocument.vue'
 import IconDownload from '@/components/IconDownload.vue'
+import IconOpen from '@/components/IconOpen.vue'
 
 export default {
     components: {
@@ -51,6 +55,7 @@ export default {
         IconSubmenuDeleteFolder,
         IconDocument,
         IconDownload,
+        IconOpen,
     },
 
     data() {
@@ -138,6 +143,65 @@ export default {
                 })
                 .catch((error) => console.error(error));
         },
+        openFile(filename) {
+            const folderName = this.$route.params.folderName;
+            const jwtToken = localStorage.getItem('access_token');
+            if (!jwtToken) {
+                console.error('Le jeton JWT n\'est pas disponible.');
+                this.$router.push('/');
+                return;
+            }
+
+            const axiosConfig = {
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                },
+                responseType: 'arraybuffer',
+            };
+
+            axios
+                .get(`http://localhost:5000/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .then((response) => {
+                    const fileType = this.getFileType(filename);
+
+                    if (fileType === 'pdf') {
+                        // It's a PDF, open it in a new browser tab.
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const url = window.URL.createObjectURL(blob);
+                        const newTab = window.open(url, '_blank');
+
+                        if (newTab === null) {
+                            console.error('Le navigateur a bloqué l\'ouverture de la nouvelle fenêtre.');
+                            window.URL.revokeObjectURL(url);
+                        }
+                    } else if (fileType === 'txt') {
+                        // It's a text file, you can handle it differently.
+                        const textData = new TextDecoder().decode(response.data);
+                        this.displayTextFile(textData);
+                    } else {
+                        console.error('Le type de fichier n\'est pas pris en charge.');
+                    }
+                })
+                .catch((error) => console.error(error));
+        },
+
+        getFileType(filename) {
+            // Extract the file extension.
+            const parts = filename.split('.');
+            if (parts.length > 1) {
+                return parts[parts.length - 1].toLowerCase();
+            }
+            return '';
+        },
+
+        displayTextFile(textData) {
+            // You can define a method to display the text content within your application.
+            // For example, you can display it in a modal or a dedicated component.
+            // Replace this with your actual implementation.
+            console.log('Displaying text file content:');
+            console.log(textData);
+        },
+
         uploadFile() {
             const folderName = this.$route.params.folderName;
             const jwtToken = localStorage.getItem('access_token');
