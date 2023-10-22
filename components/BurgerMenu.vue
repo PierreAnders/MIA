@@ -4,7 +4,7 @@
             <IconMenu />
         </button>
         <div v-if="isOpen"
-            class="absolute z-10 top-0 left-0 bg-dark-gray w-1/2 sm:w-1/2 md:w-1/4 lg:w-1/6 h-full p-4 transition-transform duration-300 ease-in-out">
+            class="absolute z-10 top-0 left-0 bg-dark-gray w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/4 h-full p-4 transition-transform duration-300 ease-in-out">
             <ul class="text-slate-400 mt-14">
                 <li>
                     <nuxt-link to="/dashboard"
