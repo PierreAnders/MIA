@@ -61,8 +61,8 @@
 </template>
     
 <script>
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue';
 import axios from 'axios';
+import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue';
 import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
@@ -192,10 +192,5 @@ export default {
 </script>
     
 <style>
-.bg-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-}
+
 </style>
