@@ -1,12 +1,11 @@
 <template>
-    <div class="px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center py-8">
+        <div class="flex justify-center items-center pt-8">
             <h1 class="text-light-gray tracking-wider pr-3">FINANCE</h1>
             <IconFinance :color="'#334155'" />
         </div>
-
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center justify-center mt-12">
             <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="flex space-x-3">
                     <IconBalance color="#838383" />

@@ -1,12 +1,12 @@
 <template>
-  <div class="px-8 pt-12 min-h-screen">
+  <div class="min-h-screen px-8 pt-8">
     <BurgerMenu />
-    <div class="flex justify-center items-center py-8">
+    <div class="flex justify-center items-center pt-8">
       <h1 class="text-light-gray tracking-wider pr-3">SANTE</h1>
       <IconHealth :color="'#334155'" />
     </div>
     <form @submit.prevent="submitHealthInfo">
-      <div class="flex flex-col items-center justify-center mt-6">
+      <div class="flex flex-col items-center justify-center mt-12">
 
         <div class="pb-4 relative w-72">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="gender">Genre :</label>

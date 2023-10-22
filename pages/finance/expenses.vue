@@ -1,12 +1,12 @@
 <template>
-    <div class="px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center py-8">
+        <div class="flex justify-center items-center pt-8">
             <h1 class="text-light-gray tracking-wider pr-3">DEPENSES</h1>
             <img src="~/assets/images/expenses-title.svg" alt="documents icon">
         </div>
         <form @submit.prevent="submitExpenseInfo">
-            <div class="flex flex-col items-center justify-center mt-6">
+            <div class="flex flex-col justify-center items-center mt-12">
                 <div class="pb-4 flex flex-col w-72">
                     <label class="sr-only" for="title">Titre</label>
                     <input

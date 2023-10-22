@@ -1,11 +1,11 @@
 <template>
-    <div class="px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center py-8">
+        <div class="flex justify-center items-center pt-8">
             <h1 class="text-light-gray tracking-wider pr-3">{{ folderName.toUpperCase() }}</h1>
             <img src="~/assets/images/folder-title.svg" alt="documents icon">
         </div>
-        <ul class="flex flex-col w-3/4 md:w-2/3 lg:w-1/2 mx-auto mb-8">
+        <ul class="flex flex-col w-3/4 md:w-2/3 lg:w-1/2 mx-auto mb-8 mt-12 ">
             <li v-for="file in fileList" :key="file" class="flex justify-between text-white mt-4">
                 <div class="flex space-x-2">
                     <IconDocument />

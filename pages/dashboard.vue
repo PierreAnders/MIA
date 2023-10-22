@@ -1,36 +1,36 @@
 <template>
-    <div class="px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center py-8">
+        <div class="flex justify-center items-center pt-8">
             <h1 class="text-light-gray tracking-wider pr-3">DASHBOARD</h1>
             <img src="~/assets/images/dashboard-title.svg" alt="connexion icon">
         </div>
-        <div class="flex flex-col items-center justify-center">
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+        <div class="flex flex-col justify-center items-center mt-12">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Age : </div>
                 <div>{{ calculateAge(userInfo.birth_date) }} ans</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Taille : </div>
                 <div>{{ healthInfo.size }} m</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Poids : </div>
                 <div>{{ healthInfo.weight }} kg</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> IMC : </div>
                 <div>{{ (healthInfo.weight / (healthInfo.size * healthInfo.size)).toFixed(1) }}</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Dépenses : </div>
                 <div>{{ totalExpenses.toFixed(2) }} €</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Recettes : </div>
                 <div>{{ totalIncomes.toFixed(2) }} €</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Balance : </div>
                 <div>{{ (totalIncomes - totalExpenses).toFixed(2) }} €</div>
             </div>

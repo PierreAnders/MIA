@@ -1,27 +1,29 @@
 <template>
-  <div class="px-8 pt-12 min-h-screen">
+  <div class="min-h-screen px-8 pt-8">
     <BurgerMenu />
-    <div class="flex justify-center items-center py-8">
+    <div class="flex justify-center items-center pt-8">
       <h1 class="text-light-gray tracking-wider pr-3">CHAT</h1>
       <IconChat :color="'#334155'" />
     </div>
-    <div v-for="message in messages" :key="message.id"
-      :class="[message.role === 'user' ? 'bg-slate-500 text-neutral-100 bg-opacity-70' : 'bg-neutral-300 text-neutral-800 bg-opacity-70', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
-      {{ message.content }}
+    <div class="mt-12">
+      <div v-for="message in messages" :key="message.id"
+        :class="[message.role === 'user' ? 'bg-slate-500 text-neutral-100 bg-opacity-70' : 'bg-neutral-300 text-neutral-800 bg-opacity-70', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
+        {{ message.content }}
+      </div>
+      <div class="input-container flex justify-between items-center mt-4">
+        <input v-model="userMessage" placeholder="Posez une question..."
+          class="p-2 border rounded-md flex-1 focus:outline-none focus:border-amber-800 opacity-50" />
+      </div>
+      <div class="flex justify-between mt-3">
+        <button @click="startSpeechRecognition">
+          <IconMicro />
+        </button>
+        <button @click="sendMessage">
+          <IconEnter />
+        </button>
+      </div>
+      <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
     </div>
-    <div class="input-container flex justify-between items-center mt-4">
-      <input v-model="userMessage" placeholder="Posez une question..."
-        class="p-2 border rounded-md flex-1 focus:outline-none focus:border-amber-800 opacity-50" />
-    </div>
-    <div class="flex justify-between mt-3">
-      <button @click="startSpeechRecognition">
-        <IconMicro />
-      </button>
-      <button @click="sendMessage">
-        <IconEnter />
-      </button>
-    </div>
-    <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
   </div>
 </template>
 

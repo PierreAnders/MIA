@@ -1,11 +1,11 @@
 <template>
-    <div class="px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center py-8">
+        <div class="flex justify-center items-center pt-8">
             <h1 class="text-light-gray tracking-wider pr-3">DOCUMENTS</h1>
             <img src="~/assets/images/documents-title.svg" alt="documents icon">
         </div>
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col justify-center items-center mt-12">
             <div class="text-white mb-24 mt-6">
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
                     <div v-for="folder in folders" :key="folder.id" class="text-center"

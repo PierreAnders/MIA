@@ -7,9 +7,9 @@
     </div>
     <form @submit.prevent="login">
       <div class="flex flex-col justify-center items-center mt-12">
-        <div class="w-64 py-3">
-          <label class="sr-only" for="email">Adresse e-mail:</label>
-          <input class="text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue" type="text" id="email" v-model="email" placeholder="Adresse mail"/>
+        <div class="w-64 pb-3">
+          <label class="sr-only" for="email">Email:</label>
+          <input class="text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue" type="text" id="email" v-model="email" placeholder="Email"/>
         </div>
         <div class="flex justify-between w-64 py-2">
           <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
@@ -20,10 +20,6 @@
         </div>
       </div>
     </form>
-    <!-- <div class="flex flex-col items-center justify-center mt-48">
-      <p class="text-neutral-500 text-2xl font-semibold">{{ currentTime }}</p>
-      <p class="text-neutral-500">{{ formattedDate }}</p>
-    </div> -->
   </div>
 </template>
 
