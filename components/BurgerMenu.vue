@@ -1,37 +1,67 @@
 <template>
     <div>
-        <button  @click="toggleMenu" class="block">
-            <img src="~assets/images/burger-icon.svg" alt="burger menu icon">
+        <button @click="toggleMenu" class="block">
+            <IconMenu />
         </button>
         <div v-if="isOpen"
-            class="absolute z-10 top-0 left-0 w-1/2 sm:w-1/2 md:w-1/4 lg:w-1/6 bg-neutral-950 h-full p-4 transition-transform duration-300 ease-in-out">
+            class="absolute z-10 top-0 left-0 bg-dark-gray w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/4 h-full p-4 transition-transform duration-300 ease-in-out">
             <ul class="text-slate-400 mt-14">
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/dashboard" class="block py-2">Dashboard</nuxt-link>
+                <li>
+                    <nuxt-link to="/dashboard"
+                        class="flex items-center hover:bg-black hover:text-white px-4 rounded transition duration-300">
+                        <IconDashboard class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Dashboard</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/chat" class="block py-2">Chat</nuxt-link>
+                <li>
+                    <nuxt-link to="/documents"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconDocument class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Documents</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/documents" class="block py-2">Documents</nuxt-link>
+                <li>
+                    <nuxt-link to="/chat"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconChat :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Chat</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/finance-menu" class="block py-2">Finance</nuxt-link>
+                <li>
+                    <nuxt-link to="/finance-menu"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconFinance :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Finance</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/health" class="block py-2">Santé</nuxt-link>
+                <li>
+                    <nuxt-link to="/health"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconHealth :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Santé</span>
+                    </nuxt-link>
                 </li>
-                <!-- <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/upload" class="block py-2">Téléchargement</nuxt-link>
-                </li> -->
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <nuxt-link to="/profile" class="block py-2">Profile</nuxt-link>
+                <li>
+                    <nuxt-link to="/profile"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300 mb-12">
+                        <IconProfile :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Profile</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300 mt-12">
-                    <nuxt-link to="/register" class="block py-2">Inscription</nuxt-link>
+                <li>
+                    <nuxt-link to="/register"
+                        class="flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconConnection class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">Inscription</span>
+                    </nuxt-link>
                 </li>
-                <li class="hover:bg-neutral-800 px-4 rounded hover:text-white transition duration-300">
-                    <button @click="redirection" class="block py-2">{{ isConnected ? 'Déconnexion' : 'Connexion' }}</button>
+                <li>
+                    <button @click="redirection"
+                        class="w-full flex items-center hover:bg-black px-4 rounded hover:text-white transition duration-300">
+                        <IconRegister :color="'#838383'" class="mr-2" />
+                        <span class="block font-semibold tracking-wide text-light-gray py-2">{{ isConnected ? 'Déconnexion'
+                            : 'Connexion' }}</span>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -39,7 +69,26 @@
 </template>
   
 <script>
+import IconMenu from '@/components/IconMenu.vue'
+import IconDashboard from '@/components/IconDashboard.vue'
+import IconDocument from '@/components/IconDocument.vue'
+import IconChat from '@/components/IconChat.vue'
+import IconFinance from '@/components/IconFinance.vue'
+import IconHealth from '@/components/IconHealth'
+import IconProfile from '@/components/IconProfile.vue'
+import IconConnection from '@/components/IconConnection.vue'
+import IconRegister from '@/components/IconRegister.vue'
+
 export default {
+    components: {
+        IconMenu,
+        IconDashboard,
+        IconDocument,
+        IconChat,
+        IconFinance,
+        IconHealth,
+        IconProfile,
+    },
     data() {
         return {
             isOpen: false,
@@ -69,7 +118,7 @@ export default {
             this.isOpen = !this.isOpen;
         },
         closeMenuOnClickOutside(event) {
-            const menuElement = this.$el.querySelector(".bg-neutral-950");
+            const menuElement = this.$el.querySelector(".bg-dark-gray");
             const buttonElement = this.$el.querySelector("button");
 
             if (menuElement && buttonElement && !menuElement.contains(event.target) && !buttonElement.contains(event.target)) {
@@ -78,7 +127,7 @@ export default {
         },
         logout() {
             localStorage.removeItem("access_token");
-            this.$router.push("/"); 
+            this.$router.push("/");
         },
     },
     mounted() {
@@ -93,7 +142,5 @@ export default {
 };
 </script>
   
-<style scoped>
-/* Ajoutez ici les styles spécifiques au menu burger */
-</style>
+<style scoped>/* Ajoutez ici les styles spécifiques au menu burger */</style>
   

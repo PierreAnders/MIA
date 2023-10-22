@@ -1,55 +1,59 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Recettes</div>
+        <div class="flex justify-center items-center pt-8">
+            <h1 class="text-light-gray tracking-wider pr-3">RECETTES</h1>
+            <img src="~/assets/images/expenses-title.svg" alt="documents icon">
         </div>
         <form @submit.prevent="submitIncomeInfo">
-            <div class="flex flex-col items-center justify-center mt-6">
-                <div class="py-3 flex flex-col">
-                    <label class="text-gray-300" for="title">Titre</label>
+            <div class="flex flex-col justify-center items-center mt-12">
+                <div class="pb-4 flex flex-col w-72">
+                    <label class="sr-only" for="title">Titre</label>
                     <input
-                        class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="title" v-model="incomeInfo.title" placeholder="titre">
+                        class="text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="text" id="title" v-model="incomeInfo.title" placeholder="Titre :">
                 </div>
-                <div class="py-3 flex flex-col">
-                    <label class="text-gray-300" for="blood_group">Description</label>
-                    <input
-                        class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="description" v-model="incomeInfo.description" placeholder="Description">
+                <div class="pb-4 flex flex-col w-72">
+                    <label class="sr-only" for="blood_group">Description</label>
+                    <textarea
+                        class="text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-20 pt-1 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="text" id="description" v-model="incomeInfo.description"
+                        placeholder="Description :"></textarea>
                 </div>
-                <div class="py-3 flex flex-col">
-                    <label class="text-gray-300" for="doctor">Prix</label>
-                    <input
-                        class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="doctor" v-model="incomeInfo.price" placeholder="Prix">
+                <div class="pb-4 flex flex-col w-72">
+                    <div class="flex">
+                        <label class="sr-only" for="doctor">Prix</label>
+                        <input
+                            class="text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 mr-2 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                            type="text" id="doctor" v-model="incomeInfo.price" placeholder="Prix :">
+                        <button type="submit">
+                            <IconEnter />
+                        </button>
+                    </div>
                 </div>
-                <button
-                    class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
-                    type="submit">Ajouter
-                </button>
-                <div class="mb-24">
-                    <div class="text-gray-300 font-semibold flex justify-center mt-12 mb-6">TOTAL : {{ total.toFixed(2) }}</div>
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr>
-                                <th class="text-left text-amber-800 px-4 py-2">Titre</th>
-                                <th class="text-left text-amber-800 px-4 py-2">Description</th>
-                                <th class="text-left text-amber-800 px-4 py-2">Prix (€)</th>
-                                <th class="text-left text-amber-800 px-4 py-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="income in incomes" :key="income.id">
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.title }}</td>
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.description }}</td>
-                                <td class="border border-gray-600 text-gray-300 px-4 py-2">{{ income.price }}</td>
-                                <td class="border border-gray-500 px-4 py-2">
-                                    <button @click="deleteIncome(income.id)" class="text-amber-800 hover:text-amber-600 transition duration-300 ease-in-out">Supprimer</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="mb-24 w-full  md:w-3/4 lg:w-2/3">
+                    <div class="flex my-6">
+                        <div class="text-light-gray font-semibold flex mr-2">TOTAL :</div>
+                        <div class="text-white"> {{ total.toFixed(2) }} €</div>
+                    </div>
+
+                    <div v-for="income in incomes" :key="income.id">
+                        <div class="mt-5">
+                            <div class="flex mt-1">
+                                <div class="text-light-gray mr-2">Titre:</div>
+                                <div class="text-white">{{ income.title }}</div>
+                            </div>
+                            <div class="flex mt-1">
+                                <div class="text-light-gray mr-2">Prix:</div>
+                                <div class="text-white">{{ income.price }} €</div>
+                            </div>
+                            <div class="flex mt-1">
+                                <div class="flex text-light-gray text-sm mr-2">Description:</div>
+                                <div class="text-white text-sm">{{ income.description }}</div>
+                            </div>
+                            <button class="mt-2" @click="deleteIncome(income.id)"><IconSubmenuDeleteFolder class="w-5 h-5" color="#553348"/></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -58,11 +62,13 @@
     
 <script>
 import axios from 'axios';
+import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue';
 import BurgerMenu from '~/components/BurgerMenu.vue';
 
 export default {
     components: {
         BurgerMenu,
+        IconSubmenuDeleteFolder,
     },
 
     data() {
@@ -186,10 +192,5 @@ export default {
 </script>
     
 <style>
-.bg-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-}
+
 </style>

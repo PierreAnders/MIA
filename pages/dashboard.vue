@@ -1,40 +1,39 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Tableau de bord</div>
-            <div class="py-3 flex flex-col">
-                <div class="flex justify-center text-gray-300 font-semibold mb-2">Age</div>
-                <div class="text-amber-800 text-xl">{{ calculateAge(userInfo.birth_date) }} ans</div>
+        <div class="flex justify-center items-center pt-8">
+            <h1 class="text-light-gray tracking-wider pr-3">DASHBOARD</h1>
+            <img src="~/assets/images/dashboard-title.svg" alt="connexion icon">
+        </div>
+        <div class="flex flex-col justify-center items-center mt-12">
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Age : </div>
+                <div>{{ calculateAge(userInfo.birth_date) }} ans</div>
             </div>
-            <div class="py-3 flex flex-col">
-                <div class="text-gray-300 font-semibold mb-2">IMC</div>
-                <div class="text-amber-800 text-xl">{{ (healthInfo.weight / (healthInfo.size * healthInfo.size)).toFixed(1) }}</div>
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Taille : </div>
+                <div>{{ healthInfo.size }} m</div>
             </div>
-            <div class="py-3 flex flex-col">
-                <div class="flex justify-center text-gray-300 font-semibold mb-2">Recettes</div>
-                <div class="text-amber-800 text-xl">{{ totalIncomes.toFixed(2) }} €</div>
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Poids : </div>
+                <div>{{ healthInfo.weight }} kg</div>
             </div>
-            <div class="py-3 flex flex-col">
-                <div class="flex justify-center text-gray-300 font-semibold mb-2">Dépenses</div>
-                <div class="text-amber-800 text-xl">{{ totalExpenses.toFixed(2) }} €</div>
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> IMC : </div>
+                <div>{{ (healthInfo.weight / (healthInfo.size * healthInfo.size)).toFixed(1) }}</div>
             </div>
-            <div class="py-3 flex flex-col">
-                <div class="flex justify-center text-gray-300 font-semibold mb-2">Bonus</div>
-                <div class="text-amber-800 text-xl">{{ (totalIncomes - totalExpenses).toFixed(2) }} €</div>
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Dépenses : </div>
+                <div>{{ totalExpenses.toFixed(2) }} €</div>
             </div>
-            <!-- <div class="py-3 flex flex-col">
-                <div class="flex justify-center text-gray-300 font-semibold mb-2">Date de naissance</div>
-                <div class="text-amber-800 text-xl">{{ formatDate(userInfo.birth_date) }}</div>
-            </div> -->
-            <!-- <div class="py-3 flex flex-col">
-                <div class="text-gray-300 font-semibold mb-2">Taille</div>
-                <div class="text-amber-800 text-xl">{{ healthInfo.size }} m</div>
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Recettes : </div>
+                <div>{{ totalIncomes.toFixed(2) }} €</div>
             </div>
-            <div class="py-3 flex flex-col">
-                <div class="text-gray-300 font-semibold mb-2">Poids</div>
-                <div class="text-amber-800 text-xl">{{ healthInfo.weight }} kg</div>
-            </div> -->
+            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+                <div class="text-light-gray"> Balance : </div>
+                <div>{{ (totalIncomes - totalExpenses).toFixed(2) }} €</div>
+            </div>
         </div>
     </div>
 </template>
@@ -63,10 +62,10 @@ export default {
                 doctor: "",
             },
             userInfo: {
-                lastname:"",
+                lastname: "",
                 firstname: "",
-                birth_date:"",
-                email:"",
+                birth_date: "",
+                email: "",
             },
         };
     },
@@ -106,20 +105,20 @@ export default {
                 const token = localStorage.getItem("access_token");
 
                 if (!token) {
-                console.error("Jeton JWT non trouvé.");
-                return;
+                    console.error("Jeton JWT non trouvé.");
+                    return;
                 }
 
                 const headers = {
-                Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 };
 
                 const response = await axios.get("http://localhost:5000/user_health", { headers });
 
                 if (response.status === 200) {
-                this.healthInfo = response.data;
+                    this.healthInfo = response.data;
                 } else {
-                console.error("Échec du chargement des informations de santé.");
+                    console.error("Échec du chargement des informations de santé.");
                 }
             } catch (error) {
                 console.error("Erreur lors du chargement des informations de santé :", error);
@@ -225,10 +224,7 @@ export default {
 </script>
 
 <style>
-.bg-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url("~/assets/space-background.jpg");
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
+.aria {
+  color: white;
 }
 </style>

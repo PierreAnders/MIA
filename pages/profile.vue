@@ -1,34 +1,39 @@
 <template>
-    <div class="bg-image px-8 pt-12 min-h-screen">
+    <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex flex-col items-center justify-center mt-6">
-            <div class="text-xl font-semibold text-white mb-6">Profile</div>
+        <div class="flex justify-center items-center pt-8">
+            <h1 class="text-light-gray tracking-wider pr-3">PROFILE</h1>
+            <IconProfile :color="'#334155'" />
         </div>
         <form @submit.prevent="register">
-            <div class="flex flex-col items-center justify-center mt-14">
-                <div class="py-3">
-                    <label class="sr-only" for="nom">Nom:</label>
-                    <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="nom" v-model="userInfo.firstname" required placeholder="Nom">
+            <div class="flex flex-col items-center justify-center mt-12">
+                <div class="pb-4 relative w-72">
+                    <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Nom:</label>
+                    <input
+                        class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="text" id="nom" v-model="userInfo.firstname" placeholder=". . . . . . .">
                 </div>
-                <div class="py-3">
-                    <label class="sr-only" for="nom">Prénom:</label>
-                    <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="text" id="nom" v-model="userInfo.lastname" required placeholder="Prénom">
+                <div class="pb-4 relative w-72">
+                    <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Prénom:</label>
+                    <input
+                        class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="text" id="nom" v-model="userInfo.lastname" placeholder=". . . . . . .">
                 </div>
-                <div class="py-3">
-                    <label class="sr-only" for="nom">Date de naissance:</label>
-                    <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="date" id="nom" v-model="userInfo.birthDate" required placeholder="Date de naissance">
+                <div class="pb-4 relative w-72">
+                    <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="email">Email:</label>
+                    <input
+                        class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="email" id="email" v-model="userInfo.email" required placeholder=". . . . . . .">
                 </div>
-                <div class="py-3">
-                    <label class="sr-only" for="email">Email:</label>
-                    <input class="w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-                        type="email" id="email" v-model="userInfo.email" required placeholder="Adresse mail">
+                <div class="flex pb-4 relative w-72">
+                    <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Né le :</label>
+                    <input
+                        class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+                        type="date" id="nom" v-model="userInfo.birthDate" placeholder=". . . . . . .">
+                    <button type="submit">
+                        <IconEnter />
+                    </button>
                 </div>
-                <button
-                    class="flex items-center h-8 bg-slate-500 text-white mt-4 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
-                    type="submit">Enregistrer</button>
             </div>
         </form>
     </div>
@@ -38,10 +43,12 @@
 import axios from 'axios';
 import moment from 'moment';
 import BurgerMenu from '~/components/BurgerMenu.vue';
+import IconProfile from '~/components/IconProfile.vue';
 
 export default {
     components: {
         BurgerMenu,
+        IconProfile,
     },
     data() {
         return {
