@@ -8,7 +8,7 @@
         <div class="flex flex-col items-center justify-center">
             <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
                 <div class="text-light-gray"> Age : </div>
-                <div>{{ (healthInfo.weight / (healthInfo.size * healthInfo.size)).toFixed(1) }} ans</div>
+                <div>{{ calculateAge(userInfo.birth_date) }} ans</div>
             </div>
             <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-64 h-8 px-4 mb-2 rounded-md">
                 <div class="text-light-gray"> Taille : </div>
