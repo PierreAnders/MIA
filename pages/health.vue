@@ -1,49 +1,62 @@
 <template>
   <div class="px-8 pt-12 min-h-screen">
-      <BurgerMenu />
-      <div class="flex justify-center items-center py-8">
-          <h1 class="text-light-gray tracking-wider pr-3">SANTE</h1>
-          <IconHealth :color="'#334155'" />
-      </div>
+    <BurgerMenu />
+    <div class="flex justify-center items-center py-8">
+      <h1 class="text-light-gray tracking-wider pr-3">SANTE</h1>
+      <IconHealth :color="'#334155'" />
+    </div>
     <form @submit.prevent="submitHealthInfo">
       <div class="flex flex-col items-center justify-center mt-6">
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="gender">Genre</label>
-          <select class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
+
+        <div class="pb-4 relative w-72">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="gender">Genre :</label>
+          <select
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
             id="gender" v-model="healthInfo.gender">
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
           </select>
         </div>
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="weight">Poids (kg)</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="text" id="weight" v-model="healthInfo.weight" placeholder="Poids (kg)">
+
+        <div class="pb-4 relative w-72">
+          <input
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+            type="text" id="size" v-model="healthInfo.size" placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="size">Taille (m) :</label>
         </div>
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="size">Taille (m)</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="text" id="size" v-model="healthInfo.size" placeholder="Taille (m)">
+
+        <div class="pb-4 relative w-72">
+          <input
+          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+          type="text" id="weight" v-model="healthInfo.weight" placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="weight">Poids (kg) :</label>
         </div>
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="social_security_number">Numéro de sécurité sociale</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="text" id="social_security_number" v-model="healthInfo.social_security_number"
-            placeholder="n° de sécurité sociale">
+
+        <div class="pb-4 relative w-72">
+          <input
+          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+          type="text" id="social_security_number" v-model="healthInfo.social_security_number"
+          placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="social_security_number">N° sécurité sociale :</label>
         </div>
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="blood_group">Groupe sanguin</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder="Groupe sanguin">
+
+        <div class="pb-4 relative w-72">
+          <input
+          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+          type="text" id="doctor" v-model="healthInfo.doctor" placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="doctor">Docteur :</label>
+          
         </div>
-        <div class="py-3 flex flex-col">
-          <label class="text-gray-300" for="doctor">Docteur</label>
-          <input class="text-right w-64 h-8 px-4 border rounded-md focus:outline-none focus:border-amber-800 opacity-50"
-            type="text" id="doctor" v-model="healthInfo.doctor" placeholder="Médecin">
+
+        <div class="pb-4 relative w-72 flex">
+          <input
+          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+          type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-1" for="blood_group">Groupe sanguin</label>
+          <button type="submit">
+            <IconEnter />
+          </button>
         </div>
-        <button
-          class="flex items-center h-8 bg-slate-500 text-white mt-4 mb-24 px-4 py-2 rounded-md hover:bg-slate-600 transition duration-300"
-          type="submit">Enregistrer</button>
       </div>
     </form>
   </div>
@@ -142,6 +155,4 @@ export default {
 };
 </script>
   
-<style>
-
-</style>
+<style></style>
