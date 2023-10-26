@@ -24,7 +24,7 @@
                     <div>{{ totalExpenses.toFixed(2) }} €</div>
                 </nuxt-link>
                 <nuxt-link to="/finance/expenses">
-                    <IconEnter />
+                    <IconEnter class="transition-transform transform hover:scale-110" />
                 </nuxt-link>
             </div>
             <div class="flex space-x-2 w-72 pb-2">
@@ -38,7 +38,7 @@
                     <div>{{ totalIncomes.toFixed(2) }} €</div>
                 </nuxt-link>
                 <nuxt-link to="/finance/incomes">
-                    <IconEnter />
+                    <IconEnter class="transition-transform transform hover:scale-110" />
                 </nuxt-link>
             </div>
         </div>

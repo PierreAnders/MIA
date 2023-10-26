@@ -54,7 +54,7 @@
           type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder=". . . . . . .">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-1" for="blood_group">Groupe sanguin</label>
           <button type="submit">
-            <IconEnter />
+            <IconEnter class="transition-transform transform hover:scale-110" />
           </button>
         </div>
       </div>

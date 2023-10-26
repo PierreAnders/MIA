@@ -17,7 +17,7 @@
                         </button>
                     </div>
                     <form @submit.prevent="addFolder" class="flex flex-col items-center">
-                        <img class="transition-transform transform hover:scale-110 cursor-pointer" id="button-add-folder"
+                        <img class="transition-transform transform hover:scale-105 cursor-pointer" id="button-add-folder"
                             @click="isButtonClicked = !isButtonClicked" v-show="!isButtonClicked"
                             src="~/assets/images/add-folder-icon.svg" alt="documents icon">
                         <div id="icon-add-folder" v-show="isButtonClicked">
@@ -26,7 +26,7 @@
                                 <input
                                     class="text-center text-xs w-[90px] h-5 px-2 bg-black border rounded-sm border-dark-gray text-white"
                                     type="text" id="folder" v-model="folderInfo.name" placeholder="Nouveau">
-                                <button class="pt-2 transition-transform transform hover:scale-125" type="submit">
+                                <button class="pt-2 transition-transform transform hover:scale-110" type="submit">
                                     <IconSubmenuAddFolder />
                                 </button>
                             </div>
@@ -41,7 +41,7 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-25"
                                     @click="deleteFolder(contextMenu.folderId)">
                                     <div class="px-2">
-                                        <IconSubmenuDeleteFolder :color="'#838383'"/>
+                                        <IconSubmenuDeleteFolder class="w-5 h-5" :color="'#838383'"/>
                                     </div>
                                     <div>
                                         Supprimer le dossier
@@ -51,7 +51,7 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-[12%]"
                                     @click="isButtonClicked = true">
                                     <div class="px-2">
-                                        <IconSubmenuAddFolder />
+                                        <IconSubmenuAddFolder class="w-5 h-5"/>
                                     </div>
                                     <div>
                                         Nouveau Dossier
@@ -61,7 +61,7 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-[12%]"
                                     @click="contextMenu.isVisible = false">
                                     <div class="px-2">
-                                        <IconSubmenuOut />
+                                        <IconSubmenuOut class="w-5 h-5"/>
                                     </div>
                                     <div>
                                         Retour

@@ -31,7 +31,7 @@
                         class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
                         type="date" id="nom" v-model="userInfo.birthDate" placeholder=". . . . . . .">
                     <button type="submit">
-                        <IconEnter />
+                        <IconEnter class="transition-transform transform hover:scale-110" />
                     </button>
                 </div>
             </div>
