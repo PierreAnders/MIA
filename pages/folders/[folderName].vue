@@ -6,20 +6,20 @@
             <img src="~/assets/images/folder-title.svg" alt="documents icon">
         </div>
         <ul class="flex flex-col w-3/4 md:w-2/3 lg:w-1/2 mx-auto mb-8 mt-12 ">
-            <li v-for="file in fileList" :key="file" class="flex justify-between text-white mt-4">
-                <div class="flex space-x-2">
-                    <IconDocument />
-                    <span>{{ file }}</span>
+            <li v-for="file in fileList" :key="file" class="flex flex-col md:flex-row justify-between text-white mt-6">
+                <div class="flex wrap space-x-2">
+                    <IconDocument class="opacity-50"/>
+                    <span class="text-sm">{{ file }}</span>
                 </div>
-                <div class="space-x-2">
+                <div class="flex flex-nowrap space-x-2 mt-2 md:mt-0 justify-end">
                     <button @click="deleteFile(file)">
-                        <IconSubmenuDeleteFolder :color="'#553348'" />
+                        <IconSubmenuDeleteFolder :color="'#553348'" class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
                     </button>
                     <button @click="downloadFile(file)">
-                        <IconDownload />
+                        <IconDownload class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
                     </button>
                     <button @click="openFile(file)">
-                        <IconOpen />
+                        <IconOpen class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
                     </button>
                 </div>
             </li>
@@ -28,8 +28,8 @@
             <div class="flex flex-col justify-center">
                 <label for="fileInput" class="text-light-gray">
                     <div id="fileNameLabel" class="flex flex-col cursor-pointer justify-center text-light-gray">
-                        <img class="mx-auto w-14 pb-2" src="~assets/images/upload-icon.svg" alt="folder icon">
-                        <div>Téléverser un fichier</div>
+                        <img class="mx-auto w-14 pb-2 transition-transform transform hover:scale-110" src="~assets/images/upload-icon.svg" alt="folder icon">
+                        <!-- <div class="transition-transform transform hover:scale-105">Téléverser un fichier</div> -->
                     </div>
                     <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
                         class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"

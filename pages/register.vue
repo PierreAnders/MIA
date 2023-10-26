@@ -19,7 +19,7 @@
             class="flex text-white text-sm placeholder-light-gray bg-dark-gray w-64 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
             type="password" id="mot_de_passe" v-model="password" placeholder="Mot de passe" />
           <button type="submit">
-            <IconEnter />
+            <IconEnter class="transition-transform transform hover:scale-110" />
           </button>
         </div>
       </div>

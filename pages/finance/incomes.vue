@@ -27,7 +27,7 @@
                             class="text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 mr-2 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
                             type="text" id="doctor" v-model="incomeInfo.price" placeholder="Prix :">
                         <button type="submit">
-                            <IconEnter />
+                            <IconEnter class="transition-transform transform hover:scale-110" />
                         </button>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                                 <div class="flex text-light-gray text-sm mr-2">Description:</div>
                                 <div class="text-white text-sm">{{ income.description }}</div>
                             </div>
-                            <button class="mt-2" @click="deleteIncome(income.id)"><IconSubmenuDeleteFolder class="w-5 h-5" color="#553348"/></button>
+                            <button class="mt-2" @click="deleteIncome(income.id)"><IconSubmenuDeleteFolder class="w-5 h-5 transition-transform transform hover:scale-110" color="#553348"/></button>
                         </div>
                     </div>
                 </div>

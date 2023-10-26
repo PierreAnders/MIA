@@ -10,20 +10,20 @@
     <div class="mt-12">
 
       <div v-for="message in messages" :key="message.id"
-        :class="[message.role === 'user' ? 'bg-blue-gray' : 'bg-light-gray text-black', 'p-2 rounded-md mb-2 w-2/3 mx-auto']">
+        :class="[message.role === 'user' ? 'bg-blue-gray' : 'bg-light-gray text-black', 'p-2 rounded-md mb-2 w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto']">
         {{ message.content }}
       </div>
 
-      <div class="input-container flex justify-between items-center w-2/3 mx-auto mt-4">
+      <div class="input-container flex justify-between items-center w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-4">
         <input v-model="userMessage" placeholder="Posez une question..."
           class="p-2 border-2 border-black rounded-md flex-1 focus:outline-none focus:border-light-gray bg-blue-gray" />
       </div>
-      <div class="flex justify-between w-2/3 mx-auto mt-3">
+      <div class="flex justify-between w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-3">
         <button @click="startSpeechRecognition">
-          <IconMicro />
+          <IconMicro class="transition-transform transform scale-110"/>
         </button>
         <button @click="sendMessage">
-          <IconEnter />
+          <IconEnter class="transition-transform transform scale-110"/>
         </button>
       </div>
 
