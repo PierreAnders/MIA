@@ -33,7 +33,7 @@
                         </div>
                     </form>
                     <div>
-                        <div v-show="contextMenu.isVisible" class="context-menu"
+                        <div v-show="contextMenu.isVisible" class="context-menu" ref="subMenu"
                             :style="{ left: contextMenu.x + 'px', top: contextMenu.y + 'px' }">
                             <div class="flex flex-col text-left w-48">
 
@@ -107,6 +107,11 @@ export default {
         };
     },
     methods: {
+        handleClickOutside(event) {
+            if (this.$refs.subMenu && !this.$refs.subMenu.contains(event.target)) {
+                this.contextMenu.isVisible = false
+            }
+        },
         async redirectIfNotConnected() {
             if (process.client) {
                 this.jwtToken = localStorage.getItem('access_token');
@@ -240,6 +245,7 @@ export default {
     },
     mounted() {
         this.getAllFolders();
+        document.addEventListener("click", this.handleClickOutside);
     },
     created() {
         this.redirectIfNotConnected();
