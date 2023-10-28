@@ -65,7 +65,7 @@ export default {
     async register() {
       try {
         // Envoyez une requête POST à votre API Flask pour l'inscription
-        await axios.post('http://localhost:5000/register', {
+        await axios.post('https://personal-ai-nu.vercel.app/register', {
           email: this.email,
           password: this.password,
         });

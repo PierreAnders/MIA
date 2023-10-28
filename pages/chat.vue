@@ -20,10 +20,10 @@
       </div>
       <div class="flex justify-between w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-3">
         <button @click="startSpeechRecognition">
-          <IconMicro class="transition-transform transform scale-110"/>
+          <IconMicro class="transition-transform transform hover:scale-110"/>
         </button>
         <button @click="sendMessage">
-          <IconEnter class="transition-transform transform scale-110"/>
+          <IconEnter class="transition-transform transform hover:scale-110"/>
         </button>
       </div>
 
