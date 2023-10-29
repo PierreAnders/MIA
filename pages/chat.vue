@@ -79,7 +79,7 @@ export default {
       if (this.userMessage.trim() === '') return;
 
       try {
-        const response = await axios.post('http://localhost:5000/AIchatWithData', {
+        const response = await axios.post('https://awaited-midge-deeply.ngrok-free.app/AIchatWithData', {
           session_id: 'unique_session_id',
           query: this.userMessage,
         }, {

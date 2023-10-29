@@ -157,7 +157,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("http://localhost:5000/folders", this.folderInfo, { headers });
+                const response = await axios.post("https://awaited-midge-deeply.ngrok-free.app/folders", this.folderInfo, { headers });
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle categorie'.")
@@ -188,7 +188,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/folders", { headers });
+                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/folders", { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
                     this.folders = response.data;
@@ -225,7 +225,7 @@ export default {
                     Authorization: `Bearer ${token}`,
                 };
 
-                const response = await axios.delete(`http://localhost:5000/folders/${folderId}`, { headers });
+                const response = await axios.delete(`https://awaited-midge-deeply.ngrok-free.app/folders/${folderId}`, { headers });
 
                 if (response.status === 200) {
                     console.log("Categorie supprimée avec succès.");

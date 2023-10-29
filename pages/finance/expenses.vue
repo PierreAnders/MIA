@@ -108,7 +108,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("http://localhost:5000/expenses", this.expenseInfo, { headers });
+                const response = await axios.post("https://awaited-midge-deeply.ngrok-free.app/expenses", this.expenseInfo, { headers });
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle dépense'.")
@@ -139,7 +139,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/expenses", { headers });
+                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/expenses", { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
                     this.expenses = response.data;
@@ -166,7 +166,7 @@ export default {
                     Authorization: `Bearer ${token}`,
                 };
 
-                const response = await axios.delete(`http://localhost:5000/expenses/${expenseId}`, { headers });
+                const response = await axios.delete(`https://awaited-midge-deeply.ngrok-free.app/expenses/${expenseId}`, { headers });
 
                 if (response.status === 200) {
                     console.log("Dépense supprimée avec succès.");
