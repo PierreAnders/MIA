@@ -59,7 +59,7 @@ export default {
     },
     async login() {
       try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post("https://awaited-midge-deeply.ngrok-free.app/login", {
           email: this.email,
           password: this.password
         });
