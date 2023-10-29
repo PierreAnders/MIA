@@ -79,7 +79,7 @@ export default {
                 }
 
                 axios
-                    .get(`https://awaited-midge-deeply.ngrok-free.app/list_files/${folderName}`, {
+                    .get(`http://localhost:5000/list_files/${folderName}`, {
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
                             'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export default {
             }
 
             axios
-                .delete(`https://awaited-midge-deeply.ngrok-free.app/delete_user_file/${this.folderName}/${filename}`, {
+                .delete(`http://localhost:5000/delete_user_file/${this.folderName}/${filename}`, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default {
             };
 
             axios
-                .get(`https://awaited-midge-deeply.ngrok-free.app/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`http://localhost:5000/download_user_file/${folderName}/${filename}`, axiosConfig)
                 .then((response) => {
                     const blob = new Blob([response.data]);
                     const url = window.URL.createObjectURL(blob);
@@ -160,7 +160,7 @@ export default {
             };
 
             axios
-                .get(`https://awaited-midge-deeply.ngrok-free.app/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`http://localhost:5000/download_user_file/${folderName}/${filename}`, axiosConfig)
                 .then((response) => {
                     const fileType = this.getFileType(filename);
 
@@ -221,7 +221,7 @@ export default {
             formData.append('file', fileInput.files[0]);
 
             axios
-                .post(`https://awaited-midge-deeply.ngrok-free.app/upload/${folderName}`, formData, {
+                .post(`http://localhost:5000/upload/${folderName}`, formData, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'multipart/form-data',

@@ -111,7 +111,7 @@ export default {
           Authorization: `Bearer ${token}`
         };
 
-        const response = await axios.post("https://awaited-midge-deeply.ngrok-free.app/user_health", this.healthInfo, { headers });
+        const response = await axios.post("http://localhost:5000/user_health", this.healthInfo, { headers });
 
         if (response.status === 201) {
           console.log("Enregistrement des informations de santé.")
@@ -136,7 +136,7 @@ export default {
           Authorization: `Bearer ${token}`
         };
 
-        const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/user_health", { headers });
+        const response = await axios.get("http://localhost:5000/user_health", { headers });
 
         if (response.status === 200) {
           this.healthInfo = response.data;

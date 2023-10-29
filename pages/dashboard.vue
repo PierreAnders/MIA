@@ -113,7 +113,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/user_health", { headers });
+                const response = await axios.get("http://localhost:5000/user_health", { headers });
 
                 if (response.status === 200) {
                     this.healthInfo = response.data;
@@ -137,7 +137,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/incomes", { headers });
+                const response = await axios.get("http://localhost:5000/incomes", { headers });
 
                 if (response.status === 200) {
                     this.incomes = response.data;
@@ -168,7 +168,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/expenses", { headers });
+                const response = await axios.get("http://localhost:5000/expenses", { headers });
 
                 if (response.status === 200) {
                     this.expenses = response.data;
@@ -199,7 +199,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/user", { headers });
+                const response = await axios.get("http://localhost:5000/user", { headers });
 
                 if (response.status === 200) {
                     this.userInfo = response.data;

@@ -85,7 +85,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                await axios.post('https://awaited-midge-deeply.ngrok-free.app/user', {
+                await axios.post('http://localhost:5000/user', {
                     firstname: this.userInfo.firstname,
                     lastname: this.userInfo.lastname,
                     birth_date: this.userInfo.birthDate,
@@ -111,7 +111,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/user", { headers });
+                const response = await axios.get("http://localhost:5000/user", { headers });
 
                 if (response.status === 200) {
                     this.userInfo = response.data;
