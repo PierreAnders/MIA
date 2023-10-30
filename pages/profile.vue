@@ -5,7 +5,7 @@
             <h1 class="text-light-gray tracking-wider pr-3">PROFILE</h1>
             <IconProfile :color="'#334155'" />
         </div>
-        <form @submit.prevent="register">
+        <form @submit.prevent="updateUserInfo">
             <div class="flex flex-col items-center justify-center mt-12">
                 <div class="pb-4 relative w-72">
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Nom:</label>
@@ -73,7 +73,7 @@ export default {
                 console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
-        async register() {
+        async updateUserInfo() {
             try {
                 const token = localStorage.getItem("access_token");
 
@@ -86,7 +86,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                await axios.post(`${BASE_URL}/user`, {
+                await axios.patch(`${BASE_URL}/users/update`, {
                     firstname: this.userInfo.firstname,
                     lastname: this.userInfo.lastname,
                     birth_date: this.userInfo.birthDate,
@@ -112,7 +112,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get(`${BASE_URL}/user`, { headers });
+                const response = await axios.get(`${BASE_URL}/users/info`, { headers });
 
                 if (response.status === 200) {
                     this.userInfo = response.data;

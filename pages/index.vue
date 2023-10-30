@@ -61,7 +61,7 @@ export default {
     async login() {
       
       try {
-        const response = await axios.post(`${BASE_URL}/login`, {
+        const response = await axios.post(`${BASE_URL}/users/login`, {
           email: this.email,
           password: this.password
         });

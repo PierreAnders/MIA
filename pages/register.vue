@@ -66,7 +66,7 @@ export default {
     async register() {
       try {
         // Envoyez une requête POST à votre API Flask pour l'inscription
-        await axios.post(`${BASE_URL}/register`, {
+        await axios.post(`${BASE_URL}/users/register`, {
           email: this.email,
           password: this.password,
         });
