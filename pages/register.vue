@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import BurgerMenu from '~/components/BurgerMenu.vue';
-import IconRegister from '~/components/IconRegister.vue';
+import axios from 'axios'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import IconRegister from '~/components/IconRegister.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
   components: {
@@ -65,7 +66,7 @@ export default {
     async register() {
       try {
         // Envoyez une requête POST à votre API Flask pour l'inscription
-        await axios.post('http://localhost:5000/register', {
+        await axios.post(`${BASE_URL}/register`, {
           email: this.email,
           password: this.password,
         });

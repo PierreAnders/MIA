@@ -48,6 +48,7 @@ import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
 import IconDocument from '@/components/IconDocument.vue'
 import IconDownload from '@/components/IconDownload.vue'
 import IconOpen from '@/components/IconOpen.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -79,7 +80,7 @@ export default {
                 }
 
                 axios
-                    .get(`http://localhost:5000/list_files/${folderName}`, {
+                    .get(`${BASE_URL}/list_files/${folderName}`, {
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
                             'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export default {
             }
 
             axios
-                .delete(`http://localhost:5000/delete_user_file/${this.folderName}/${filename}`, {
+                .delete(`${BASE_URL}/delete_user_file/${this.folderName}/${filename}`, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ export default {
             };
 
             axios
-                .get(`http://localhost:5000/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`${BASE_URL}/download_user_file/${folderName}/${filename}`, axiosConfig)
                 .then((response) => {
                     const blob = new Blob([response.data]);
                     const url = window.URL.createObjectURL(blob);
@@ -160,7 +161,7 @@ export default {
             };
 
             axios
-                .get(`http://localhost:5000/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`${BASE_URL}/download_user_file/${folderName}/${filename}`, axiosConfig)
                 .then((response) => {
                     const fileType = this.getFileType(filename);
 
@@ -221,7 +222,7 @@ export default {
             formData.append('file', fileInput.files[0]);
 
             axios
-                .post(`http://localhost:5000/upload/${folderName}`, formData, {
+                .post(`${BASE_URL}/upload/${folderName}`, formData, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'multipart/form-data',

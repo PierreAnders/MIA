@@ -40,10 +40,11 @@
 </template>
   
 <script>
-import axios from 'axios';
-import moment from 'moment';
-import BurgerMenu from '~/components/BurgerMenu.vue';
-import IconProfile from '~/components/IconProfile.vue';
+import axios from 'axios'
+import moment from 'moment'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import IconProfile from '~/components/IconProfile.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -85,7 +86,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                await axios.post('http://localhost:5000/user', {
+                await axios.post(`${BASE_URL}/user`, {
                     firstname: this.userInfo.firstname,
                     lastname: this.userInfo.lastname,
                     birth_date: this.userInfo.birthDate,
@@ -111,7 +112,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/user", { headers });
+                const response = await axios.get(`${BASE_URL}/user`, { headers });
 
                 if (response.status === 200) {
                     this.userInfo = response.data;

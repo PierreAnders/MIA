@@ -63,9 +63,10 @@
 </template>
   
 <script>
-import axios from 'axios';
-import BurgerMenu from '~/components/BurgerMenu.vue';
-import IconHealth from '~/components/IconHealth.vue';
+import axios from 'axios'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import IconHealth from '~/components/IconHealth.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
   components: {
@@ -111,7 +112,7 @@ export default {
           Authorization: `Bearer ${token}`
         };
 
-        const response = await axios.post("http://localhost:5000/user_health", this.healthInfo, { headers });
+        const response = await axios.post(`${BASE_URL}/user_health`, this.healthInfo, { headers });
 
         if (response.status === 201) {
           console.log("Enregistrement des informations de santé.")
@@ -136,7 +137,7 @@ export default {
           Authorization: `Bearer ${token}`
         };
 
-        const response = await axios.get("http://localhost:5000/user_health", { headers });
+        const response = await axios.get(`${BASE_URL}/user_health`, { headers });
 
         if (response.status === 200) {
           this.healthInfo = response.data;

@@ -83,6 +83,7 @@ import BurgerMenu from '@/components/BurgerMenu.vue'
 import IconSubmenuAddFolder from '@/components/IconSubmenuAddFolder.vue'
 import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
 import IconSubmenuOut from '@/components/IconSubmenuOut.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -157,7 +158,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("http://localhost:5000/folders", this.folderInfo, { headers });
+                const response = await axios.post(`${BASE_URL}/folders`, this.folderInfo, { headers });
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle categorie'.")
@@ -188,7 +189,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/folders", { headers });
+                const response = await axios.get(`${BASE_URL}/folders`, { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
                     this.folders = response.data;
@@ -225,7 +226,7 @@ export default {
                     Authorization: `Bearer ${token}`,
                 };
 
-                const response = await axios.delete(`http://localhost:5000/folders/${folderId}`, { headers });
+                const response = await axios.delete(`${BASE_URL}/folders/${folderId}`, { headers });
 
                 if (response.status === 200) {
                     console.log("Categorie supprimée avec succès.");

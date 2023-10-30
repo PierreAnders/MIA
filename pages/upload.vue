@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import BurgerMenu from '~/components/BurgerMenu.vue';
+import axios from 'axios'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
   components: {
@@ -53,16 +54,16 @@ export default {
       if (process.client) {
         this.jwtToken = localStorage.getItem('access_token'); // Affectez la valeur à jwtToken
         if (!this.jwtToken) {
-          console.error('Le jeton JWT n\'est pas disponible.');
+          console.error('Le jeton JWT n\'est pas disponible.')
           this.$router.push('/');
           return;
         }
       } else {
-        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
+        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.')
       }
     },
     updateFileName(event) {
-      const fileName = event.target.files[0]?.name || 'Cliquer ici pour sélectionner un fichier';
+      const fileName = event.target.files[0]?.name || 'Cliquer ici pour sélectionner un fichier'
       this.fileName = fileName;
     },
     async uploadFile() {
@@ -72,7 +73,7 @@ export default {
       const file = fileInput.files[0];
 
       if (!file) {
-        alert('Veuillez sélectionner un fichier à télécharger.');
+        alert('Veuillez sélectionner un fichier à télécharger.')
         return;
       }
 
@@ -80,7 +81,7 @@ export default {
       formData.append('file', file);
 
       try {
-        const response = await axios.post('http://localhost:5000/upload', formData, {
+        const response = await axios.post(`${BASE_URL}/upload`, formData, {
           headers: {
             'Authorization': `Bearer ${this.jwtToken}`,
             'Content-Type': 'multipart/form-data',

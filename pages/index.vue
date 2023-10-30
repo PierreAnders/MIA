@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import BurgerMenu from '~/components/BurgerMenu.vue';
+import axios from 'axios'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import {BASE_URL} from '../constants.js'
 
 
 export default {
@@ -58,8 +59,9 @@ export default {
       clearInterval(this.intervalId);
     },
     async login() {
+      
       try {
-        const response = await axios.post("http://localhost:5000/login", {
+        const response = await axios.post(`${BASE_URL}/login`, {
           email: this.email,
           password: this.password
         });

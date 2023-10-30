@@ -61,9 +61,10 @@
 </template>
     
 <script>
-import axios from 'axios';
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue';
-import BurgerMenu from '~/components/BurgerMenu.vue';
+import axios from 'axios'
+import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {

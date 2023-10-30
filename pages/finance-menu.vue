@@ -47,10 +47,11 @@
     
 <script>
 import axios from 'axios';
-import BurgerMenu from '@/components/BurgerMenu.vue';
-import IconFinance from '@/components/IconFinance.vue';
-import IconExpenses from '@/components/IconExpenses.vue';
-import IconBalance from '@/components/IconBalance.vue';
+import BurgerMenu from '@/components/BurgerMenu.vue'
+import IconFinance from '@/components/IconFinance.vue'
+import IconExpenses from '@/components/IconExpenses.vue'
+import IconBalance from '@/components/IconBalance.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -99,7 +100,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/incomes", { headers });
+                const response = await axios.get(`${BASE_URL}/incomes`, { headers });
 
                 if (response.status === 200) {
                     this.incomes = response.data;
@@ -130,7 +131,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("http://localhost:5000/expenses", { headers });
+                const response = await axios.get(`${BASE_URL}/expenses`, { headers });
 
                 if (response.status === 200) {
                     this.expenses = response.data;
