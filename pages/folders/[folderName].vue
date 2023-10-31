@@ -48,6 +48,7 @@ import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
 import IconDocument from '@/components/IconDocument.vue'
 import IconDownload from '@/components/IconDownload.vue'
 import IconOpen from '@/components/IconOpen.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -79,7 +80,7 @@ export default {
                 }
 
                 axios
-                    .get(`https://awaited-midge-deeply.ngrok-free.app/list_files/${folderName}`, {
+                    .get(`${BASE_URL}/folders/${folderName}/files`, {
                         headers: {
                             'Authorization': `Bearer ${jwtToken}`,
                             'Content-Type': 'application/json',
@@ -94,7 +95,7 @@ export default {
                 console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
-        deleteFile(filename) {
+        deleteFile(fileName) {
             const jwtToken = localStorage.getItem('access_token');
             if (!jwtToken) {
                 console.error('Le jeton JWT n\'est pas disponible.');
@@ -103,7 +104,7 @@ export default {
             }
 
             axios
-                .delete(`https://awaited-midge-deeply.ngrok-free.app/delete_user_file/${this.folderName}/${filename}`, {
+                .delete(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ export default {
                 })
                 .catch((error) => console.error(error));
         },
-        downloadFile(filename) {
+        downloadFile(fileName) {
             const folderName = this.$route.params.folderName;
             const jwtToken = localStorage.getItem('access_token');
             if (!jwtToken) {
@@ -131,19 +132,19 @@ export default {
             };
 
             axios
-                .get(`https://awaited-midge-deeply.ngrok-free.app/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`${BASE_URL}/folders/${folderName}/files/${fileName}`, axiosConfig)
                 .then((response) => {
                     const blob = new Blob([response.data]);
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = filename;
+                    a.download = fileName;
                     a.click();
                     window.URL.revokeObjectURL(url);
                 })
                 .catch((error) => console.error(error));
         },
-        openFile(filename) {
+        openFile(fileName) {
             const folderName = this.$route.params.folderName;
             const jwtToken = localStorage.getItem('access_token');
             if (!jwtToken) {
@@ -160,12 +161,11 @@ export default {
             };
 
             axios
-                .get(`https://awaited-midge-deeply.ngrok-free.app/download_user_file/${folderName}/${filename}`, axiosConfig)
+                .get(`${BASE_URL}/folders/${folderName}/files/${fileName}`, axiosConfig)
                 .then((response) => {
-                    const fileType = this.getFileType(filename);
+                    const fileType = this.getFileType(fileName);
 
                     if (fileType === 'pdf') {
-                        // It's a PDF, open it in a new browser tab.
                         const blob = new Blob([response.data], { type: 'application/pdf' });
                         const url = window.URL.createObjectURL(blob);
                         const newTab = window.open(url, '_blank');
@@ -175,7 +175,6 @@ export default {
                             window.URL.revokeObjectURL(url);
                         }
                     } else if (fileType === 'txt') {
-                        // It's a text file, you can handle it differently.
                         const textData = new TextDecoder().decode(response.data);
                         this.displayTextFile(textData);
                     } else {
@@ -185,9 +184,9 @@ export default {
                 .catch((error) => console.error(error));
         },
 
-        getFileType(filename) {
+        getFileType(fileName) {
             // Extract the file extension.
-            const parts = filename.split('.');
+            const parts = fileName.split('.');
             if (parts.length > 1) {
                 return parts[parts.length - 1].toLowerCase();
             }
@@ -195,9 +194,6 @@ export default {
         },
 
         displayTextFile(textData) {
-            // You can define a method to display the text content within your application.
-            // For example, you can display it in a modal or a dedicated component.
-            // Replace this with your actual implementation.
             console.log('Displaying text file content:');
             console.log(textData);
         },
@@ -221,7 +217,7 @@ export default {
             formData.append('file', fileInput.files[0]);
 
             axios
-                .post(`https://awaited-midge-deeply.ngrok-free.app/upload/${folderName}`, formData, {
+                .post(`${BASE_URL}/folders/${folderName}/files`, formData, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'multipart/form-data',

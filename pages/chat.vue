@@ -33,11 +33,12 @@
 </template>
 
 <script>
-import axios from 'axios';
-import BurgerMenu from '@/components/BurgerMenu.vue';
-import IconChat from '@/components/IconChat.vue';
-import IconEnter from '@/components/IconEnter.vue';
+import axios from 'axios'
+import BurgerMenu from '@/components/BurgerMenu.vue'
+import IconChat from '@/components/IconChat.vue'
+import IconEnter from '@/components/IconEnter.vue'
 import IconMicro from '@/components/IconMicro.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
   components: {
@@ -79,7 +80,7 @@ export default {
       if (this.userMessage.trim() === '') return;
 
       try {
-        const response = await axios.post('https://awaited-midge-deeply.ngrok-free.app/AIchatWithData', {
+        const response = await axios.post(`${BASE_URL}/AIchatWithData`, {
           session_id: 'unique_session_id',
           query: this.userMessage,
         }, {

@@ -61,9 +61,10 @@
 </template>
     
 <script>
-import axios from 'axios';
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue';
-import BurgerMenu from '~/components/BurgerMenu.vue';
+import axios from 'axios'
+import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
+import BurgerMenu from '~/components/BurgerMenu.vue'
+import {BASE_URL} from '../constants.js'
 
 export default {
     components: {
@@ -108,7 +109,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("https://awaited-midge-deeply.ngrok-free.app/expenses", this.expenseInfo, { headers });
+                const response = await axios.post(`${BASE_URL}/expenses`, this.expenseInfo, { headers });
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle dépense'.")
@@ -139,7 +140,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get("https://awaited-midge-deeply.ngrok-free.app/expenses", { headers });
+                const response = await axios.get(`${BASE_URL}/expenses`, { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
                     this.expenses = response.data;
@@ -166,7 +167,7 @@ export default {
                     Authorization: `Bearer ${token}`,
                 };
 
-                const response = await axios.delete(`https://awaited-midge-deeply.ngrok-free.app/expenses/${expenseId}`, { headers });
+                const response = await axios.delete(`${BASE_URL}/expenses/${expenseId}`, { headers });
 
                 if (response.status === 200) {
                     console.log("Dépense supprimée avec succès.");
