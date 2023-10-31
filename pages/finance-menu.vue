@@ -47,19 +47,9 @@
     
 <script>
 import axios from 'axios';
-import BurgerMenu from '@/components/BurgerMenu.vue'
-import IconFinance from '@/components/IconFinance.vue'
-import IconExpenses from '@/components/IconExpenses.vue'
-import IconBalance from '@/components/IconBalance.vue'
 import {BASE_URL} from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconFinance,
-        IconExpenses,
-        IconBalance,
-    },
     data() {
         return {
             totalIncomes: 0,
@@ -74,19 +64,12 @@ export default {
             },
         };
     },
+    setup() {
+        definePageMeta({
+        middleware: ['auth'],
+        });
+    },
     methods: {
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    this.$router.push('/');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-            }
-        },
         async getAllIncomes() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -151,7 +134,6 @@ export default {
     },
 
     created() {
-        this.redirectIfNotConnected();
         this.getAllIncomes();
         this.getAllExpenses();
     },

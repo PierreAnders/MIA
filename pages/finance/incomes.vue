@@ -62,16 +62,9 @@
     
 <script>
 import axios from 'axios'
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
-import BurgerMenu from '~/components/BurgerMenu.vue'
 import {BASE_URL} from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconSubmenuDeleteFolder,
-    },
-
     data() {
         return {
             incomeInfo: {
@@ -83,19 +76,12 @@ export default {
             total: 0,
         };
     },
+    setup() {
+        definePageMeta({
+        middleware: ['auth'],
+        });
+    },
     methods: {
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    this.$router.push('/');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-            }
-        },
         async submitIncomeInfo() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -109,7 +95,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post("http://localhost:5000/incomes", this.incomeInfo, { headers });
+                const response = await axios.post(`${BASE_URL}/incomes`, this.incomeInfo, { headers });
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle recette'.")
@@ -185,9 +171,6 @@ export default {
     },
     mounted() {
         this.getAllIncomes();
-    },
-    created() {
-        this.redirectIfNotConnected();
     },
 };
 </script>

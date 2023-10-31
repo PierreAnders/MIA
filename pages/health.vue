@@ -27,31 +27,32 @@
 
         <div class="pb-4 relative w-72">
           <input
-          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
-          type="text" id="weight" v-model="healthInfo.weight" placeholder=". . . . . . .">
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+            type="text" id="weight" v-model="healthInfo.weight" placeholder=". . . . . . .">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="weight">Poids (kg) :</label>
         </div>
 
         <div class="pb-4 relative w-72">
           <input
-          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
-          type="text" id="social_security_number" v-model="healthInfo.social_security_number"
-          placeholder=". . . . . . .">
-          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="social_security_number">N° sécurité sociale :</label>
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+            type="text" id="social_security_number" v-model="healthInfo.social_security_number"
+            placeholder=". . . . . . .">
+          <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="social_security_number">N° sécurité
+            sociale :</label>
         </div>
 
         <div class="pb-4 relative w-72">
           <input
-          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
-          type="text" id="doctor" v-model="healthInfo.doctor" placeholder=". . . . . . .">
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+            type="text" id="doctor" v-model="healthInfo.doctor" placeholder=". . . . . . .">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="doctor">Docteur :</label>
-          
+
         </div>
 
         <div class="pb-4 relative w-72 flex">
           <input
-          class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
-          type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder=". . . . . . .">
+            class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
+            type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder=". . . . . . .">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-1" for="blood_group">Groupe sanguin</label>
           <button type="submit">
             <IconEnter class="transition-transform transform hover:scale-110" />
@@ -64,16 +65,9 @@
   
 <script>
 import axios from 'axios'
-import BurgerMenu from '~/components/BurgerMenu.vue'
-import IconHealth from '~/components/IconHealth.vue'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
 
 export default {
-  components: {
-    BurgerMenu,
-    IconHealth,
-  },
-
   data() {
     return {
       healthInfo: {
@@ -86,19 +80,12 @@ export default {
       }
     };
   },
+  setup() {
+    definePageMeta({
+      middleware: ['auth'],
+    });
+  },
   methods: {
-    async redirectIfNotConnected() {
-      if (process.client) {
-        this.jwtToken = localStorage.getItem('access_token');
-        if (!this.jwtToken) {
-          console.error('Le jeton JWT n\'est pas disponible.');
-          this.$router.push('/');
-          return;
-        }
-      } else {
-        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-      }
-    },
     async submitHealthInfo() {
       try {
         const token = localStorage.getItem("access_token");
@@ -150,7 +137,6 @@ export default {
     },
   },
   created() {
-    this.redirectIfNotConnected();
     this.loadHealthInfo();
   },
 };

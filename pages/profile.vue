@@ -41,16 +41,9 @@
   
 <script>
 import axios from 'axios'
-import moment from 'moment'
-import BurgerMenu from '~/components/BurgerMenu.vue'
-import IconProfile from '~/components/IconProfile.vue'
 import { BASE_URL } from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconProfile,
-    },
     data() {
         return {
             userInfo: {
@@ -61,18 +54,12 @@ export default {
             }
         };
     },
+    setup() {
+        definePageMeta({
+        middleware: ['auth'],
+        });
+    },
     methods: {
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-            }
-        },
         async updateUserInfo() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -95,7 +82,6 @@ export default {
                 console.log(this.userInfo.birth_date)
 
             } catch (error) {
-                // Gérez les erreurs d'inscription ici
                 console.error('Erreur d\'inscription :', error);
             }
         },
@@ -127,7 +113,6 @@ export default {
     },
     created() {
         this.getUserInfo();
-        this.redirectIfNotConnected();
     }
 };
 </script>

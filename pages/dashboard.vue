@@ -47,14 +47,10 @@
   
 <script>
 import axios from 'axios'
-import BurgerMenu from '~/components/BurgerMenu.vue'
 import { BASE_URL } from '../constants.js'
 import moment from 'moment';
 
 export default {
-    components: {
-        BurgerMenu,
-    },
     data() {
         return {
             totalIncomes: 0,
@@ -77,30 +73,18 @@ export default {
             },
         };
     },
+    setup() {
+        definePageMeta({
+            middleware: ['auth'],
+        });
+    },
     methods: {
-        // formatDate(dateString) {
-        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        //     const formattedDate = new Date(dateString).toLocaleDateString('fr-FR', options);
-        //     return formattedDate;
-        // },
         calculateAge(birthDate) {
             const today = moment(); // Utilisez moment pour manipuler les dates
             const birthDateObj = moment(birthDate);
             const age = today.diff(birthDateObj, 'years');
 
             return age;
-        },
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    this.$router.push('/');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-            }
         },
         async loadHealthInfo() {
             try {
@@ -216,7 +200,6 @@ export default {
     },
 
     created() {
-        this.redirectIfNotConnected();
         this.getAllIncomes();
         this.getAllExpenses();
         this.loadHealthInfo();

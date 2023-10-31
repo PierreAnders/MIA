@@ -43,27 +43,19 @@
   
 <script>
 import axios from 'axios'
-import BurgerMenu from '@/components/BurgerMenu.vue'
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
-import IconDocument from '@/components/IconDocument.vue'
-import IconDownload from '@/components/IconDownload.vue'
-import IconOpen from '@/components/IconOpen.vue'
 import {BASE_URL} from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconSubmenuDeleteFolder,
-        IconDocument,
-        IconDownload,
-        IconOpen,
-    },
-
     data() {
         return {
             fileList: [],
             folderName: "",
         };
+    },
+    setup() {
+        definePageMeta({
+            middleware: ['auth'],
+        });
     },
     created() {
         this.loadFileList();
