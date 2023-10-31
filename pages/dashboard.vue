@@ -6,31 +6,38 @@
             <img src="~/assets/images/dashboard-title.svg" alt="connexion icon">
         </div>
         <div class="flex flex-col justify-center items-center mt-12">
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Age : </div>
                 <div>{{ calculateAge(userInfo.birth_date) }} ans</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Taille : </div>
                 <div>{{ healthInfo.size }} m</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Poids : </div>
                 <div>{{ healthInfo.weight }} kg</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> IMC : </div>
                 <div>{{ (healthInfo.weight / (healthInfo.size * healthInfo.size)).toFixed(1) }}</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Dépenses : </div>
                 <div>{{ totalExpenses.toFixed(2) }} €</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Recettes : </div>
                 <div>{{ totalIncomes.toFixed(2) }} €</div>
             </div>
-            <div class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
+            <div
+                class="flex justify-between items-center text-white text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mb-4 rounded-md">
                 <div class="text-light-gray"> Balance : </div>
                 <div>{{ (totalIncomes - totalExpenses).toFixed(2) }} €</div>
             </div>
@@ -41,7 +48,8 @@
 <script>
 import axios from 'axios'
 import BurgerMenu from '~/components/BurgerMenu.vue'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
+import moment from 'moment';
 
 export default {
     components: {
@@ -76,15 +84,9 @@ export default {
         //     return formattedDate;
         // },
         calculateAge(birthDate) {
-            const today = new Date();
-            const birthDateObj = new Date(birthDate);
-            const age = today.getFullYear() - birthDateObj.getFullYear();
-
-            // Vérifie si l'anniversaire n'a pas encore eu lieu cette année
-            if (today.getMonth() < birthDateObj.getMonth() ||
-                (today.getMonth() === birthDateObj.getMonth() && today.getDate() < birthDateObj.getDate())) {
-                age--;
-            }
+            const today = moment(); // Utilisez moment pour manipuler les dates
+            const birthDateObj = moment(birthDate);
+            const age = today.diff(birthDateObj, 'years');
 
             return age;
         },
@@ -199,7 +201,7 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get(`${BASE_URL}/user`, { headers });
+                const response = await axios.get(`${BASE_URL}/users/info`, { headers });
 
                 if (response.status === 200) {
                     this.userInfo = response.data;
@@ -225,6 +227,6 @@ export default {
 
 <style>
 .aria {
-  color: white;
+    color: white;
 }
 </style>
