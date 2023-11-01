@@ -1,25 +1,26 @@
 <template>
     <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center pt-8">
-            <h1 class="text-light-gray tracking-wider pr-3">{{ folderName.toUpperCase() }}</h1>
-            <img src="~/assets/images/folder-title.svg" alt="documents icon">
+        <div class="flex items-center justify-center pt-8">
+            <h1 class="pr-3 tracking-wider text-light-gray">{{ folderName.toUpperCase() }}</h1>
+            <IconFolder />
         </div>
-        <ul class="flex flex-col w-3/4 md:w-2/3 lg:w-1/2 mx-auto mb-8 mt-12 ">
-            <li v-for="file in fileList" :key="file" class="flex flex-col md:flex-row justify-between text-white mt-6">
-                <div class="flex wrap space-x-2">
-                    <IconDocument class="opacity-50"/>
+        <ul class="flex flex-col w-3/4 mx-auto mt-12 mb-8 md:w-2/3 lg:w-1/2 ">
+            <li v-for="file in fileList" :key="file" class="flex flex-col justify-between mt-6 text-white md:flex-row">
+                <div class="flex space-x-2 wrap">
+                    <IconDocument class="opacity-50" />
                     <span class="text-sm">{{ file }}</span>
                 </div>
-                <div class="flex flex-nowrap space-x-2 mt-2 md:mt-0 justify-end">
+                <div class="flex justify-end mt-2 space-x-2 flex-nowrap md:mt-0">
                     <button @click="deleteFile(file)">
-                        <IconSubmenuDeleteFolder :color="'#553348'" class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
+                        <IconSubmenuDeleteFolder :color="'#553348'"
+                            class="w-5 h-5 transition-transform transform md:w-6 md:h-6 hover:scale-110" />
                     </button>
                     <button @click="downloadFile(file)">
-                        <IconDownload class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
+                        <IconDownload class="w-5 h-5 transition-transform transform md:w-6 md:h-6 hover:scale-110" />
                     </button>
                     <button @click="openFile(file)">
-                        <IconOpen class="w-5 h-5 md:w-6 md:h-6 transition-transform transform hover:scale-110"/>
+                        <IconOpen class="w-5 h-5 transition-transform transform md:w-6 md:h-6 hover:scale-110" />
                     </button>
                 </div>
             </li>
@@ -27,9 +28,9 @@
         <div class="flex justify-center">
             <div class="flex flex-col justify-center">
                 <label for="fileInput" class="text-light-gray">
-                    <div id="fileNameLabel" class="flex flex-col cursor-pointer justify-center text-light-gray">
-                        <img class="mx-auto w-14 pb-2 transition-transform transform hover:scale-110" src="~assets/images/upload-icon.svg" alt="folder icon">
-                        <!-- <div class="transition-transform transform hover:scale-105">Téléverser un fichier</div> -->
+                    <div id="fileNameLabel" class="flex flex-col justify-center cursor-pointer text-light-gray">
+                        <img class="pb-2 mx-auto transition-transform transform w-14 hover:scale-110"
+                            src="~assets/images/upload-icon.svg" alt="folder icon">
                     </div>
                     <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
                         class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"
@@ -43,7 +44,7 @@
   
 <script>
 import axios from 'axios'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
 
 export default {
     data() {
@@ -52,51 +53,44 @@ export default {
             folderName: "",
         };
     },
-    setup() {
-        definePageMeta({
-            middleware: ['auth'],
-        });
-    },
-    created() {
-        this.loadFileList();
-    },
     methods: {
         loadFileList() {
             const folderName = this.$route.params.folderName;
+
             if (process.client) {
                 const jwtToken = localStorage.getItem('access_token');
+                
                 if (!jwtToken) {
                     console.error('Le jeton JWT n\'est pas disponible.');
                     this.$router.push('/');
                     return;
                 }
 
-                axios
-                    .get(`${BASE_URL}/folders/${folderName}/files`, {
-                        headers: {
-                            'Authorization': `Bearer ${jwtToken}`,
-                            'Content-Type': 'application/json',
-                        },
-                    })
+                axios.get(`${BASE_URL}/folders/${folderName}/files`, {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
                     .then((response) => {
                         this.fileList = response.data.files;
-                        console.log(this.fileList);
                     })
                     .catch((error) => console.error(error));
             } else {
                 console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
+
         deleteFile(fileName) {
             const jwtToken = localStorage.getItem('access_token');
+
             if (!jwtToken) {
                 console.error('Le jeton JWT n\'est pas disponible.');
                 this.$router.push('/');
                 return;
             }
 
-            axios
-                .delete(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, {
+            axios.delete(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json',
@@ -110,6 +104,7 @@ export default {
         downloadFile(fileName) {
             const folderName = this.$route.params.folderName;
             const jwtToken = localStorage.getItem('access_token');
+            
             if (!jwtToken) {
                 console.error('Le jeton JWT n\'est pas disponible.');
                 this.$router.push('/');
@@ -222,6 +217,14 @@ export default {
                 })
                 .catch((error) => console.error(error));
         },
+    },
+    setup() {
+        definePageMeta({
+            middleware: ['auth'],
+        });
+    },
+    created() {
+        this.loadFileList();
     },
     mounted() {
         this.folderName = this.$route.params.folderName
