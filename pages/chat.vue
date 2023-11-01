@@ -24,10 +24,10 @@
           <IconMicro class="transition-transform transform hover:scale-110" />
         </button>
         <button @click="sendMessage">
-          <IconEnter class="transition-transform transform hover:scale-110" />
+          <div v-if="isLoading" class="spinner"></div>
+          <IconEnter v-if="!isLoading" class="transition-transform transform hover:scale-110" />
         </button>
       </div>
-
       <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
     </div>
   </div>
@@ -45,6 +45,7 @@ export default {
       userMessage: '',
       isListening: false,
       jwtToken: null,
+      isLoading: false,
     }
   },
   setup() {
@@ -54,11 +55,11 @@ export default {
   },
   methods: {
     async sendMessage() {
-      this.redirectIfNotConnected();
-
+      this.jwtToken = localStorage.getItem('access_token');
       if (this.userMessage.trim() === '') return;
 
       try {
+        this.isLoading = true;
         const response = await axios.post(`${BASE_URL}/AIchatWithData`, {
           session_id: 'unique_session_id',
           query: this.userMessage,
@@ -82,6 +83,8 @@ export default {
         this.userMessage = '';
       } catch (error) {
         console.error('Erreur d\'envoi de la requête :', error);
+      } finally {
+        this.isLoading = false;
       }
     },
     async startSpeechRecognition() {
@@ -117,4 +120,28 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+@keyframes spinner {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  background-color: #F1F5F9;
+  border-radius: 50%;
+  animation: spinner 3s infinite;
+}
+
+</style>
