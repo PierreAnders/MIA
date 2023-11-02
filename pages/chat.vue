@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen px-8 pt-8">
     <BurgerMenu />
-    
+
     <div class="flex justify-center items-center pt-8">
       <h1 class="text-light-gray tracking-wider pr-3">CHAT</h1>
       <IconChat :color="'#334155'" />
@@ -14,19 +14,20 @@
         {{ message.content }}
       </div>
 
-      <div class="input-container flex justify-between items-center w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-4">
+      <div
+        class="input-container flex justify-between items-center w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-4">
         <input v-model="userMessage" placeholder="Posez une question..."
           class="p-2 border-2 border-black rounded-md flex-1 focus:outline-none focus:border-light-gray bg-blue-gray" />
       </div>
       <div class="flex justify-between w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-3">
         <button @click="startSpeechRecognition">
-          <IconMicro class="transition-transform transform hover:scale-110"/>
+          <IconMicro class="transition-transform transform hover:scale-110" />
         </button>
         <button @click="sendMessage">
-          <IconEnter class="transition-transform transform hover:scale-110"/>
+          <div v-if="isLoading" class="spinner"></div>
+          <IconEnter v-if="!isLoading" class="transition-transform transform hover:scale-110" />
         </button>
       </div>
-
       <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
     </div>
   </div>
@@ -34,52 +35,31 @@
 
 <script>
 import axios from 'axios'
-import BurgerMenu from '@/components/BurgerMenu.vue'
-import IconChat from '@/components/IconChat.vue'
-import IconEnter from '@/components/IconEnter.vue'
-import IconMicro from '@/components/IconMicro.vue'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
+
 
 export default {
-  components: {
-    BurgerMenu,
-    IconChat,
-    IconEnter,
-    IconMicro,
-  },
-
   data() {
     return {
       messages: [],
       userMessage: '',
       isListening: false,
       jwtToken: null,
+      isLoading: false,
     }
   },
-
-  created() {
-    this.redirectIfNotConnected();
+  setup() {
+    definePageMeta({
+      middleware: ['auth'],
+    });
   },
-
   methods: {
-    async redirectIfNotConnected() {
-      if (process.client) {
-        this.jwtToken = localStorage.getItem('access_token');
-        if (!this.jwtToken) {
-          console.error('Le jeton JWT n\'est pas disponible.');
-          this.$router.push('/');
-          return;
-        }
-      } else {
-        console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-      }
-    },
     async sendMessage() {
-      this.redirectIfNotConnected();
-
+      this.jwtToken = localStorage.getItem('access_token');
       if (this.userMessage.trim() === '') return;
 
       try {
+        this.isLoading = true;
         const response = await axios.post(`${BASE_URL}/AIchatWithData`, {
           session_id: 'unique_session_id',
           query: this.userMessage,
@@ -103,6 +83,8 @@ export default {
         this.userMessage = '';
       } catch (error) {
         console.error('Erreur d\'envoi de la requête :', error);
+      } finally {
+        this.isLoading = false;
       }
     },
     async startSpeechRecognition() {
@@ -138,4 +120,28 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+@keyframes spinner {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  background-color: #F1F5F9;
+  border-radius: 50%;
+  animation: spinner 3s infinite;
+}
+
+</style>

@@ -29,15 +29,9 @@
 
 <script>
 import axios from 'axios'
-import BurgerMenu from '~/components/BurgerMenu.vue'
-import IconRegister from '~/components/IconRegister.vue'
 import {BASE_URL} from '../constants.js'
 
 export default {
-  components: {
-    BurgerMenu,
-    IconRegister,
-  },
   computed: {
     formattedDate() {
       const options = { weekday: 'long', day: 'numeric', month: 'long' };

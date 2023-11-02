@@ -29,7 +29,7 @@
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Né le :</label>
                     <input
                         class="text-white text-right text-sm bg-dark-gray placeholder-light-gray w-72 h-8 px-4 mr-2 border-2 border-dark-gray rounded-md focus:outline-none focus:border-blue"
-                        type="date" id="nom" v-model="userInfo.birthDate" placeholder=". . . . . . .">
+                        type="date" id="nom" v-model="userInfo.birth_date" placeholder=". . . . . . .">
                     <button type="submit">
                         <IconEnter class="transition-transform transform hover:scale-110" />
                     </button>
@@ -41,38 +41,25 @@
   
 <script>
 import axios from 'axios'
-import moment from 'moment'
-import BurgerMenu from '~/components/BurgerMenu.vue'
-import IconProfile from '~/components/IconProfile.vue'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconProfile,
-    },
     data() {
         return {
             userInfo: {
                 firstname: '',
                 lastname: '',
-                birthDate: '',
+                birth_date: '',
                 email: '',
             }
         };
     },
+    setup() {
+        definePageMeta({
+        middleware: ['auth'],
+        });
+    },
     methods: {
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
-            }
-        },
         async updateUserInfo() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -86,16 +73,15 @@ export default {
                     Authorization: `Bearer ${token}`
                 };
 
-                await axios.patch(`${BASE_URL}/users/update`, {
+                await axios.put(`${BASE_URL}/users/update`, {
                     firstname: this.userInfo.firstname,
                     lastname: this.userInfo.lastname,
-                    birth_date: this.userInfo.birthDate,
+                    birth_date: this.userInfo.birth_date,
                     email: this.userInfo.email,
                 }, { headers });
-                console.log(this.userInfo.birthDate)
+                console.log(this.userInfo.birth_date)
 
             } catch (error) {
-                // Gérez les erreurs d'inscription ici
                 console.error('Erreur d\'inscription :', error);
             }
         },
@@ -116,8 +102,7 @@ export default {
 
                 if (response.status === 200) {
                     this.userInfo = response.data;
-                    this.updateFormattedBirthDate(); // Appel à la méthode pour formater la date
-                    console.log(this.userInfo)
+                    console.log(this.userInfo.birth_date)
                 } else {
                     console.error("Échec de la récupération des données de l'utilisateur.");
                 }
@@ -125,14 +110,9 @@ export default {
                 console.error("Erreur lors de la récupération des données de l'utilisateur :", error);
             }
         },
-        updateFormattedBirthDate() {
-            this.userInfo.birthDate = moment(this.userInfo.birthDate).format('YYYY-MM-DD');
-        },
-
     },
     created() {
         this.getUserInfo();
-        this.redirectIfNotConnected();
     }
 };
 </script>

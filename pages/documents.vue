@@ -79,20 +79,9 @@
     
 <script>
 import axios from 'axios'
-import BurgerMenu from '@/components/BurgerMenu.vue'
-import IconSubmenuAddFolder from '@/components/IconSubmenuAddFolder.vue'
-import IconSubmenuDeleteFolder from '@/components/IconSubmenuDeleteFolder.vue'
-import IconSubmenuOut from '@/components/IconSubmenuOut.vue'
 import {BASE_URL} from '../constants.js'
 
 export default {
-    components: {
-        BurgerMenu,
-        IconSubmenuAddFolder,
-        IconSubmenuDeleteFolder,
-        IconSubmenuOut,
-    },
-
     data() {
         return {
             folderInfo: {
@@ -107,22 +96,15 @@ export default {
             },
         };
     },
+    setup() {
+        definePageMeta({
+        middleware: ['auth'],
+        });
+    },
     methods: {
         handleClickOutside(event) {
             if (this.$refs.subMenu && !this.$refs.subMenu.contains(event.target)) {
                 this.contextMenu.isVisible = false
-            }
-        },
-        async redirectIfNotConnected() {
-            if (process.client) {
-                this.jwtToken = localStorage.getItem('access_token');
-                if (!this.jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    this.$router.push('/');
-                    return;
-                }
-            } else {
-                console.error('Le code est exécuté côté serveur (SSR), localStorage n\'est pas disponible.');
             }
         },
         showContextMenu(event, folderId) {
@@ -247,9 +229,6 @@ export default {
     mounted() {
         this.getAllFolders();
         document.addEventListener("click", this.handleClickOutside);
-    },
-    created() {
-        this.redirectIfNotConnected();
     },
 };
 </script>
