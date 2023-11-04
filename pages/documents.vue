@@ -1,28 +1,31 @@
 <template>
     <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-        <div class="flex justify-center items-center pt-8">
-            <h1 class="text-light-gray tracking-wider pr-3">DOCUMENTS</h1>
-            <img src="~/assets/images/documents-title.svg" alt="documents icon">
+        <div class="flex items-center justify-center pt-8">
+            <h1 class="pr-3 tracking-wider text-light-gray">DOCUMENTS</h1>
+            <IconDocument :color="'#334155'" />
         </div>
-        <div class="flex flex-col justify-center items-center mt-12">
-            <div class="text-white mb-24 mt-6">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+        <div class="flex flex-col items-center justify-center mt-12">
+            <div class="mt-6 mb-24 text-white">
+                <div class="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     <div v-for="folder in folders" :key="folder.id" class="text-center"
+                        @touchstart.prevent="touchStart($event, folder.id)" @touchend.prevent="touchEnd($event)"
                         @contextmenu.prevent="showContextMenu($event, folder.id)">
                         <button @click="navigateToFolder(folder.name)"
-                            class=" flex flex-col items-center transition-transform transform hover:scale-105">
-                            <img class="w-22 h-22 mx-auto mb-1" src="~assets/images/folder-icon.svg" alt="folder icon">
+                            class="flex flex-col items-center transition-transform transform hover:scale-105">
+                            <ImageFolder class="mx-auto mb-1 w-22 h-22" />
                             <span class="text-xs">{{ folder.name }}</span>
                         </button>
                     </div>
                     <form @submit.prevent="addFolder" class="flex flex-col items-center">
-                        <img class="transition-transform transform hover:scale-105 cursor-pointer" id="button-add-folder"
-                            @click="isButtonClicked = !isButtonClicked" v-show="!isButtonClicked"
-                            src="~/assets/images/add-folder-icon.svg" alt="documents icon">
+                        <div>
+                            <IconAddFolder class="transition-transform transform cursor-pointer hover:scale-105"
+                                id="button-add-folder" @click="isButtonClicked = !isButtonClicked"
+                                v-show="!isButtonClicked" />
+                        </div>
                         <div id="icon-add-folder" v-show="isButtonClicked">
                             <div class="flex flex-col items-center">
-                                <img class="pb-[2px]" src="~assets/images/folder-icon.svg" alt="folder icon">
+                                <ImageFolder class="pb-[2px]" />
                                 <input
                                     class="text-center text-xs w-[90px] h-5 px-2 bg-black border rounded-sm border-dark-gray text-white"
                                     type="text" id="folder" v-model="folderInfo.name" placeholder="Nouveau">
@@ -35,13 +38,13 @@
                     <div>
                         <div v-show="contextMenu.isVisible" class="context-menu" ref="subMenu"
                             :style="{ left: contextMenu.x + 'px', top: contextMenu.y + 'px' }">
-                            <div class="flex flex-col text-left w-48">
+                            <div class="flex flex-col w-48 text-left">
 
                                 <button
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-25"
                                     @click="deleteFolder(contextMenu.folderId)">
                                     <div class="px-2">
-                                        <IconSubmenuDeleteFolder class="w-5 h-5" :color="'#838383'"/>
+                                        <IconSubmenuDeleteFolder class="w-5 h-5" :color="'#838383'" />
                                     </div>
                                     <div>
                                         Supprimer le dossier
@@ -51,7 +54,7 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-[12%]"
                                     @click="isButtonClicked = true">
                                     <div class="px-2">
-                                        <IconSubmenuAddFolder class="w-5 h-5"/>
+                                        <IconSubmenuAddFolder class="w-5 h-5" />
                                     </div>
                                     <div>
                                         Nouveau Dossier
@@ -61,14 +64,13 @@
                                     class="flex text-left text-sm py-1 rounded-sm hover:bg-[#D9D9D9] hover:bg-opacity-[12%]"
                                     @click="contextMenu.isVisible = false">
                                     <div class="px-2">
-                                        <IconSubmenuOut class="w-5 h-5"/>
+                                        <IconSubmenuOut class="w-5 h-5" />
                                     </div>
                                     <div>
                                         Retour
                                     </div>
                                 </button>
                             </div>
-                            <!-- Ajoutez d'autres options de menu ici -->
                         </div>
                     </div>
                 </div>
@@ -79,7 +81,7 @@
     
 <script>
 import axios from 'axios'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
 
 export default {
     data() {
@@ -96,88 +98,95 @@ export default {
             },
         };
     },
-    setup() {
-        definePageMeta({
-        middleware: ['auth'],
-        });
-    },
+
     methods: {
+        // Gestion du menu contextuel pour le mobile en restant longtemps appuyé sur un dossier
+        touchStart(event, folderId){
+            // Si le toucher est maintenu pendant 700ms
+            // On affiche le menu contextuel
+            this.touchTimeout = setTimeout( () => this.showContextMenu(event, folderId), 700)
+        },
+        // Sinon, on annule l'affichage du menu contextuel
+        touchEnd(){
+            clearTimeout(this.touchTimeout)
+        },
+        
         handleClickOutside(event) {
+            // Si le click est en dehors du menu
             if (this.$refs.subMenu && !this.$refs.subMenu.contains(event.target)) {
+                // Fermer le menu
                 this.contextMenu.isVisible = false
             }
         },
-        showContextMenu(event, folderId) {
-            event.preventDefault();
-            this.contextMenu.folderId = folderId;
 
-            // Vérifiez si l'option "Supprimer" a été sélectionnée
+        showContextMenu(event, folderId) {
+            event.preventDefault()
+            // Enregistrer l'ID du dossier sélectionné
+            this.contextMenu.folderId = folderId
+
+            // Vérifier si l'option "Supprimer" a été sélectionnée
             if (event.target.textContent === "Supprimer") {
-                this.deleteFolder(folderId);
+                this.deleteFolder(folderId)
             } else {
-                // Affiche le menu contextuel
-                this.contextMenu.x = event.clientX;
-                this.contextMenu.y = event.clientY;
-                this.contextMenu.isVisible = true;
+                // clientX : Coordonnée X du pointeur de la souris
+                this.contextMenu.x = event.clientX
+                // clientY : Coordonnée Y du pointeur de la souris
+                this.contextMenu.y = event.clientY
+                // Afficher le menu contextuel
+                this.contextMenu.isVisible = true
             }
         },
+
         async addFolder() {
             this.contextMenu.isVisible = false
             this.isButtonClicked = false
+
             if (!this.folderInfo.name) {
-                console.error("Le nom du dossier ne peut pas être vide.");
+                console.error("Le nom du dossier ne peut pas être vide.")
                 return;
             }
             try {
-                const token = localStorage.getItem("access_token");
-
-                if (!token) {
-                    console.error("Jeton JWT non trouvé.");
-                    return;
-                }
+                const token = this.getJwtToken()
 
                 const headers = {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.post(`${BASE_URL}/folders`, this.folderInfo, { headers });
+                const response = await axios.post(`${BASE_URL}/folders`, this.folderInfo, { headers })
 
                 if (response.status === 201) {
                     console.log("Enregistrement d'une nouvelle categorie'.")
-                    this.getAllFolders();
-                    this.resetFolderInfo();
+                    this.getAllFolders()
+                    this.resetFolderInfo()
 
                 } else {
-                    console.error("Échec de l'enregistrement d'une nouvelle categorie.");
+                    console.error("Échec de l'enregistrement d'une nouvelle categorie.")
                 }
 
             } catch (error) {
-                console.error("Erreur lors de la soumission d'une nouvelle categorie:", error);
+                console.error("Erreur lors de la soumission d'une nouvelle categorie:", error)
             }
         },
+
         resetFolderInfo() {
             this.folderInfo.name = "";
         },
+
         async getAllFolders() {
             try {
-                const token = localStorage.getItem("access_token");
-
-                if (!token) {
-                    console.error("Jeton JWT non trouvé.");
-                    return;
-                }
+                const token = this.getJwtToken()
 
                 const headers = {
                     Authorization: `Bearer ${token}`
                 };
 
-                const response = await axios.get(`${BASE_URL}/folders`, { headers });
-                console.log('date', response.data)
+                const response = await axios.get(`${BASE_URL}/folders`, { headers })
+
                 if (response.status === 200) {
-                    this.folders = response.data;
+                    this.folders = response.data
                     this.folders.sort((a, b) => {
-                        const nameA = a.name.toUpperCase();
-                        const nameB = b.name.toUpperCase();
+                        const nameA = a.name.toUpperCase()
+                        const nameB = b.name.toUpperCase()
 
                         if (nameA < nameB) {
                             return -1;
@@ -188,21 +197,16 @@ export default {
                         return 0;
                     });
                 } else {
-                    console.error("Échec de la récupération des catégories.");
+                    console.error("Échec de la récupération des catégories.")
                 }
             } catch (error) {
-                console.error("Erreur lors de la récupération des catégories :", error);
+                console.error("Erreur lors de la récupération des catégories :", error)
             }
         },
 
         async deleteFolder(folderId) {
             try {
-                const token = localStorage.getItem("access_token");
-
-                if (!token) {
-                    console.error("Jeton JWT non trouvé.");
-                    return;
-                }
+                const token = this.getJwtToken()
 
                 const headers = {
                     Authorization: `Bearer ${token}`,
@@ -211,11 +215,11 @@ export default {
                 const response = await axios.delete(`${BASE_URL}/folders/${folderId}`, { headers });
 
                 if (response.status === 200) {
-                    console.log("Categorie supprimée avec succès.");
-                    this.getAllFolders();
-                    this.contextMenu.isVisible = false;
+                    console.log("Categorie supprimée avec succès.")
+                    this.getAllFolders()
+                    this.contextMenu.isVisible = false
                 } else {
-                    console.error("Échec de la suppression de la catégorie.");
+                    console.error("Échec de la suppression de la catégorie.")
                 }
             } catch (error) {
                 console.error("Erreur lors de la suppression de la catégorie :", error);
@@ -223,12 +227,30 @@ export default {
         },
 
         navigateToFolder(folderId) {
-            this.$router.push(`/folders/${folderId}`);
+            this.$router.push(`/folders/${folderId}`)
+        },
+
+        getJwtToken() {
+            const jwtToken = localStorage.getItem('access_token')
+
+            if (!jwtToken) {
+                console.error('Le jeton JWT n\'est pas disponible.')
+                this.$router.push('/')
+                return;
+            }
+            return jwtToken;
         },
     },
+
+    setup() {
+        definePageMeta({
+            middleware: ['auth'],
+        });
+    },
+
     mounted() {
-        this.getAllFolders();
-        document.addEventListener("click", this.handleClickOutside);
+        this.getAllFolders()
+        document.addEventListener("click", this.handleClickOutside)
     },
 };
 </script>

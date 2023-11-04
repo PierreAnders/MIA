@@ -16,7 +16,7 @@
                 <li>
                     <nuxt-link to="/documents"
                         class="flex items-center px-4 transition duration-300 rounded hover:bg-black hover:text-white">
-                        <IconDocument class="mr-2" />
+                        <IconDocument :color="'#838383'" class="mr-2" />
                         <span class="block py-2 font-semibold tracking-wide text-light-gray">Documents</span>
                     </nuxt-link>
                 </li>

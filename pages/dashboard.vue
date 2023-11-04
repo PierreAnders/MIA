@@ -74,7 +74,6 @@ export default {
         };
     },
     methods: {
-        // TODO: J'en suis ici
         calculateAge(birthDate) {
             const today = moment() // Création d'un objet moment avec la date du jour
             const birthDateObj = moment(birthDate) // Création d'un objet moment avec la date de naissance
