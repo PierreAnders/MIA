@@ -58,7 +58,7 @@
                 <li>
                     <nuxt-link to="/register"
                         class="flex items-center px-4 transition duration-300 rounded hover:bg-black hover:text-white">
-                        <IconConnection class="mr-2" />
+                        <IconConnection :color="'#838383'" class="mr-2" />
                         <span class="block py-2 font-semibold tracking-wide text-light-gray">Inscription</span>
                     </nuxt-link>
                 </li>
