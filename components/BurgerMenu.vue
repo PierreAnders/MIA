@@ -9,7 +9,7 @@
                 <li>
                     <nuxt-link to="/dashboard"
                         class="flex items-center px-4 transition duration-300 rounded hover:bg-black hover:text-white">
-                        <IconDashboard class="mr-2" />
+                        <IconDashboard :color="'#838383'" class="mr-2" />
                         <span class="block py-2 font-semibold tracking-wide text-light-gray">Dashboard</span>
                     </nuxt-link>
                 </li>
