@@ -1,31 +1,27 @@
 <template>
   <div class="min-h-screen px-8 pt-8">
     <BurgerMenu />
-
-    <div class="flex justify-center items-center pt-8">
-      <h1 class="text-light-gray tracking-wider pr-3">CHAT</h1>
+    <div class="flex items-center justify-center pt-8 ">
+      <h1 class="pr-3 tracking-wider text-light-gray">CHAT</h1>
       <IconChat :color="'#334155'" />
     </div>
-
     <div class="mt-12">
-
       <div v-for="message in messages" :key="message.id"
         :class="[message.role === 'user' ? 'bg-blue-gray' : 'bg-light-gray text-black', 'p-2 rounded-md mb-2 w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto']">
         {{ message.content }}
       </div>
-
       <div
-        class="input-container flex justify-between items-center w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-4">
+        class="flex items-center justify-between w-full mx-auto mt-4 input-container sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12">
         <input v-model="userMessage" placeholder="Posez une question..."
-          class="p-2 border-2 border-black rounded-md flex-1 focus:outline-none focus:border-light-gray bg-blue-gray" />
+          class="flex-1 p-2 border-2 border-black rounded-md focus:outline-none focus:border-light-gray bg-blue-gray" />
       </div>
-      <div class="flex justify-between w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto mt-3">
+      <div class="flex justify-between w-full mx-auto mt-3 sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12">
         <button @click="startSpeechRecognition">
           <IconMicro class="transition-transform transform hover:scale-110" />
         </button>
         <button @click="sendMessage">
           <div v-if="isLoading" class="spinner"></div>
-          <IconEnter v-if="!isLoading" class="transition-transform transform hover:scale-110" />
+          <IconEnter v-else class="transition-transform transform hover:scale-110" />
         </button>
       </div>
       <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
@@ -37,85 +33,117 @@
 import axios from 'axios'
 import { BASE_URL } from '../constants.js'
 
-
 export default {
   data() {
     return {
       messages: [],
       userMessage: '',
-      isListening: false,
       jwtToken: null,
       isLoading: false,
     }
   },
-  setup() {
-    definePageMeta({
-      middleware: ['auth'],
-    });
-  },
+
   methods: {
     async sendMessage() {
+
       this.jwtToken = localStorage.getItem('access_token');
-      if (this.userMessage.trim() === '') return;
+      this.isLoading = true;
 
       try {
-        this.isLoading = true;
         const response = await axios.post(`${BASE_URL}/AIchatWithData`, {
           session_id: 'unique_session_id',
-          query: this.userMessage,
+          query: this.userMessage
         }, {
           headers: {
             'Authorization': `Bearer ${this.jwtToken}`,
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+          }
         });
 
         const assistantReply = response.data.answer;
 
-        this.messages.push({ role: 'user', content: this.userMessage });
-        this.messages.push({ role: 'assistant', content: assistantReply });
+        // Ajouter le message de l'utilisateur et la réponse de l'assistant à la liste des messages.
+        this.messages.push(
+          { role: 'user', content: this.userMessage },
+          { role: 'assistant', content: assistantReply }
+        );
 
-        // Utilisez la synthèse vocale pour lire la réponse
-        const speechOutput = document.getElementById('speechOutput');
+        // Création d'un nouvel objet SpeechSynthesisUtterance pour la synthèse vocale.
         const utterance = new SpeechSynthesisUtterance(assistantReply);
+        
+        // Obtenir la liste des voix disponibles
+        const voices = speechSynthesis.getVoices();
+        
+        // Choisir la deuxième voix de la liste
+        utterance.voice = voices[2];
+        
+        // Accélerer la vitesse de lecture
+        utterance.rate = 1.5
+
+        // Envoyer le message à l'API SpeechSynthesis pour être lu à haute voix.
         speechSynthesis.speak(utterance);
 
+        // Réinitialiser le message de l'utilisateur
         this.userMessage = '';
+
       } catch (error) {
-        console.error('Erreur d\'envoi de la requête :', error);
+        console.error(`Erreur lors de l'envoi de la requête : ${error}`);
+
       } finally {
         this.isLoading = false;
       }
     },
+
     async startSpeechRecognition() {
-      if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'fr-FR'; // Langue française, ajustez si nécessaire
+      try {
+        // Vérification de la prise en charge de la reconnaissance vocale
+        if ('webkitSpeechRecognition' in window) {
+          // Création d'une nouvelle instance de la reconnaissance vocale
+          const recognition = new window.webkitSpeechRecognition();
 
-        recognition.onstart = () => {
-          this.isListening = true;
-        };
+          // Définition de la langue pour la reconnaissance vocale
+          recognition.lang = 'fr-FR';
 
-        recognition.onresult = (event) => {
-          const speechResult = event.results[0][0].transcript;
-          this.userMessage = speechResult;
-          this.sendMessage();
-        };
+          // Lorsque la reconnaissance vocale démarre, on passe le statut de chargement à true
+          recognition.onstart = () => {
+            this.isLoading = true;
+          };
 
-        recognition.onerror = (event) => {
-          console.error('Erreur de reconnaissance vocale', event.error);
-          this.isListening = false;
-        };
+          // Lorsque la reconnaissance vocale récupère des résultats, on les affiche et on envoie le message
+          recognition.onresult = (event) => {
+            const speechResult = event.results[0][0].transcript;
+            this.userMessage = speechResult;
+            this.sendMessage();
+          };
 
-        recognition.onend = (e) => {
-          this.isListening = false;
-        };
+          // Gestion des erreurs de la reconnaissance vocale
+          recognition.onerror = (event) => {
+            console.error('Erreur de reconnaissance vocale', event.error);
+            this.isLoading = false;
+          };
 
-        recognition.start();
-      } else {
-        console.error('La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.');
+          // Une fois la reconnaissance vocale terminée, on passe le statut de chargement à false
+          recognition.onend = () => {
+            this.isLoading = false;
+          };
+
+          // Lancement de la reconnaissance vocale
+          recognition.start();
+        } else {
+          // Appel de la fonction pour gérer l'erreur de non-prise en charge de reconnaissance vocale
+          console.error('La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.');
+        }
+      } catch (error) {
+        // Log des erreurs
+        console.error('Erreur lors de l\'initialisation de la reconnaissance vocale', error);
       }
     },
+  },
+
+  setup() {
+    definePageMeta({
+      middleware: ['auth'],
+    });
   },
 }
 </script>
@@ -126,10 +154,12 @@ export default {
     transform: scale(0.65);
     opacity: 0.5;
   }
+
   50% {
     transform: scale(1);
     opacity: 1;
   }
+
   100% {
     transform: scale(0.65);
     opacity: 0.5;
@@ -143,5 +173,4 @@ export default {
   border-radius: 50%;
   animation: spinner 3s infinite;
 }
-
 </style>

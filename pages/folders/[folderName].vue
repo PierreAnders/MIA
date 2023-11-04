@@ -29,8 +29,7 @@
             <div class="flex flex-col justify-center">
                 <label for="fileInput" class="text-light-gray">
                     <div id="fileNameLabel" class="flex flex-col justify-center cursor-pointer text-light-gray">
-                        <img class="pb-2 mx-auto transition-transform transform w-14 hover:scale-110"
-                            src="~assets/images/upload-icon.svg" alt="folder icon">
+                        <IconUpload class="pb-2 mx-auto transition-transform transform w-14 hover:scale-110" />
                     </div>
                     <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
                         class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"

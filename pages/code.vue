@@ -87,6 +87,7 @@ export default {
 
                 this.messages.push({ role: 'user', content: this.userMessage });
                 this.messages.push({ role: 'assistant', content: assistantReply });
+                console.log(this.messages)
 
                 // Utilisez la synthèse vocale pour lire la réponse
                 const speechOutput = document.getElementById('speechOutput');
