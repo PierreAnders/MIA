@@ -139,9 +139,3 @@ export default {
     },
 };
 </script>
-
-<style>
-.aria {
-    color: white;
-}
-</style>
