@@ -19,12 +19,10 @@
                 :class="[message.role === 'user' ? 'bg-black' : 'bg-light-gray text-black', 'border border-light-gray mt-4 text-sm rounded-md mb-2 w-5/6 mx-auto']">
                 <pre><code class="rounded-md hljs" v-html="highlightCodeBlocks(message.content)"></code></pre>
             </div>
-
             <div class="flex items-center justify-between w-5/6 mx-auto mt-4 input-container">
                 <textarea v-model="userMessage" placeholder="Posez une question..."
                     class="flex-1 p-2 border-2 border-black rounded-md focus:outline-none focus:border-light-gray bg-blue-gray"></textarea>
             </div>
-
             <div class="flex justify-between w-5/6 pb-24 mx-auto mt-3 scrollbar-thin">
                 <button @click="startSpeechRecognition">
                     <IconMicro class="transition-transform transform hover:scale-110" />
@@ -44,7 +42,6 @@ import axios from 'axios'
 import { BASE_URL } from '../constants.js'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
-
 
 export default {
     data() {
@@ -182,37 +179,19 @@ export default {
 }
 </style>
   
+<!-- 
+Ce code est une fonction JavaScript appelée highlightCodeBlocks qui prend en entrée un texte, recherche des blocs de code entourés de trois backticks (utilisés couramment pour le marquage de code dans de nombreuses langages et formats de documentation), et les met en évidence en utilisant la bibliothèque highlight.js. Voici une explication en détail de ce que fait le code :
 
-<!-- Dans votre fichier CSS, vous pouvez sélectionner et styliser les scrollbars verticales et horizontales. Par exemple pour réduire l'épaisseur et personnaliser la couleur :
+const regex = /```([^]+)```/g; : Cette ligne de code crée une expression régulière (regex) qui recherche des blocs de code entourés de trois backticks dans le texte. Plus précisément, le motif (pattern) de l'expression régulière est défini pour rechercher tout texte entre trois backticks. Le g` à la fin de l'expression régulière indique de rechercher toutes les occurrences du motif dans la chaîne de texte.
 
-css
-/* Pour Google Chrome et Safari */
-::-webkit-scrollbar {
-    width: 10px; /* la largeur de la scrollbar verticale */
-    height: 10px; /* l'épaisseur de la scrollbar horizontale */
-}
+return text.replace(regex, (match, code) => {...}); : Cette ligne de code utilise la méthode replace d'une chaîne de texte (text) pour rechercher et remplacer tous les blocs de code correspondant au motif défini par l'expression régulière.
 
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* la couleur de background de la scrollbar */
-}
+La fonction de rappel (callback) (match, code) => {...} est exécutée pour chaque bloc de code correspondant trouvé. match est la chaîne de texte correspondante (c'est-à-dire le bloc de code entouré de trois backticks), et code est le contenu entre les backticks. Pour chaque bloc de code trouvé, la fonction de rappel effectue les étapes suivantes :
 
-::-webkit-scrollbar-thumb {
-    background: #888; /* la couleur de la partie mobile de la scrollbar */
-}
+hljs.highlightAuto(code) : Cette ligne de code utilise la bibliothèque highlight.js (hljs) pour mettre en évidence le contenu du bloc de code (code). La méthode highlightAuto tente automatiquement de déterminer la langue du code et applique la mise en évidence syntaxique appropriée.
 
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* la couleur de la partie mobile de la scrollbar lors du survol */
-}
+.value : Cette propriété extrait la valeur mise en évidence du code, c'est-à-dire le code HTML mis en évidence par highlight.js.
 
+<pre><code>${highlightedCode}</code></pre> : Cette partie du code crée un élément HTML <pre> avec un élément <code> à l'intérieur, et y insère le code HTML mis en évidence (highlightedCode). Cela permet d'afficher le code mis en évidence dans un format approprié pour la syntaxe.
 
-Pour les autres navigateurs comme Firefox, vous auriez besoin d'utiliser la propriété `scrollbar-width` :
-
-css
-/* Pour Firefox */
-body {
-    scrollbar-width: thin; /* "thin" pour une fine scrollbar, ou "none" pour aucune scrollbar */
-    scrollbar-color: #888 #f1f1f1; /* la couleur du thumb et du track */
-}
-
-
-Cette personnalisation n'est pas prise en charge par toutes les versions de tous les navigateurs. Donc, ce ne serait pas visible par tous les utilisateurs. -->
+En résumé, la fonction highlightCodeBlocks recherche des blocs de code dans le texte, les met en évidence en utilisant highlight.js, et renvoie le texte modifié avec les blocs de code mis en forme correctement. -->
