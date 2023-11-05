@@ -6,7 +6,7 @@
             <IconCode :color="'#334155'" />
         </div>
         <div class="mt-12">
-            <div class="flex justify-end w-5/6 mx-auto">
+            <div class="flex justify-end w-full mx-auto mt-4 md:w-10/12">
                 <select class="px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray"
                     v-model="selectedModel">
                     <option class="text-xs" value="gpt-4">gpt-4</option>
@@ -16,14 +16,14 @@
                 </select>
             </div>
             <div v-for="message in messages" :key="message.id"
-                :class="[message.role === 'user' ? 'bg-black' : 'bg-light-gray text-black', 'border mt-4 text-sm rounded-md mb-2 border-light-gray w-5/6 mx-auto']">
+                :class="[message.role === 'user' ? 'bg-black' : 'bg-light-gray text-black', 'border mt-4 text-sm rounded-md mb-2 border-light-gray w-full mx-auto mt-4 md:w-10/12']">
                 <pre><code class="rounded-md hljs" v-html="highlightCodeBlocks(message.content)"></code></pre>
             </div>
-            <div class="flex items-center justify-between w-5/6 mx-auto mt-4 input-container">
+            <div class="flex items-center justify-between w-full mx-auto mt-4 md:w-10/12 input-container">
                 <textarea v-model="userMessage" placeholder="Posez une question..."
                     class="flex-1 p-2 border-2 border-black rounded-md focus:outline-none focus:border-light-gray bg-blue-gray"></textarea>
             </div>
-            <div class="flex justify-between w-5/6 pb-24 mx-auto mt-3 scrollbar-thin">
+            <div class="flex justify-between w-full pb-24 mx-auto mt-3 mt-4 md:w-10/12 scrollbar-thin">
                 <button @click="startSpeechRecognition">
                     <IconMicro class="transition-transform transform hover:scale-110" />
                 </button>
@@ -34,6 +34,9 @@
             </div>
             <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
         </div>
+    </div>
+    <div class="flex justify-center">
+        <DateTime />
     </div>
 </template>
 

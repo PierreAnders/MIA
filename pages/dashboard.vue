@@ -85,7 +85,7 @@ export default {
         async loadHealthInfo() {
             try {
                 const token = this.getJwtToken()
-            
+
                 const headers = {
                     Authorization: `Bearer ${token}`
                 };

@@ -3,7 +3,7 @@
     <BurgerMenu />
     <div class="flex items-center justify-center pt-8">
       <h1 class="pr-3 tracking-wider text-light-gray">CONNEXION</h1>
-      <IconConnection :color="'#334155'"/>
+      <IconConnection :color="'#334155'" />
     </div>
     <form @submit.prevent="login">
       <div class="flex flex-col items-center justify-center mt-12">

@@ -110,7 +110,7 @@ export default {
         async submitExpenseInfo() {
             try {
                 const token = localStorage.getItem("access_token");
-                
+
                 if (!token) {
                     console.error("Jeton JWT non trouvé.");
                     return;

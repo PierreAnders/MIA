@@ -69,8 +69,8 @@ export default {
                     lastname: this.userInfo.lastname,
                     birth_date: this.userInfo.birth_date,
                     email: this.userInfo.email,
-                }, 
-                { headers });
+                },
+                    { headers });
 
             } catch (error) {
                 console.error('Erreur d\'inscription :', error);

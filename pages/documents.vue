@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen px-8 pt-8">
+    <div class="z-10 min-h-screen px-8 pt-8">
         <BurgerMenu />
         <div class="flex items-center justify-center pt-8">
             <h1 class="pr-3 tracking-wider text-light-gray">DOCUMENTS</h1>
@@ -9,7 +9,7 @@
             <div class="mt-6 mb-24 text-white">
                 <div class="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     <div v-for="folder in folders" :key="folder.id" class="text-center"
-                        @touchstart.prevent="touchStart($event, folder.id)" @touchend.prevent="touchEnd($event)"
+                        @touchstart="touchStart($event, folder.id)" @touchend="touchEnd($event)"
                         @contextmenu.prevent="showContextMenu($event, folder.id)">
                         <button @click="navigateToFolder(folder.name)"
                             class="flex flex-col items-center transition-transform transform hover:scale-105">
