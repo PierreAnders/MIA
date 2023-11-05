@@ -1,26 +1,29 @@
 <template>
     <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
-
         <div class="flex items-center justify-center pt-8">
-            <h1 class="pr-3 tracking-wider text-light-gray">CHAT</h1>
-            <IconChat :color="'#334155'" />
+            <h1 class="pr-3 tracking-wider text-light-gray">CODE</h1>
+            <IconCode :color="'#334155'" />
         </div>
-
         <div class="mt-12">
-
-            <div v-for="message in messages" :key="message.id"
-                :class="[message.role === 'user' ? 'bg-blue-gray' : 'bg-light-gray text-black', 'p-2 rounded-md mb-2 w-5/6 mx-auto']">
-                <pre><code class="hljs" v-html="highlightCodeBlocks(message.content)"></code></pre>
+            <div class="flex justify-end w-full mx-auto mt-4 md:w-10/12">
+                <select class="px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray"
+                    v-model="selectedModel">
+                    <option class="text-xs" value="gpt-4">gpt-4</option>
+                    <option class="text-xs" value="gpt-4">gpt-4-32k</option>
+                    <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                    <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo-16k</option>
+                </select>
             </div>
-
-            <div
-                class="flex items-center justify-between w-5/6 mx-auto mt-4 input-container">
+            <div v-for="message in messages" :key="message.id"
+                :class="[message.role === 'user' ? 'bg-black' : 'bg-light-gray text-black', 'border mt-4 text-sm rounded-md mb-2 border-light-gray w-full mx-auto mt-4 md:w-10/12']">
+                <pre><code class="rounded-md hljs" v-html="highlightCodeBlocks(message.content)"></code></pre>
+            </div>
+            <div class="flex items-center justify-between w-full mx-auto mt-4 md:w-10/12 input-container">
                 <textarea v-model="userMessage" placeholder="Posez une question..."
                     class="flex-1 p-2 border-2 border-black rounded-md focus:outline-none focus:border-light-gray bg-blue-gray"></textarea>
             </div>
-
-            <div class="flex justify-between w-5/6 mx-auto mt-3">
+            <div class="flex justify-between w-full pb-24 mx-auto mt-3 mt-4 md:w-10/12 scrollbar-thin">
                 <button @click="startSpeechRecognition">
                     <IconMicro class="transition-transform transform hover:scale-110" />
                 </button>
@@ -40,7 +43,6 @@ import { BASE_URL } from '../constants.js'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 
-
 export default {
     data() {
         return {
@@ -49,175 +51,121 @@ export default {
             isListening: false,
             jwtToken: null,
             isLoading: false,
+            selectedModel: 'gpt-4'
         }
-    },
-    setup() {
-        definePageMeta({
-            middleware: ['auth'],
-        });
     },
     methods: {
         highlightCodeBlocks(text) {
+            // Regex pour récupérer le contenu entre les blocs de code
             const regex = /```([^`]+)```/g;
-            return text.replace(regex, (match, code) => {
+            // Remplacer le contenu entre les blocs de code par le contenu mis en forme par highlight.js
+            return text.replace(regex, (code) => {
+                // Récupérer le code mis en forme par highlight.js
                 const highlightedCode = hljs.highlightAuto(code).value;
                 return `<pre><code>${highlightedCode}</code></pre>`;
             });
         },
-        // highlightCode() {
-        //     const codeBlocks = this.$el.querySelectorAll('pre code');
-        //     codeBlocks.forEach((codeBlock) => {
-        //         hljs.highlightBlock(codeBlock);
-        //     });
-        // },
         async sendMessage() {
-            this.jwtToken = localStorage.getItem('access_token');
+            // Vérification que le message n'est pas vide après avoir supprimé les espaces
             if (this.userMessage.trim() === '') return;
 
+            this.jwtToken = localStorage.getItem('access_token')
+            this.isLoading = true
+
             try {
-                this.isLoading = true;
-                const response = await axios.post(`${BASE_URL}/AIchatGeneric`, {
+                const response = await axios.post(`${BASE_URL}/AIchatGeneric/${this.selectedModel}`, {
                     session_id: 'unique_session_id',
-                    query: this.userMessage,
+                    query: this.userMessage
                 }, {
                     headers: {
                         'Authorization': `Bearer ${this.jwtToken}`,
-                        'Content-Type': 'application/json',
-                    },
+                        'Content-Type': 'application/json'
+                    }
                 });
 
                 const assistantReply = response.data.answer;
 
-                this.messages.push({ role: 'user', content: this.userMessage });
-                this.messages.push({ role: 'assistant', content: assistantReply });
+                // Ajouter le message de l'utilisateur et la réponse de l'assistant à la liste des messages.
+                this.messages.push(
+                    { role: 'user', content: this.userMessage },
+                    { role: 'assistant', content: assistantReply }
+                );
 
-                // this.highlightCode()
+                // Création d'un nouvel objet SpeechSynthesisUtterance pour la synthèse vocale.
+                const utterance = new SpeechSynthesisUtterance(assistantReply)
 
-                // Utilisez la synthèse vocale pour lire la réponse
-                const speechOutput = document.getElementById('speechOutput');
-                const utterance = new SpeechSynthesisUtterance(assistantReply);
-                speechSynthesis.speak(utterance);
+                // Obtenir la liste des voix disponibles
+                const voices = speechSynthesis.getVoices()
 
-                this.userMessage = '';
+                // Choisir la deuxième voix de la liste
+                utterance.voice = voices[3]
+
+                // Accélerer la vitesse de lecture
+                utterance.rate = 1.5
+
+                // Envoyer le message à l'API SpeechSynthesis pour être lu à haute voix.
+                speechSynthesis.speak(utterance)
+
+                // Réinitialiser le message de l'utilisateur
+                this.userMessage = ''
+
             } catch (error) {
-                console.error('Erreur d\'envoi de la requête :', error);
+                console.error(`Erreur lors de l'envoi de la requête : ${error}`)
+
             } finally {
-                this.isLoading = false;
+                this.isLoading = false
             }
         },
+
         async startSpeechRecognition() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = 'fr-FR'; // Langue française, ajustez si nécessaire
+            try {
+                // Vérification de la prise en charge de la reconnaissance vocale
+                if ('webkitSpeechRecognition' in window) {
+                    // Création d'une nouvelle instance de la reconnaissance vocale
+                    const recognition = new window.webkitSpeechRecognition()
 
-                recognition.onstart = () => {
-                    this.isListening = true;
-                };
+                    // Définition de la langue pour la reconnaissance vocale
+                    recognition.lang = 'fr-FR'
 
-                recognition.onresult = (event) => {
-                    const speechResult = event.results[0][0].transcript;
-                    this.userMessage = speechResult;
-                    this.sendMessage();
-                };
+                    // Lorsque la reconnaissance vocale démarre, on passe le statut de chargement à true
+                    recognition.onstart = () => {
+                        this.isLoading = true
+                    };
 
-                recognition.onerror = (event) => {
-                    console.error('Erreur de reconnaissance vocale', event.error);
-                    this.isListening = false;
-                };
+                    // Lorsque la reconnaissance vocale récupère des résultats, on les affiche et on envoie le message
+                    recognition.onresult = (event) => {
+                        const speechResult = event.results[0][0].transcript
+                        this.userMessage = speechResult
+                        this.sendMessage()
+                    };
 
-                recognition.onend = (e) => {
-                    this.isListening = false;
-                };
+                    // Gestion des erreurs de la reconnaissance vocale
+                    recognition.onerror = (event) => {
+                        console.error('Erreur de reconnaissance vocale', event.error)
+                        this.isLoading = false
+                    };
 
-                recognition.start();
-            } else {
-                console.error('La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.');
+                    // Une fois la reconnaissance vocale terminée, on passe le statut de chargement à false
+                    recognition.onend = () => {
+                        this.isLoading = false
+                    };
+
+                    // Lancement de la reconnaissance vocale
+                    recognition.start()
+                } else {
+                    // Appel de la fonction pour gérer l'erreur de non-prise en charge de reconnaissance vocale
+                    console.error('La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.')
+                }
+            } catch (error) {
+                // Log des erreurs
+                console.error('Erreur lors de l\'initialisation de la reconnaissance vocale', error)
             }
+        },
+        setup() {
+            definePageMeta({
+                middleware: ['auth'],
+            });
         },
     },
 }
 </script>
-  
-<style>
-
-@keyframes spinner {
-    0% {
-        transform: scale(0.65);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    100% {
-        transform: scale(0.65);
-        opacity: 0.5;
-    }
-}
-
-.spinner {
-    width: 32px;
-    height: 32px;
-    background-color: #F1F5F9;
-    border-radius: 50%;
-    animation: spinner 3s infinite;
-}
-</style>
-<!-- 
-class SpeechRecognitionService {
-    constructor(lang = 'fr-FR') {
-        if (!('webkitSpeechRecognition' in window)) {
-            throw Error('La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.');
-        }
-
-        this.recognition = new webkitSpeechRecognition();
-        this.recognition.lang = lang;
-        this.initializeRecoginitionEvents();
-        return this.recognition;
-    }
-
-    initializeRecoginitionEvents() {
-        this.recognition.onstart = this.onRecognitionStart.bind(this);
-        this.recognition.onresult = this.onRecognitionResult.bind(this);
-        this.recognition.onerror = this.onRecognitionError.bind(this);
-        this.recognition.onend = this.onRecognitionEnd.bind(this);
-    }
-
-    start(){
-        this.recognition.start();
-    }
-
-    onRecognitionStart() {
-        this.isListening = true;
-    };
-
-    onRecognitionResult(event) {
-        const speechResult = event.results[0][0].transcript;
-        this.userMessage = speechResult;
-        this.sendMessage();
-    };
-
-    onRecognitionError(event) {
-        console.error('Erreur de reconnaissance vocale', event.error);
-        this.isListening = false;
-    };
-
-    onRecognitionEnd() {
-        this.isListening = false;
-    };
-
-    sendMessage() {
-        // implémentation de la méthode sendMessage
-    }
-}
-
-// Utilisation
-try {
-    const speechRecognitionService = new SpeechRecognitionService();
-    speechRecognitionService.start();
-} catch(e) {
-    console.error(e.message);
-} -->
-  

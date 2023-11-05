@@ -51,7 +51,10 @@
                                 <div class="flex mr-2 text-sm text-light-gray">Description:</div>
                                 <div class="text-sm text-white">{{ income.description }}</div>
                             </div>
-                            <button class="mt-2" @click="deleteIncome(income.id)"><IconSubmenuDeleteFolder class="w-5 h-5 transition-transform transform hover:scale-110" color="#553348"/></button>
+                            <button class="mt-2" @click="deleteIncome(income.id)">
+                                <IconSubmenuDeleteFolder class="w-5 h-5 transition-transform transform hover:scale-110"
+                                    color="#553348" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +65,7 @@
     
 <script>
 import axios from 'axios'
-import {BASE_URL} from '../constants.js'
+import { BASE_URL } from '../constants.js'
 
 export default {
     data() {
@@ -76,21 +79,21 @@ export default {
             total: 0,
         };
     },
-    
+
     methods: {
         async getAllIncomes() {
             try {
                 const token = localStorage.getItem("access_token");
-    
+
                 if (!token) {
                     console.error("Jeton JWT non trouvé.");
                     return;
                 }
-    
+
                 const headers = {
                     Authorization: `Bearer ${token}`
                 };
-    
+
                 const response = await axios.get("http://localhost:5000/incomes", { headers });
                 console.log('date', response.data)
                 if (response.status === 200) {
@@ -171,7 +174,7 @@ export default {
 
     setup() {
         definePageMeta({
-        middleware: ['auth'],
+            middleware: ['auth'],
         });
     },
 
@@ -181,6 +184,4 @@ export default {
 };
 </script>
     
-<style>
-
-</style>
+<style></style>

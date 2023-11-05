@@ -6,7 +6,7 @@
             <IconFolder />
         </div>
         <ul class="flex flex-col w-3/4 mx-auto mt-12 mb-8 md:w-2/3 lg:w-1/2 ">
-            <li v-for="file in fileList" :key="file" class="flex flex-col justify-between mt-6 text-white md:flex-row">
+            <li v-for="file in fileList" :key="file.id" class="flex flex-col justify-between mt-6 text-white md:flex-row">
                 <div class="flex space-x-2 wrap">
                     <IconDocument class="opacity-50" />
                     <span class="text-sm">{{ file }}</span>
@@ -29,8 +29,7 @@
             <div class="flex flex-col justify-center">
                 <label for="fileInput" class="text-light-gray">
                     <div id="fileNameLabel" class="flex flex-col justify-center cursor-pointer text-light-gray">
-                        <img class="pb-2 mx-auto transition-transform transform w-14 hover:scale-110"
-                            src="~assets/images/upload-icon.svg" alt="folder icon">
+                        <IconUpload class="pb-2 mx-auto transition-transform transform w-14 hover:scale-110" />
                     </div>
                     <input type="file" id="fileInput" ref="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
                         class="p-2 border rounded-md bg-neutral-300 text-neutral-800 focus:outline-none focus:border-amber-800"
@@ -38,7 +37,6 @@
                 </label>
             </div>
         </div>
-
     </div>
 </template>
   
@@ -55,18 +53,10 @@ export default {
     },
     methods: {
         loadFileList() {
-            const folderName = this.$route.params.folderName;
-
             if (process.client) {
-                const jwtToken = localStorage.getItem('access_token');
-                
-                if (!jwtToken) {
-                    console.error('Le jeton JWT n\'est pas disponible.');
-                    this.$router.push('/');
-                    return;
-                }
+                const jwtToken = this.getJwtToken();
 
-                axios.get(`${BASE_URL}/folders/${folderName}/files`, {
+                axios.get(`${BASE_URL}/folders/${this.folderName}/files`, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'application/json',
@@ -82,98 +72,116 @@ export default {
         },
 
         deleteFile(fileName) {
-            const jwtToken = localStorage.getItem('access_token');
-
-            if (!jwtToken) {
-                console.error('Le jeton JWT n\'est pas disponible.');
-                this.$router.push('/');
-                return;
-            }
+            const jwtToken = this.getJwtToken();
 
             axios.delete(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, {
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                })
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json',
+                },
+            })
                 .then(() => {
                     this.loadFileList();
                 })
                 .catch((error) => console.error(error));
         },
-        downloadFile(fileName) {
-            const folderName = this.$route.params.folderName;
-            const jwtToken = localStorage.getItem('access_token');
-            
-            if (!jwtToken) {
-                console.error('Le jeton JWT n\'est pas disponible.');
-                this.$router.push('/');
-                return;
+
+        async downloadFile(fileName) {
+            try {
+                const jwtToken = this.getJwtToken();
+
+                const axiosConfig = {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                    responseType: 'blob',
+                };
+
+                const response = await axios.get(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, axiosConfig);
+
+                // Création d'un blob (Binary Large OBject, ensemble de données binaires) à partir des données de la réponse
+                const blob = new Blob([response.data]);
+
+                // Création d'une URL pour le blob
+                const url = window.URL.createObjectURL(blob);
+
+                // Création d'un lien pointant vers le blob
+                const link = document.createElement('a');
+                link.href = url;
+
+                // Ajout de l'attribut 'download' au lien, avec le nom du fichier original
+                link.setAttribute('download', fileName);
+
+                // Ajout du lien au corps de la page HTML
+                document.body.appendChild(link);
+
+                // Déclenchement du clic sur le lien, ce qui lance le téléchargement du fichier
+                link.click();
+
+                // Suppression du lien du corps de la page
+                link.remove();
+
+                // Suppression de l'URL créée pour le blob, pour libérer les ressources
+                window.URL.revokeObjectURL(url);
             }
-
-            const axiosConfig = {
-                headers: {
-                    'Authorization': `Bearer ${jwtToken}`,
-                },
-                responseType: 'blob',
-            };
-
-            axios
-                .get(`${BASE_URL}/folders/${folderName}/files/${fileName}`, axiosConfig)
-                .then((response) => {
-                    const blob = new Blob([response.data]);
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch((error) => console.error(error));
+            catch (error) {
+                console.error(error);
+            }
         },
+
         openFile(fileName) {
-            const folderName = this.$route.params.folderName;
-            const jwtToken = localStorage.getItem('access_token');
-            if (!jwtToken) {
-                console.error('Le jeton JWT n\'est pas disponible.');
-                this.$router.push('/');
-                return;
-            }
+            const jwtToken = this.getJwtToken();
 
             const axiosConfig = {
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
                 },
+                // Fixe le type de réponse au type 'arraybuffer'
                 responseType: 'arraybuffer',
             };
 
             axios
-                .get(`${BASE_URL}/folders/${folderName}/files/${fileName}`, axiosConfig)
+                .get(`${BASE_URL}/folders/${this.folderName}/files/${fileName}`, axiosConfig)
                 .then((response) => {
+                    // Obtenir le type de fichier à partir du nom du fichier
                     const fileType = this.getFileType(fileName);
 
+                    // Vérification si le type de fichier est un fichier PDF
                     if (fileType === 'pdf') {
+                        // Création d'un blob à partir des données du fichier PDF
                         const blob = new Blob([response.data], { type: 'application/pdf' });
+                        // Création d'une URL pour le blob à partir du navigateur
                         const url = window.URL.createObjectURL(blob);
+                        // OUvrir la nouvelle URL dans un nouvel onglet
                         const newTab = window.open(url, '_blank');
 
+                        // Vérification si l'URL a été ouverte dans un nouvel onglet. 
+                        // Si elle ne l'a pas été, alors affiche une erreur
                         if (newTab === null) {
                             console.error('Le navigateur a bloqué l\'ouverture de la nouvelle fenêtre.');
+                            // Révoquation de l'URL du blob
                             window.URL.revokeObjectURL(url);
                         }
+                        // Vérification si le type de fichier est un fichier texte
                     } else if (fileType === 'txt') {
+                        // Decode des données du texte à partir de response.data
                         const textData = new TextDecoder().decode(response.data);
+                        // Affichage du contenu du fichier texte
                         this.displayTextFile(textData);
+                        // Si le type de fichier n'est pas pris en charge, affiche une erreur
                     } else {
                         console.error('Le type de fichier n\'est pas pris en charge.');
                     }
                 })
+                // En cas d'erreur lors de l'exécution de la requête, affiche l'erreur
                 .catch((error) => console.error(error));
         },
 
         getFileType(fileName) {
-            // Extract the file extension.
+            // Extraire l'extension du fichier
             const parts = fileName.split('.');
+
+            // Vérification si le fichier a plusieurs extension et retourne la dernière
             if (parts.length > 1) {
                 return parts[parts.length - 1].toLowerCase();
             }
@@ -186,51 +194,62 @@ export default {
         },
 
         uploadFile() {
-            const folderName = this.$route.params.folderName;
-            const jwtToken = localStorage.getItem('access_token');
-            if (!jwtToken) {
-                console.error('Le jeton JWT n\'est pas disponible.');
-                this.$router.push('/');
-                return;
-            }
+            // Récupération du JWT Token
+            const jwtToken = this.getJwtToken();
 
+            // Initialisation de FormData
             const formData = new FormData();
+
+            // Récupération du champ input file via sa référence 'fileInput'
             const fileInput = this.$refs.fileInput;
+
+            // Si aucun fichier n'est sélectionné, on affiche une erreur et on quitte la fonction
             if (fileInput.files.length === 0) {
                 console.error('Aucun fichier sélectionné.');
                 return;
             }
 
+            // Si un fichier est sélectionné, on l'ajoute à formData
             formData.append('file', fileInput.files[0]);
 
             axios
-                .post(`${BASE_URL}/folders/${folderName}/files`, formData, {
+                .post(`${BASE_URL}/folders/${this.folderName}/files`, formData, {
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                .then((response) => {
+                .then(() => {
+                    // Rafraîssement de la liste des fichiers une fois le fichier téléversé
                     this.loadFileList();
+                    // Vide le champs de l'input
                     fileInput.value = '';
-                    console.log(response.data.message);
                 })
+                // En cas d'erreur, on l'affiche dans la console
                 .catch((error) => console.error(error));
         },
+
+        getJwtToken() {
+            const jwtToken = localStorage.getItem('access_token');
+
+            if (!jwtToken) {
+                console.error('Le jeton JWT n\'est pas disponible.');
+                this.$router.push('/');
+                return;
+            }
+            return jwtToken;
+        }
     },
+
     setup() {
         definePageMeta({
             middleware: ['auth'],
         });
     },
+
     created() {
+        this.folderName = this.$route.params.folderName
         this.loadFileList();
     },
-    mounted() {
-        this.folderName = this.$route.params.folderName
-    }
 };
 </script>
-  
-<style></style>
-  

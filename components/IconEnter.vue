@@ -6,5 +6,3 @@
         <path d="M22.9016 15L15.9016 22" stroke="#838383" stroke-width="2" stroke-linecap="round"/>
     </svg>
 </template>
-
-<!-- class="fill-black hover:fill-blue transition-colors duration-300 ease-in-out" -->
