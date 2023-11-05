@@ -35,9 +35,6 @@
             <div id="speechOutput" class="mt-4 text-lg font-semibold"></div>
         </div>
     </div>
-    <div class="flex justify-center">
-        <DateTime />
-    </div>
 </template>
 
 <script>
