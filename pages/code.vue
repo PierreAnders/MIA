@@ -73,7 +73,7 @@ export default {
             this.isLoading = true
 
             try {
-                const response = await axios.post(`${BASE_URL}/AIchatGeneric/${this.selectedModel}`, {
+                const response = await axios.post(`${BASE_URL}/chat/${this.selectedModel}`, {
                     session_id: 'unique_session_id',
                     query: this.userMessage
                 }, {
