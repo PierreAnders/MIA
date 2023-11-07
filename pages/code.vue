@@ -9,6 +9,7 @@
             <div class="flex justify-end w-full mx-auto mt-4 md:w-10/12">
                 <select class="px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray"
                     v-model="selectedModel">
+                    <option class="text-xs" value="gpt-4">gpt-4-1106-preview</option>
                     <option class="text-xs" value="gpt-4">gpt-4</option>
                     <option class="text-xs" value="gpt-4">gpt-4-32k</option>
                     <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo</option>
@@ -70,11 +71,13 @@ export default {
             if (this.userMessage.trim() === '') return;
 
             this.jwtToken = localStorage.getItem('access_token')
+            const sessionId = this.jwtToken.slice(0, 90)
+            console.log('sessionId', sessionId)
             this.isLoading = true
 
             try {
                 const response = await axios.post(`${BASE_URL}/chat/${this.selectedModel}`, {
-                    session_id: 'unique_session_id',
+                    session_id: sessionId,
                     query: this.userMessage
                 }, {
                     headers: {
