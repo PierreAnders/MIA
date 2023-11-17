@@ -101,7 +101,7 @@ export default {
                 const voices = speechSynthesis.getVoices()
 
                 // Choisir la deuxième voix de la liste
-                utterance.voice = voices[3]
+                utterance.voice = voices[2]
 
                 // Accélerer la vitesse de lecture
                 utterance.rate = 1.5
