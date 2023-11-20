@@ -1,5 +1,5 @@
 # MIA
-### This project is the frontend of my Personnal AI repository
+### This project is a frontend for my Personnal AI repository
 
 
 ## Setup
