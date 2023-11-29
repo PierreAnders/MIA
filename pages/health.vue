@@ -69,7 +69,7 @@
           </button>
         </div>
         <div v-if="successSubmit" class="relative pb-4 text-sm text-white w-72">
-          Enregistrement des informations de santé
+          Les informations ont bien été enregistrées.
         </div>
       </div>
     </form>

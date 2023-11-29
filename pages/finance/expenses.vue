@@ -14,7 +14,7 @@
                         type="text" id="title" v-model="expenseInfo.title" placeholder="Titre :">
                 </div>
                 <div class="flex flex-col pb-4 w-72">
-                    <label class="sr-only" for="blood_group">Description</label>
+                    <label class="sr-only" for="description">Description</label>
                     <textarea
                         class="h-20 px-4 pt-1 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
                         type="text" id="description" v-model="expenseInfo.description"
@@ -22,21 +22,23 @@
                 </div>
                 <div class="flex flex-col pb-4 w-72">
                     <div class="flex">
-                        <label class="sr-only" for="doctor">Prix</label>
+                        <label class="sr-only" for="price">Prix</label>
                         <input
                             class="h-8 px-4 mr-2 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-                            type="text" id="doctor" v-model="expenseInfo.price" placeholder="Prix :">
+                            type="number" step="0.01" id="price" v-model="expenseInfo.price" placeholder="Prix :">
                         <button type="submit">
                             <IconEnter class="transition-transform transform hover:scale-110" />
                         </button>
                     </div>
+                </div>
+                <div v-if="successSubmit" class="relative pb-4 text-sm text-white w-72">
+                    La dépense a bien été ajoutée.
                 </div>
                 <div class="w-full mb-24 md:w-3/4 lg:w-2/3">
                     <div class="flex my-6">
                         <div class="flex mr-2 font-semibold text-light-gray">TOTAL :</div>
                         <div class="text-white"> {{ total.toFixed(2) }} €</div>
                     </div>
-
                     <div v-for="expense in expenses" :key="expense.id">
                         <div class="mt-5">
                             <div class="flex mt-1">
@@ -77,6 +79,7 @@ export default {
             },
             expenses: {},
             total: 0,
+            successSubmit: false,
         };
     },
     methods: {
@@ -123,6 +126,7 @@ export default {
                 const response = await axios.post(`${BASE_URL}/expenses`, this.expenseInfo, { headers });
 
                 if (response.status === 201) {
+                    this.successSubmit = true;
                     console.log("Enregistrement d'une nouvelle dépense'.")
                     this.getAllExpenses();
                     this.resetExpenseInfo();
@@ -181,4 +185,18 @@ export default {
 };
 </script>
     
-<style></style>
+<style scoped>
+/* Cacher les flèches dans les inputs de type number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+</style>

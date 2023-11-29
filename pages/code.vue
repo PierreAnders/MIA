@@ -119,7 +119,7 @@ export default {
                 this.isLoading = false
             }
         },
-
+        // Ne fonctionne pas sur Firefox (Pour Brave seulement si on active l'option)
         async startSpeechRecognition() {
             try {
                 // Vérification de la prise en charge de la reconnaissance vocale
