@@ -11,7 +11,7 @@
           <label class="sr-only" for="email">Email:</label>
           <input
             class="w-64 h-8 px-4 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray border-dark-gray focus:outline-none focus:border-blue"
-            type="text" id="email" v-model="email" placeholder="Email" />
+            type="email" id="email" v-model="email" placeholder="Email" />
         </div>
         <div class="flex justify-between w-64 py-2">
           <label class="sr-only" for="mot_de_passe">Mot de passe:</label>
@@ -21,6 +21,9 @@
           <button type="submit">
             <IconEnter class="transition-transform transform hover:scale-110" />
           </button>
+        </div>
+        <div v-if="loginError" class="w-64 pb-3 text-sm text-white">
+          Mot de passe ou email incorrect
         </div>
       </div>
     </form>
@@ -36,6 +39,7 @@ export default {
     return {
       email: '',
       password: '',
+      loginError: false,
     };
   },
 
@@ -48,14 +52,16 @@ export default {
         });
 
         if (response.data && response.data.access_token) {
-          localStorage.setItem('access_token', response.data.access_token);
+          localStorage.setItem('access_token', response.data.access_token)
           // console.log('le token', response.data.access_token);
-          this.$router.push('/documents');
+          this.$router.push('/documents')
         } else {
-          console.error('Échec de l\'authentification');
+          this.loginError = true
+          console.error('Échec de l\'authentification')
         }
       } catch (error) {
-        console.error('Erreur de connexion :', error);
+        this.loginError = true;
+        console.error('Erreur de connexion :', error)
       }
     }
   },
