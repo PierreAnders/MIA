@@ -15,20 +15,21 @@
             id="gender" v-model="healthInfo.gender">
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
+            <option value="autre">Autre</option>
           </select>
         </div>
 
         <div class="relative pb-4 w-72">
           <input
             class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-            type="text" id="size" v-model="healthInfo.size" placeholder=". . . . . . .">
+            type="number" step="0.01" id="size" v-model="healthInfo.size" placeholder=". . . ">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="size">Taille (m) :</label>
         </div>
 
         <div class="relative pb-4 w-72">
           <input
             class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-            type="text" id="weight" v-model="healthInfo.weight" placeholder=". . . . . . .">
+            type="number" step="0.01" id="weight" v-model="healthInfo.weight" placeholder=". . . ">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="weight">Poids (kg) :</label>
         </div>
 
@@ -50,13 +51,25 @@
         </div>
 
         <div class="relative flex pb-4 w-72">
-          <input
-            class="h-8 px-4 mr-2 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-            type="text" id="weblood_groupight" v-model="healthInfo.blood_group" placeholder=". . . . . . .">
           <label class="text-light-gray absolute text-sm px-2 top-1.5 left-1" for="blood_group">Groupe sanguin</label>
+          <select
+            class="h-8 px-4 mr-2 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+            id="blood_group" v-model="healthInfo.blood_group">
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
           <button type="submit">
             <IconEnter class="transition-transform transform hover:scale-110" />
           </button>
+        </div>
+        <div v-if="successSubmit" class="relative pb-4 text-sm text-white w-72">
+          Enregistrement des informations de santé
         </div>
       </div>
     </form>
@@ -77,7 +90,8 @@ export default {
         social_security_number: "",
         blood_group: "",
         doctor: "",
-      }
+      },
+      successSubmit: false,
     };
   },
 
@@ -94,6 +108,7 @@ export default {
 
         if (response.status === 201) {
           console.log("Enregistrement des informations de santé.")
+          this.successSubmit = true;
         } else {
           console.error("Échec de l'enregistrement des informations de santé.");
         }
@@ -145,3 +160,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Cacher les flèches dans les inputs de type number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+</style>
