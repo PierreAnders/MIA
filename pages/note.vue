@@ -8,19 +8,21 @@
         <div id="app" class="w-3/4 mx-auto mt-12">
             <editor ref="myEditor" :init="initOptions" v-model="textContent" />
         </div>
-        <button class="text-white" @click="getTextFromEditor">Récupérer le texte de l'éditeur</button>
+        <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
+        <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button>
     </div>
 </template>
  
 <script>
 import Editor from '@tinymce/tinymce-vue'
+import TurndownService from 'turndown'
 
 export default {
     name: 'app',
     components: {
         'editor': Editor
     },
-    data () {
+    data() {
         return {
             textContent: '',
             initOptions: {
@@ -39,9 +41,15 @@ export default {
         }
     },
     methods: {
-        getTextFromEditor() {
+        getHtmlFromEditor() {
+           this.textContent
             console.log(this.textContent);
         },
+        getMarkdownFromEditor() {
+            const turndownService = new TurndownService();
+            const markdownContent = turndownService.turndown(this.textContent);
+            console.log(markdownContent);
+        }
     },
 }
 </script>
