@@ -5,15 +5,20 @@
             <h1 class="pr-3 tracking-wider text-light-gray">MD EDITOR</h1>
             <IconProfile :color="'#334155'" />
         </div>
+        <input
+            class="h-8 px-4 mr-2 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+            type="text" v-model="note.title" placeholder="Title :">
         <div id="app" class="w-3/4 mx-auto mt-12">
             <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
         </div>
-        <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
+        <!-- <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button> -->
         <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button>
     </div>
 </template>
  
 <script>
+import axios from 'axios'
+import { BASE_URL } from '../constants.js'
 import Editor from '@tinymce/tinymce-vue'
 import TurndownService from 'turndown'
 import { TINYMCE_API_KEY } from '../constants.js'
@@ -26,6 +31,10 @@ export default {
     data() {
         return {
             textContent: '',
+            note: {
+                title: '',
+                content: ''
+            },
             TINYMCE_API_KEY: TINYMCE_API_KEY,
             initOptions: {
                 height: 600,
@@ -43,15 +52,44 @@ export default {
         }
     },
     methods: {
-        getHtmlFromEditor() {
-           this.textContent
-            console.log(this.textContent);
-        },
+        // getHtmlFromEditor() {
+        //     console.log(this.textContent);
+        //     return this.textContent
+        // },
+
         getMarkdownFromEditor() {
             const turndownService = new TurndownService();
             const markdownContent = turndownService.turndown(this.textContent);
             console.log(markdownContent);
-        }
+            this.note.content = markdownContent;
+            this.sendNoteInfo();
+        },
+
+        async sendNoteInfo() {
+            try {
+                const token = localStorage.getItem("access_token");
+                console.log("la note", this.note);
+
+                if (!token) {
+                    console.error("Jeton JWT non trouvé.");
+                    return;
+                }
+
+                const headers = {
+                    Authorization: `Bearer ${token}`
+                };
+
+                const response = await axios.post(`${BASE_URL}/notes`, this.note, { headers });
+
+                if (response.status === 200) {
+                    console.log("Enregistrement d'une nouvelle note'.")
+                } else {
+                    console.error("Échec de l'enregistrement d'une nouvelle note.");
+                }
+            } catch (error) {
+                console.error("Erreur lors de la soumission d'une nouvelle note:", error);
+            }
+        },
     },
 }
 </script>
