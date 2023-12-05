@@ -6,7 +6,7 @@
             <IconProfile :color="'#334155'" />
         </div>
         <div id="app" class="w-3/4 mx-auto mt-12">
-            <editor ref="myEditor" :init="initOptions" v-model="textContent" />
+            <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
         </div>
         <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
         <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button>
@@ -16,6 +16,7 @@
 <script>
 import Editor from '@tinymce/tinymce-vue'
 import TurndownService from 'turndown'
+import { TINYMCE_API_KEY } from '../constants.js'
 
 export default {
     name: 'app',
@@ -25,6 +26,7 @@ export default {
     data() {
         return {
             textContent: '',
+            TINYMCE_API_KEY: TINYMCE_API_KEY,
             initOptions: {
                 height: 600,
                 menubar: true,
