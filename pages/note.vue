@@ -8,24 +8,22 @@
         <div id="app" class="w-3/4 mx-auto mt-12">
             <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
         </div>
-        <button class="text-white" @click="getTextFromEditor">Récupérer le texte de l'éditeur</button>
+        <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
+        <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button>
     </div>
 </template>
  
 <script>
 import Editor from '@tinymce/tinymce-vue'
-<<<<<<< HEAD
 import TurndownService from 'turndown'
 import { TINYMCE_API_KEY } from '../constants.js'
-=======
->>>>>>> parent of 865392b (print user markdown and html ok)
 
 export default {
     name: 'app',
     components: {
         'editor': Editor
     },
-    data () {
+    data() {
         return {
             textContent: '',
             TINYMCE_API_KEY: TINYMCE_API_KEY,
@@ -45,9 +43,15 @@ export default {
         }
     },
     methods: {
-        getTextFromEditor() {
+        getHtmlFromEditor() {
+           this.textContent
             console.log(this.textContent);
         },
+        getMarkdownFromEditor() {
+            const turndownService = new TurndownService();
+            const markdownContent = turndownService.turndown(this.textContent);
+            console.log(markdownContent);
+        }
     },
 }
 </script>
