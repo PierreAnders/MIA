@@ -28,7 +28,6 @@
     "highlight.js": "^11.9.0",
     "marked": "^11.0.0",
     "moment": "^2.29.4",
-    "socket.io-client": "^4.7.2",
-    "turndown": "^7.1.2"
+    "socket.io-client": "^4.7.2"
   }
 }
