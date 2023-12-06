@@ -43,6 +43,8 @@
 <script>
 import axios from 'axios'
 import { BASE_URL } from '../constants.js'
+import { useTextContentStore } from '../../textContentStore.js';
+
 
 export default {
     data() {
@@ -161,9 +163,13 @@ export default {
                             this.displayTextFile(response.data, true);
                             return; // Arrêtez l'exécution car vous avez déjà affiché le contenu
                         } else if (fileType === 'html') {
-                            // Ouvrir le contenu HTML dans une nouvelle fenêtre
-                            const newTab = window.open();
-                            newTab.document.write(response.data);
+                            // Set textContent to the HTML content
+                            // this.textContent = response.data;
+                            useTextContentStore().setTextContent(response.data);
+
+                            // Navigate to the page with TinyMCE editor
+                            this.$router.push('/note');
+                            return; // Prevent further execution
                         } else {
                             type_blob = 'text/markdown';
                         }

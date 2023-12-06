@@ -37,7 +37,7 @@
                 <li>
                     <nuxt-link to="/note"
                         class="flex items-center px-4 transition duration-300 rounded hover:bg-black hover:text-white">
-                        <IconCode :color="'#838383'" class="mr-2" />
+                        <IconNote :color="'#838383'" class="mr-2" />
                         <span class="block py-2 font-semibold tracking-wide text-light-gray">Note</span>
                     </nuxt-link>
                 </li>
