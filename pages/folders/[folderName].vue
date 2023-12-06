@@ -132,12 +132,17 @@ export default {
         openFile(fileName) {
             const jwtToken = this.getJwtToken();
 
+            // Obtenir le type de fichier à partir du nom du fichier
+            const fileType = this.getFileType(fileName);
+
+            // Définir le responseType en fonction du type de fichier
+            const responseType = fileType === 'html' ? 'text' : 'arraybuffer';
+
             const axiosConfig = {
                 headers: {
                     'Authorization': `Bearer ${jwtToken}`,
                 },
-                // Fixe le type de réponse au type 'arraybuffer'
-                responseType: 'arraybuffer',
+                responseType: responseType,
             };
 
             axios
@@ -147,14 +152,18 @@ export default {
                     const fileType = this.getFileType(fileName);
 
                     // Vérification si le type de fichier est un fichier PDF ou markdown
-                    if (fileType === 'pdf' || fileType === 'md' || fileType === 'txt') {
+                    if (fileType === 'pdf' || fileType === 'html' || fileType === 'txt' || fileType === 'md') {
                         let type_blob;
                         if (fileType === 'pdf') {
                             type_blob = 'application/pdf';
-                        } else if (fileType === 'txt') {
+                        } else if (fileType === 'txt' || fileType === 'md') {
                             // Appel à displayTextFile pour afficher le contenu du fichier texte en UTF-8
                             this.displayTextFile(response.data, true);
                             return; // Arrêtez l'exécution car vous avez déjà affiché le contenu
+                        } else if (fileType === 'html') {
+                            // Ouvrir le contenu HTML dans une nouvelle fenêtre
+                            const newTab = window.open();
+                            newTab.document.write(response.data);
                         } else {
                             type_blob = 'text/markdown';
                         }

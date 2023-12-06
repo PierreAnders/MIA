@@ -6,13 +6,13 @@
             <IconProfile :color="'#334155'" />
         </div>
         <input
-            class="h-8 px-4 mr-2 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+            class="w-3/4 h-8 px-4 mr-2 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
             type="text" v-model="note.title" placeholder="Title :">
         <div id="app" class="w-3/4 mx-auto mt-12">
             <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
         </div>
-        <!-- <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button> -->
-        <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button>
+        <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
+        <!-- <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button> -->
     </div>
 </template>
  
@@ -20,7 +20,7 @@
 import axios from 'axios'
 import { BASE_URL } from '../constants.js'
 import Editor from '@tinymce/tinymce-vue'
-import TurndownService from 'turndown'
+// import TurndownService from 'turndown'
 import { TINYMCE_API_KEY } from '../constants.js'
 
 export default {
@@ -30,7 +30,7 @@ export default {
     },
     data() {
         return {
-            textContent: '',
+            textContent: '<h1>Contenu HTML par défaut ici</h1>',
             note: {
                 title: '',
                 content: ''
@@ -57,13 +57,19 @@ export default {
         //     return this.textContent
         // },
 
-        getMarkdownFromEditor() {
-            const turndownService = new TurndownService();
-            const markdownContent = turndownService.turndown(this.textContent);
-            console.log(markdownContent);
-            this.note.content = markdownContent;
+        getHtmlFromEditor() {
+            this.note.content = this.textContent;
+            console.log(this.note.content);
             this.sendNoteInfo();
         },
+
+        // getMarkdownFromEditor() {
+        //     const turndownService = new TurndownService();
+        //     const markdownContent = turndownService.turndown(this.textContent);
+        //     console.log(markdownContent);
+        //     this.note.content = markdownContent;
+        //     this.sendNoteInfo();
+        // },
 
         async sendNoteInfo() {
             try {
