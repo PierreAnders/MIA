@@ -162,8 +162,6 @@ export default {
                             // Appel à displayTextFile pour afficher le contenu du fichier texte en UTF-8
                             this.displayTextFile(response.data, true);
                             return; // Arrêtez l'exécution car vous avez déjà affiché le contenu
-
-                            // In your first component where you open the HTML file in a new tab
                         } else if (fileType === 'html') {
                             // Set textContent to the HTML content
                             // this.textContent = response.data;
@@ -171,13 +169,7 @@ export default {
 
                             // Navigate to the page with TinyMCE editor
                             this.$router.push('/note');
-
-                            // } else if (fileType === 'html') {
-                            //     // Ouvrir le contenu HTML dans une nouvelle fenêtre
-                            //     const newTab = window.open();
-                            //     newTab.document.write(response.data);
-                            //     console.log('response.data', response.data)
-
+                            return; // Prevent further execution
                         } else {
                             type_blob = 'text/markdown';
                         }
