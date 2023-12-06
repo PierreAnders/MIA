@@ -22,6 +22,8 @@ import { BASE_URL } from '../constants.js'
 import Editor from '@tinymce/tinymce-vue'
 // import TurndownService from 'turndown'
 import { TINYMCE_API_KEY } from '../constants.js'
+import { ref, watchEffect } from 'vue';
+import { useTextContentStore } from '../textContentStore';
 
 export default {
     name: 'app',
@@ -30,7 +32,7 @@ export default {
     },
     data() {
         return {
-            textContent: '<h1>Contenu HTML par défaut ici</h1>',
+            textContent: '',
             note: {
                 title: '',
                 content: ''
@@ -50,6 +52,21 @@ export default {
                                                                 bullist numlst checklist outdent indent | removeformat | a11ycheck code table help'
             }
         }
+    },
+    setup() {
+        const textContentStore = useTextContentStore();
+
+        const textContent = ref(textContentStore.textContent);
+
+        // Update the local textContent when the store changes
+        watchEffect(() => {
+            textContent.value = textContentStore.textContent;
+        });
+
+        return {
+            textContent,
+            // ... other variables or functions you need ...
+        };
     },
     methods: {
         // getHtmlFromEditor() {
