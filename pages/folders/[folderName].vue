@@ -146,10 +146,20 @@ export default {
                     // Obtenir le type de fichier à partir du nom du fichier
                     const fileType = this.getFileType(fileName);
 
-                    // Vérification si le type de fichier est un fichier PDF
-                    if (fileType === 'pdf') {
-                        // Création d'un blob à partir des données du fichier PDF
-                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                    // Vérification si le type de fichier est un fichier PDF ou markdown
+                    if (fileType === 'pdf' || fileType === 'md' || fileType === 'txt') {
+                        let type_blob;
+                        if (fileType === 'pdf') {
+                            type_blob = 'application/pdf';
+                        } else if (fileType === 'txt') {
+                            // Appel à displayTextFile pour afficher le contenu du fichier texte en UTF-8
+                            this.displayTextFile(response.data, true);
+                            return; // Arrêtez l'exécution car vous avez déjà affiché le contenu
+                        } else {
+                            type_blob = 'text/markdown';
+                        }
+                        // Création d'un blob à partir des données du fichier PDF / marckdown
+                        const blob = new Blob([response.data], { type: type_blob });
                         // Création d'une URL pour le blob à partir du navigateur
                         const url = window.URL.createObjectURL(blob);
                         // OUvrir la nouvelle URL dans un nouvel onglet
@@ -162,13 +172,6 @@ export default {
                             // Révoquation de l'URL du blob
                             window.URL.revokeObjectURL(url);
                         }
-                        // Vérification si le type de fichier est un fichier texte
-                    } else if (fileType === 'txt') {
-                        // Decode des données du texte à partir de response.data
-                        const textData = new TextDecoder().decode(response.data);
-                        // Affichage du contenu du fichier texte
-                        this.displayTextFile(textData);
-                        // Si le type de fichier n'est pas pris en charge, affiche une erreur
                     } else {
                         console.error('Le type de fichier n\'est pas pris en charge.');
                     }
@@ -238,7 +241,19 @@ export default {
                 return;
             }
             return jwtToken;
-        }
+        },
+
+        displayTextFile(textData, openInNewWindow = false) {
+            // Conversion en UTF-8 avec TextDecoder
+            const decoder = new TextDecoder('utf-8');
+            const decodedText = decoder.decode(textData);
+
+            if (openInNewWindow) {
+                // Ouvrir le contenu dans une nouvelle fenêtre
+                const newTab = window.open();
+                newTab.document.write('<pre>' + decodedText + '</pre>');
+            }
+        },
     },
 
     setup() {
