@@ -2,17 +2,21 @@
     <div class="min-h-screen px-8 pt-8">
         <BurgerMenu />
         <div class="flex items-center justify-center pt-8">
-            <h1 class="pr-3 tracking-wider text-light-gray">MD EDITOR</h1>
-            <IconProfile :color="'#334155'" />
+            <h1 class="pr-3 tracking-wider text-light-gray">HTML EDITOR</h1>
+            <IconNote :color="'#334155'" />
         </div>
-        <input
-            class="w-3/4 h-8 px-4 mr-2 text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-            type="text" v-model="note.title" placeholder="Title :">
-        <div id="app" class="w-3/4 mx-auto mt-12">
-            <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
+        <div class="flex flex-col items-center justify-center mt-10">
+            <input
+                class="w-56 w-3/4 h-8 px-4 mx-auto text-sm text-white border-2 rounded-md bg-dark-gray placeholder-light-gray border-dark-gray focus:outline-none focus:border-blue"
+                type="text" v-model="note.title" placeholder="Title :">
+            <div id="app" class="mx-auto mt-6 md:w-10/12">
+                <editor :api-key="TINYMCE_API_KEY" ref="myEditor" :init="initOptions" v-model="textContent" />
+            </div>
+            <button class="pt-6 pb-12 text-white" @click="getHtmlFromEditor">
+                <IconSave class="transition-transform transform hover:scale-110" />
+            </button>
+            <!-- <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button> -->
         </div>
-        <button class="text-white" @click="getHtmlFromEditor">Enregistrer en html</button>
-        <!-- <button class="text-white" @click="getMarkdownFromEditor">Enregistrer en Markdown</button> -->
     </div>
 </template>
  
