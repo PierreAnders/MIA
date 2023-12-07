@@ -163,9 +163,14 @@ export default {
                             this.displayTextFile(response.data, true);
                             return; // Arrêtez l'exécution car vous avez déjà affiché le contenu
                         } else if (fileType === 'html') {
+                            const fileNameWithoutExtension = fileName.replace(/\.[^/.]+$/, '');
+
                             // Set textContent to the HTML content
                             // this.textContent = response.data;
                             useTextContentStore().setTextContent(response.data);
+                            useTextContentStore().setFileNameWithoutExtension(fileName);
+                            // Retrieve the file name here
+                            console.log('File Name:', fileNameWithoutExtension);
 
                             // Navigate to the page with TinyMCE editor
                             this.$router.push('/note');
