@@ -21,11 +21,12 @@
  
 <script>
 import axios from 'axios'
-import { BASE_URL } from '../constants.js'
 import Editor from '@tinymce/tinymce-vue'
-import { TINYMCE_API_KEY } from '../constants.js'
-import { ref, watchEffect } from 'vue';
-import { useTextContentStore } from '../textContentStore';
+import { ref, watchEffect } from 'vue'
+import { useTextContentStore } from '../textContentStore'
+
+const apiKey = import.meta.env.VITE_TINYMCE_API_KEY
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default {
     name: 'app',
@@ -39,7 +40,7 @@ export default {
                 title: '',
                 content: ''
             },
-            TINYMCE_API_KEY: TINYMCE_API_KEY,
+            TINYMCE_API_KEY: apiKey,
             initOptions: {
                 height: 600,
                 menubar: true,
