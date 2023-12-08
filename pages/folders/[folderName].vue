@@ -42,9 +42,9 @@
   
 <script>
 import axios from 'axios'
-import { BASE_URL } from '../constants.js'
 import { useTextContentStore } from '../../textContentStore.js';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default {
     data() {
