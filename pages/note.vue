@@ -24,7 +24,6 @@ import axios from 'axios'
 import Editor from '@tinymce/tinymce-vue'
 import { ref, watchEffect } from 'vue'
 import { useTextContentStore } from '../textContentStore'
-
 const apiKey = import.meta.env.VITE_TINYMCE_API_KEY
 const BASE_URL = import.meta.env.VITE_BASE_URL
 

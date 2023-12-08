@@ -48,7 +48,6 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default {

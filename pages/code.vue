@@ -42,7 +42,6 @@
 import axios from 'axios'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
-
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default {
