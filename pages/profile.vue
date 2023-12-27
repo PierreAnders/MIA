@@ -1,5 +1,6 @@
 <template>
     <div class="min-h-screen px-8 pt-8">
+        <ThreeGalaxy id="project-info"/>
         <BurgerMenu />
         <div class="flex items-center justify-center pt-8">
             <h1 class="pr-3 tracking-wider text-light-gray">PROFILE</h1>
@@ -10,26 +11,26 @@
                 <div class="relative pb-4 w-72">
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Nom:</label>
                     <input
-                        class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-                        type="text" id="nom" v-model="userInfo.firstname" placeholder=". . . . . . .">
+                    class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+                    type="text" id="nom" v-model="userInfo.firstname" placeholder=". . . . . . .">
                 </div>
                 <div class="relative pb-4 w-72">
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Prénom:</label>
                     <input
-                        class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-                        type="text" id="nom" v-model="userInfo.lastname" placeholder=". . . . . . .">
+                    class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+                    type="text" id="nom" v-model="userInfo.lastname" placeholder=". . . . . . .">
                 </div>
                 <div class="relative pb-4 w-72">
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="email">Email:</label>
                     <input
-                        class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-                        type="email" id="email" v-model="userInfo.email" required placeholder=". . . . . . .">
+                    class="h-8 px-4 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+                    type="email" id="email" v-model="userInfo.email" required placeholder=". . . . . . .">
                 </div>
                 <div class="relative flex pb-4 w-72">
                     <label class="text-light-gray absolute text-sm px-2 top-1.5 left-2" for="nom">Né le :</label>
                     <input
-                        class="h-8 px-4 mr-2 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
-                        type="date" id="nom" v-model="userInfo.birth_date" placeholder=". . . . . . .">
+                    class="h-8 px-4 mr-2 text-sm text-right text-white border-2 rounded-md bg-dark-gray placeholder-light-gray w-72 border-dark-gray focus:outline-none focus:border-blue"
+                    type="date" id="nom" v-model="userInfo.birth_date" placeholder=". . . . . . .">
                     <button type="submit">
                         <IconEnter class="transition-transform transform hover:scale-110" />
                     </button>
@@ -38,7 +39,7 @@
         </form>
     </div>
 </template>
-  
+
 <script>
 import axios from 'axios'
 const BASE_URL = import.meta.env.VITE_BASE_URL
@@ -52,7 +53,7 @@ export default {
                 birth_date: '',
                 email: '',
             }
-        };
+        }
     },
 
     methods: {
@@ -120,4 +121,11 @@ export default {
     }
 };
 </script>
-  
+<style>
+
+#project-info {
+position: absolute;
+  z-index: 0;
+  top: 194px;
+}
+</style>
