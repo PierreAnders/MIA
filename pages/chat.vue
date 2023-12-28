@@ -6,19 +6,22 @@
       <IconChat :color="'#334155'" />
     </div>
     <div class="mt-12">
-      <div class="flex justify-end mx-auto sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12">
-        <select v-model="selectedFolder"
-          class="px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray">
-          <option v-for="folder in userFolders" :key="folder" :value="folder">{{ folder.name }}</option>
-        </select>
-        <select class="px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray"
-          v-model="selectedModel">
-          <option class="text-xs" value="gpt-4">gpt-4-1106-preview</option>
-          <option class="text-xs" value="gpt-4">gpt-4</option>
-          <option class="text-xs" value="gpt-4">gpt-4-32k</option>
-          <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-          <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo-16k</option>
-        </select>
+      <div class="flex justify-between w-full mx-auto mt-3 sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12">
+        <div>
+          <select v-model="selectedFolder"
+            class="w-36 px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray">
+            <option v-for="folder in userFolders" :key="folder" :value="folder">{{ folder.name }}</option>
+          </select>
+        </div>
+        <div>
+          <select class="w-36 px-2 py-0.5 text-xs bg-black border rounded-md text-light-gray border-light-gray"
+            v-model="selectedModel">
+            <option class="text-xs" value="gpt-4">gpt-4-1106-preview</option>
+            <option class="text-xs" value="gpt-4">gpt-4</option>
+            <option class="text-xs" value="gpt-4">gpt-4-32k</option>
+            <option class="text-xs" value="gpt-3.5-turbo">gpt-3.5-turbo-1106</option>
+          </select>
+        </div>
       </div>
       <div v-for="message in messages" :key="message.id"
         :class="[message.role === 'user' ? 'bg-blue-gray' : 'bg-light-gray text-black', 'p-2 rounded-md mt-4 mb-2 w-full sm:10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 2xl:w-6/12 mx-auto']">
@@ -62,6 +65,10 @@ export default {
 
   async mounted() {
     await this.fetchUserFolders()
+    if (this.userFolders.length > 0) {
+      this.selectedFolder = this.userFolders[0];
+    }
+
     this.jwtToken = localStorage.getItem('access_token')
   },
 
