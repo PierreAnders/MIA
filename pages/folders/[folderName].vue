@@ -153,7 +153,15 @@ export default {
                     const fileType = this.getFileType(fileName);
 
                     // Vérification si le type de fichier est un fichier PDF ou markdown
-                    if (fileType === 'pdf' || fileType === 'html' || fileType === 'txt' || fileType === 'md') {
+                    if (fileType === 'pdf' || fileType === 'html' 
+                                                || fileType === 'txt' 
+                                                    || fileType === 'jpg'
+                                                        || fileType === 'jpeg'
+                                                            || fileType === 'png'
+                                                                || fileType === 'gif'
+                                                                    || fileType === 'bmp'
+                                                                        || fileType === 'svg'
+                                                                            || fileType === 'md') {
                         let type_blob;
                         if (fileType === 'pdf') {
                             type_blob = 'application/pdf';
@@ -175,7 +183,16 @@ export default {
                             this.$router.push('/note');
                             return; // Prevent further execution
                         } else {
-                            type_blob = 'text/markdown';
+                            // Si c'est une image, créez un blob et ouvrez-le dans une nouvelle fenêtre
+                            const blob = new Blob([response.data], { type: `image/${fileType}` });
+                            const url = window.URL.createObjectURL(blob);
+                            const newTab = window.open(url, '_blank');
+
+                            // Vérification si l'URL a été ouverte dans un nouvel onglet
+                            if (newTab === null) {
+                                console.error('Le navigateur a bloqué l\'ouverture de la nouvelle fenêtre.');
+                                window.URL.revokeObjectURL(url);
+                            }
                         }
                         // Création d'un blob à partir des données du fichier PDF / marckdown
                         const blob = new Blob([response.data], { type: type_blob });
@@ -198,7 +215,7 @@ export default {
                 // En cas d'erreur lors de l'exécution de la requête, affiche l'erreur
                 .catch((error) => console.error(error));
         },
-
+        
         getFileType(fileName) {
             // Extraire l'extension du fichier
             const parts = fileName.split('.');
