@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen px-8 pt-8">
-        <ThreeGalaxy id="project-info"/>
+        <!-- <ThreeGalaxy id="project-info"/> -->
         <BurgerMenu />
         <div class="flex items-center justify-center pt-8">
             <h1 class="pr-3 tracking-wider text-light-gray">PROFILE</h1>

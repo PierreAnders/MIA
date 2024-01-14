@@ -44,15 +44,29 @@ export default {
                 height: 600,
                 menubar: true,
                 plugins: [
-                    'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                    'advlist', 'autolink',
                     'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-                    'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
                 ],
                 toolbar:
                     'undo redo | casechange blocks | bold italic backcolor | \
                                                                 alignleft aligncenter alignright alignjustify | \
                                                                 bullist numlst checklist outdent indent | removeformat | a11ycheck code table help'
             }
+            // Avec Full Options
+            // initOptions: {
+            //     height: 600,
+            //     menubar: true,
+            //     plugins: [
+            //         'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+            //         'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+            //         'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            //     ],
+            //     toolbar:
+            //         'undo redo | casechange blocks | bold italic backcolor | \
+            //                                                     alignleft aligncenter alignright alignjustify | \
+            //                                                     bullist numlst checklist outdent indent | removeformat | a11ycheck code table help'
+            // }
         }
     },
     setup() {
