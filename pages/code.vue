@@ -57,15 +57,27 @@ export default {
     },
     methods: {
         highlightCodeBlocks(text) {
-            // Regex pour récupérer le contenu entre les blocs de code
-            const regex = /```([^`]+)```/g;
+            // Regex mise à jour pour récupérer le contenu entre les blocs de code,
+            // y compris les blocs contenant des accents graves uniques.
+            const regex = /```(.*?)```/gs;
+
             // Remplacer le contenu entre les blocs de code par le contenu mis en forme par highlight.js
-            return text.replace(regex, (code) => {
+            return text.replace(regex, (match, code) => {
                 // Récupérer le code mis en forme par highlight.js
                 const highlightedCode = hljs.highlightAuto(code).value;
                 return `<pre><code>${highlightedCode}</code></pre>`;
             });
         },
+        // highlightCodeBlocks(text) {
+            // Regex pour récupérer le contenu entre les blocs de code
+            // const regex = /```([^`]+)```/g;
+            // Remplacer le contenu entre les blocs de code par le contenu mis en forme par highlight.js
+            // return text.replace(regex, (code) => {
+                // Récupérer le code mis en forme par highlight.js
+                // const highlightedCode = hljs.highlightAuto(code).value;
+                // return `<pre><code>${highlightedCode}</code></pre>`;
+            // });
+        // },
         async sendMessage() {
             // Vérification que le message n'est pas vide après avoir supprimé les espaces
             if (this.userMessage.trim() === '') return;

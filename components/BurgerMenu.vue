@@ -56,6 +56,13 @@
                     </nuxt-link>
                 </li>
                 <li>
+                    <nuxt-link to="/home"
+                        class="flex items-center px-4 transition duration-300 rounded hover:bg-black hover:text-white">
+                        <IconHome :color="'#838383'" class="mr-2" />
+                        <span class="block py-2 font-semibold tracking-wide text-light-gray">Maison</span>
+                    </nuxt-link>
+                </li>
+                <li>
                     <nuxt-link to="/profile"
                         class="flex items-center px-4 mb-12 transition duration-300 rounded hover:bg-black hover:text-white">
                         <IconProfile :color="'#838383'" class="mr-2" />
