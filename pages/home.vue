@@ -10,6 +10,7 @@
                 <div class="flex space-x-3">
                     <div class="text-light-gray">{{ light.name }}</div>
                 </div>
+                <input v-if="isBulb(light)" type="range" min="1" max="254" :value="light.state.bri" @input="handleBrightnessChange($event, key)">
                 <button @click="toggleLight(key, light.state.on)"
                     :class="light.state.on ? 'font-medium text-black bg-light-gray py-0.5 px-2 rounded' : 'font-medium text-light-gray bg-black py-0.5 px-2 rounded'">
                     {{ light.state.on ? 'On' : 'Off' }}
@@ -80,6 +81,28 @@ interface Light {
 
 const lights = ref<Record<string, Light>>({});
 
+const isBulb = (light: Light) => {
+    return light.type === "Extended color light"; // Remplacez "Bulb" par le type réel des ampoules dans vos données
+};
+
+const handleBrightnessChange = (event: Event, id: string) => {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    updateBrightness(id, parseInt(value));
+};
+
+const updateBrightness = (id: string, brightness: number) => {
+    const data = { "bri": brightness };
+    axios.put(`http://192.168.1.42/api/nOez7af0EvYhENQjbYiUXbIWQ2iRRaJu5HD-8TCw/lights/${id}/state`, data)
+        .then(response => {
+            console.log('Brightness updated:', response);
+            fetchLights(); // Refresh lights state after change
+        })
+        .catch(error => {
+            console.error('Error updating brightness:', error);
+        });
+};
+
 const toggleLight = (id: string, currentState: boolean) => {
     const data = { "on": !currentState };
     axios.put(`http://192.168.1.42/api/nOez7af0EvYhENQjbYiUXbIWQ2iRRaJu5HD-8TCw/lights/${id}/state`, data)
@@ -95,6 +118,7 @@ const toggleLight = (id: string, currentState: boolean) => {
 const fetchLights = () => {
     axios.get('http://192.168.1.42/api/nOez7af0EvYhENQjbYiUXbIWQ2iRRaJu5HD-8TCw/lights')
         .then(response => {
+            console.log(response.data);
             lights.value = response.data;
         })
         .catch(error => {
