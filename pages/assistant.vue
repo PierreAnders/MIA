@@ -1,9 +1,13 @@
 <template>
-  <div class="container">
-    <button @click="toggleRecognition" class="toggle-button">{{ isListening ? 'Arrêter l\'écoute' : 'Démarrer l\'écoute'
-    }}</button>
-    <div class="text-output">{{ text }}</div>
-    <button @click="RedirectToDocument">Test</button>
+  <div class="min-h-screen px-8 pt-8 bg-[#E6B78A]">
+    <BurgerMenu />
+    <img v-if="!isListening" src="../assets/gif/fox-images/fox-css-imageonline.co-68473-1.gif">
+    <img v-if="isListening" src="../assets/gif/fox-css.gif">
+    <div class="flex flex-col items-center justify-center p-8">
+      <IconMicro @click="toggleRecognition" class="w-24 h-24 bg-[#E07847] rounded-full">{{ isListening ? 'Arrêter l\'écoute' : 'Démarrer l\'écoute'
+      }}</IconMicro>
+      <div class="bg-white">{{ text }}</div>
+    </div>
   </div>
 </template>
   
@@ -15,8 +19,6 @@ const router = useRouter()
 const text = ref('');
 const isListening = ref(false);
 let recognition = null;
-
-// const speechSynthesis = window.speechSynthesis;
 
 let speechSynthesis = null;
 
@@ -46,7 +48,7 @@ onMounted(() => {
     }
 
     if (transcript.toLowerCase() === 'menu documents.' || transcript.toLowerCase() === 'menu document.'
-    || transcript.toLowerCase() === 'menu documents' || transcript.toLowerCase() === 'menu document') {
+      || transcript.toLowerCase() === 'menu documents' || transcript.toLowerCase() === 'menu document') {
       RedirectToDocument();
     }
   };
@@ -76,39 +78,3 @@ function speak(message) {
   speechSynthesis.speak(utterance);
 }
 </script>
-
-  
-<style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-}
-
-.toggle-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  margin-bottom: 20px;
-}
-
-.text-output {
-  padding: 20px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 80%;
-  text-align: center;
-  font-size: 20px;
-  color: #333;
-  word-wrap: break-word;
-}
-</style>
-  
